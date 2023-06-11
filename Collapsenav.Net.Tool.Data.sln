@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collapsenav.Net.Tool.Data.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collapsenav.Net.Tool.Data.Pgsql", "Collapsenav.Net.Tool.Data.Pgsql\Collapsenav.Net.Tool.Data.Pgsql.csproj", "{FBB0ACBC-C0B5-44CC-8A44-7E8B14E9A749}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collapsenav.Net.Tool.Data.Test", "Test\Collapsenav.Net.Tool.Data.Test.csproj", "{FEE53AE6-6344-414A-AD63-D4B9977D3F4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{FBB0ACBC-C0B5-44CC-8A44-7E8B14E9A749}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBB0ACBC-C0B5-44CC-8A44-7E8B14E9A749}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBB0ACBC-C0B5-44CC-8A44-7E8B14E9A749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEE53AE6-6344-414A-AD63-D4B9977D3F4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEE53AE6-6344-414A-AD63-D4B9977D3F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEE53AE6-6344-414A-AD63-D4B9977D3F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEE53AE6-6344-414A-AD63-D4B9977D3F4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
