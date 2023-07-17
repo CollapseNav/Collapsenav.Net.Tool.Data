@@ -4,7 +4,7 @@ public interface INoConstraintsReadRepository<T> : INoConstraintsRepository<T>, 
     /// <summary>
     /// 根据Id查询
     /// </summary>
-    Task<T> GetByIdAsync(object id);
+    Task<T?> GetByIdAsync(object id);
     [Obsolete("统一接口名称, 该方法将被弃用, 使用 QueryAsync 代替")]
     Task<IEnumerable<T>> QueryDataAsync(IQueryable<T> query);
     Task<IEnumerable<T>> QueryAsync(IQueryable<T> query);
@@ -15,5 +15,5 @@ public interface INoConstraintsReadRepository<TKey, T> : INoConstraintsReadRepos
     /// <summary>
     /// 根据Id查询
     /// </summary>
-    Task<T> GetByIdAsync(TKey id);
+    Task<T?> GetByIdAsync(TKey id);
 }
