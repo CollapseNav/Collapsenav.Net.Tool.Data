@@ -13,11 +13,11 @@ public static class DbContextConnExt
     {
         return services.AddDbContext<T>(options => options.UseSqlite(db.Contains('=') ? db : new SqliteConn(db).GetConnString()));
     }
-    public static IServiceCollection AddSqlitePool<T>(this IServiceCollection services, SqliteConn conn, Assembly ass = null) where T : DbContext
+    public static IServiceCollection AddSqlitePool<T>(this IServiceCollection services, SqliteConn conn, Assembly? ass = null) where T : DbContext
     {
         return services.AddSqlitePool<T>(conn.GetConnString());
     }
-    public static IServiceCollection AddSqlitePool<T>(this IServiceCollection services, string db, Assembly ass = null) where T : DbContext
+    public static IServiceCollection AddSqlitePool<T>(this IServiceCollection services, string db, Assembly? ass = null) where T : DbContext
     {
         return services.AddDbContextPool<T>(options => options.UseSqlite(db.Contains('=') ? db : new SqliteConn(db).GetConnString()));
     }

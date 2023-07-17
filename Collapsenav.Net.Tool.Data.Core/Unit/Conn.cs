@@ -2,7 +2,7 @@ namespace Collapsenav.Net.Tool.Data;
 
 public abstract class Conn
 {
-    protected Conn(string source, int? port, string dataBase, string user, string pwd)
+    protected Conn(string? source, int? port, string? dataBase, string? user, string? pwd)
     {
         Source = source;
         Port = port;
@@ -16,9 +16,9 @@ public abstract class Conn
     /// </summary>
     public abstract string GetConnString();
 
-    public string Source { get; set; }
+    public string? Source { get; set; }
     public int? Port { get; set; }
-    public string DataBase { get; set; }
-    public string User { get; set; }
-    public string Pwd { get; set; }
+    public string? DataBase { get; set; }
+    public string? User { get; set; }
+    public string? Pwd { get; set; }
 }

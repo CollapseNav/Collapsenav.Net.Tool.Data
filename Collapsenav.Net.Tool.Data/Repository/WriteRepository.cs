@@ -12,7 +12,7 @@ public partial class WriteRepository<T> : Repository<T>, IWriteRepository<T>
     /// 添加数据(单个)
     /// </summary>
     /// <param name="entity">新的数据</param>
-    public virtual async Task<T> AddAsync(T entity)
+    public virtual async Task<T?> AddAsync(T entity)
     {
         entity.Init();
         await dbSet.AddAsync(entity);
@@ -39,12 +39,14 @@ public partial class WriteRepository<T> : Repository<T>, IWriteRepository<T>
     {
         var entity = KeyType().Name switch
         {
-            nameof(Int32) => await dbSet.FindAsync(int.Parse(id.ToString())),
-            nameof(Int64) => await dbSet.FindAsync(long.Parse(id.ToString())),
-            nameof(String) => await dbSet.FindAsync(id.ToString()),
-            nameof(Guid) => await dbSet.FindAsync(Guid.Parse(id.ToString())),
+            nameof(Int32) => await dbSet.FindAsync(int.Parse(id.ToString() ?? string.Empty)),
+            nameof(Int64) => await dbSet.FindAsync(long.Parse(id.ToString() ?? string.Empty)),
+            nameof(String) => await dbSet.FindAsync(id.ToString() ?? string.Empty),
+            nameof(Guid) => await dbSet.FindAsync(Guid.Parse(id.ToString() ?? string.Empty)),
             _ => null,
         };
+        if (entity == null)
+            return false;
         if (isTrue)
             dbSet.Remove(entity);
         else
@@ -66,6 +68,8 @@ public partial class WriteRepository<TKey, T> : WriteRepository<T>, IWriteReposi
     /// <param name="isTrue">是否真删</param>
     public virtual async Task<bool> DeleteAsync(TKey id, bool isTrue = false)
     {
+        if (id == null)
+            return false;
         return await base.DeleteAsync(id, isTrue);
     }
 }

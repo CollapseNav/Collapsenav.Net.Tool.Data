@@ -5,7 +5,7 @@ public interface IWriteRepository<T> : IRepository<T> where T : class, IEntity
     /// <summary>
     /// 添加
     /// </summary>
-    Task<T> AddAsync(T entity);
+    Task<T?> AddAsync(T entity);
     /// <summary>
     /// 删除
     /// </summary>

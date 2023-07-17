@@ -8,7 +8,7 @@ public interface INoConstraintsReadRepository<T> : INoConstraintsRepository<T>, 
     [Obsolete("统一接口名称, 该方法将被弃用, 使用 QueryAsync 代替")]
     Task<IEnumerable<T>> QueryDataAsync(IQueryable<T> query);
     Task<IEnumerable<T>> QueryAsync(IQueryable<T> query);
-    Task<PageData<T>> QueryPageAsync(IQueryable<T> query, PageRequest page = null);
+    Task<PageData<T>> QueryPageAsync(IQueryable<T> query, PageRequest? page = null);
 }
 public interface INoConstraintsReadRepository<TKey, T> : INoConstraintsReadRepository<T>, INoConstraintsRepository<TKey, T>
 {

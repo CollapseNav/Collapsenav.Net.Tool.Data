@@ -7,7 +7,7 @@ public interface INoConstraintsRepository<T>
     /// <summary>
     /// 获取 Query
     /// </summary>
-    IQueryable<T> Query(Expression<Func<T, bool>> exp = null);
+    IQueryable<T> Query(Expression<Func<T, bool>>? exp = null);
     IQueryable<T> QueryWithTrack(Expression<Func<T, bool>> exp);
     /// <summary>
     /// 保存

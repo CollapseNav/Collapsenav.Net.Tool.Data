@@ -10,19 +10,19 @@ public class QueryRepository<T> : ReadRepository<T>, IQueryRepository<T> where T
     /// <summary>
     /// 查询数据
     /// </summary>
-    public virtual async Task<IEnumerable<T>> QueryAsync(Expression<Func<T, bool>> exp = null) => await Query(exp)?.ToListAsync();
-    public virtual async Task<PageData<T>> QueryPageAsync(Expression<Func<T, bool>> exp, PageRequest page = null)
+    public virtual async Task<IEnumerable<T>> QueryAsync(Expression<Func<T, bool>>? exp = null) => await Query(exp).ToListAsync();
+    public virtual async Task<PageData<T>> QueryPageAsync(Expression<Func<T, bool>> exp, PageRequest? page = null)
     {
         var query = Query(exp);
         page ??= new PageRequest();
         return new PageData<T>
         {
             Total = await query.CountAsync(),
-            Data = await query.Skip(page.Skip).Take(page.Max)?.ToListAsync()
+            Data = await query.Skip(page.Skip).Take(page.Max).ToListAsync()
         };
     }
 
-    public virtual async Task<PageData<T>> QueryPageAsync<E>(Expression<Func<T, bool>> exp, Expression<Func<T, E>> orderBy, bool isAsc = true, PageRequest page = null)
+    public virtual async Task<PageData<T>> QueryPageAsync<E>(Expression<Func<T, bool>> exp, Expression<Func<T, E>> orderBy, bool isAsc = true, PageRequest? page = null)
     {
         var query = Query(exp);
         if (page == null)
@@ -44,7 +44,7 @@ public class QueryRepository<TKey, T> : ReadRepository<TKey, T>, IQueryRepositor
         Repo = new QueryRepository<T>(db);
     }
     public virtual async Task<IEnumerable<T>> QueryAsync(IEnumerable<TKey> ids) => await dbSet.Where(item => ids.Contains(item.Id)).ToListAsync();
-    public virtual async Task<IEnumerable<T>> QueryAsync(Expression<Func<T, bool>> exp = null) => await Repo.QueryAsync(exp);
-    public virtual async Task<PageData<T>> QueryPageAsync(Expression<Func<T, bool>> exp, PageRequest page = null) => await Repo.QueryPageAsync(exp, page);
-    public virtual async Task<PageData<T>> QueryPageAsync<E>(Expression<Func<T, bool>> exp, Expression<Func<T, E>> orderBy, bool isAsc = true, PageRequest page = null) => await Repo.QueryPageAsync(exp, orderBy, isAsc, page);
+    public virtual async Task<IEnumerable<T>> QueryAsync(Expression<Func<T, bool>>? exp = null) => await Repo.QueryAsync(exp);
+    public virtual async Task<PageData<T>> QueryPageAsync(Expression<Func<T, bool>> exp, PageRequest? page = null) => await Repo.QueryPageAsync(exp, page);
+    public virtual async Task<PageData<T>> QueryPageAsync<E>(Expression<Func<T, bool>> exp, Expression<Func<T, E>> orderBy, bool isAsc = true, PageRequest? page = null) => await Repo.QueryPageAsync(exp, orderBy, isAsc, page);
 }

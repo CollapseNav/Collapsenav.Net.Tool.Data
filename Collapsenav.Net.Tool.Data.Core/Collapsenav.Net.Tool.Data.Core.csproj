@@ -9,7 +9,8 @@ core基础接口
         <PackageId>Collapsenav.Net.Tool.Data.Core</PackageId>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\Tool\Collapsenav.Net.Tool\Collapsenav.Net.Tool.csproj"/>
+        <ProjectReference Include="..\..\Collapsenav.Net.Tool.Base\Collapsenav.Net.Tool\Collapsenav.Net.Tool.csproj"/>
+        <!-- <PackageReference Include="Collapsenav.Net.Tool" version="1.3.2"/> -->
     </ItemGroup>
     
 </Project>
