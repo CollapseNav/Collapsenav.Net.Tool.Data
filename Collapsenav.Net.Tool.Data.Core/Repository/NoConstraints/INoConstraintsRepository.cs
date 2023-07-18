@@ -8,7 +8,7 @@ public interface INoConstraintsRepository<T>
     /// 获取 Query
     /// </summary>
     IQueryable<T> Query(Expression<Func<T, bool>>? exp = null);
-    IQueryable<T> QueryWithTrack(Expression<Func<T, bool>> exp);
+    IQueryable<T> QueryWithTrack(Expression<Func<T, bool>>? exp = null);
     /// <summary>
     /// 保存
     /// </summary>
@@ -20,8 +20,8 @@ public interface INoConstraintsRepository<T>
     /// <summary>
     /// 获取主键type
     /// </summary>
-    Type KeyType();
-    PropertyInfo KeyProp();
+    Type? KeyType();
+    PropertyInfo? KeyProp();
 }
 public interface INoConstraintsRepository<TKey, T> : INoConstraintsRepository<T>
 {

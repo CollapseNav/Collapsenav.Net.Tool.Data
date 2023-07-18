@@ -6,5 +6,5 @@ public interface INoConstraintsCheckExistRepository<T> : INoConstraintsRepositor
     /// <summary>
     /// 是否存在
     /// </summary>
-    Task<bool> IsExistAsync(Expression<Func<T, bool>> exp);
+    Task<bool> IsExistAsync(Expression<Func<T, bool>>? exp);
 }

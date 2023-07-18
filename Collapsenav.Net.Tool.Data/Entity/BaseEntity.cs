@@ -45,7 +45,7 @@ public partial class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
         InitModifyId();
     }
 
-    public new Type KeyType()
+    public new Type? KeyType()
     {
         return typeof(TKey);
     }

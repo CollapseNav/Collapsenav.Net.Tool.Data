@@ -12,16 +12,16 @@ public interface INoConstraintsQueryRepository<T> : INoConstraintsReadRepository
     /// <summary>
     /// 分页查询
     /// </summary>
-    Task<PageData<T>> QueryPageAsync(Expression<Func<T, bool>> exp, PageRequest? page = null);
+    Task<PageData<T>> QueryPageAsync(Expression<Func<T, bool>>? exp, PageRequest? page = null);
     /// <summary>
     /// 分页查询
     /// </summary>
-    Task<PageData<T>> QueryPageAsync<E>(Expression<Func<T, bool>> exp, Expression<Func<T, E>> orderBy, bool isAsc = true, PageRequest? page = null);
+    Task<PageData<T>> QueryPageAsync<E>(Expression<Func<T, bool>>? exp, Expression<Func<T, E>>? orderBy, bool isAsc = true, PageRequest? page = null);
 }
 public interface INoConstraintsQueryRepository<TKey, T> : INoConstraintsQueryRepository<T>, INoConstraintsReadRepository<TKey, T>
 {
     /// <summary>
     /// 根据Id集合查询
     /// </summary>
-    Task<IEnumerable<T>> QueryAsync(IEnumerable<TKey> ids);
+    Task<IEnumerable<T>> QueryAsync(IEnumerable<TKey>? ids);
 }

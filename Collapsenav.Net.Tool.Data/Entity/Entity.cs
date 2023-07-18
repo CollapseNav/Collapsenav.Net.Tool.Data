@@ -12,15 +12,15 @@ public partial class Entity : IEntity
     {
     }
 
-    public PropertyInfo KeyProp()
+    public PropertyInfo? KeyProp()
     {
-        var prop = GetType().AttrValues<KeyAttribute>().First().Key;
+        var prop = GetType().AttrValues<KeyAttribute>().FirstOrDefault().Key;
         return prop;
     }
 
-    public Type KeyType()
+    public Type? KeyType()
     {
-        return KeyProp().PropertyType;
+        return KeyProp()?.PropertyType;
     }
 
     public virtual void SoftDelete()

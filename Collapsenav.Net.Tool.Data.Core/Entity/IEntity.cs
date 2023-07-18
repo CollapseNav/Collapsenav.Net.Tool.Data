@@ -7,8 +7,8 @@ public interface IEntity
     void InitModifyId();
     void SoftDelete();
     void Update();
-    Type KeyType();
-    PropertyInfo KeyProp();
+    Type? KeyType();
+    PropertyInfo? KeyProp();
 }
 public interface IEntity<TKey> : IEntity
 {
