@@ -41,16 +41,9 @@ public class FirstController : ControllerBase
     {
         var data = await _repository.CreateJoin()
         .LeftJoin<SecondEntity>(i => i.Id, i => i.Id)
-        .LeftJoin<ThirdEntity>(i => i.Data2.Age, i => i.Age)
+        .Join<ThirdEntity>(i => i.Data2.Age, i => i.Age)
         .Query
-        .Select(item => new
-        {
-            item.Data1.Id,
-            item.Data2.Name,
-            item.Data3.Age,
-        })
         .ToListAsync();
-
         Console.WriteLine(data.ToJson());
 
         return await _repository.Query(item => true)
