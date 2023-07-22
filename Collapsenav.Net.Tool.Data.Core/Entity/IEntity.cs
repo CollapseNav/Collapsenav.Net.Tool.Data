@@ -1,5 +1,4 @@
 using System.Reflection;
-#nullable enable
 namespace Collapsenav.Net.Tool.Data;
 public interface IEntity
 {

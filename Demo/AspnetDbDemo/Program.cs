@@ -7,7 +7,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDefaultSwaggerGen();
-builder.Services.AddMysqlPool<EntityContext>("");
+builder.Services.AddSqlitePool<EntityContext>("./Data.db");
 builder.Services.AddDefaultDbContext<EntityContext>();
 builder.Services.AddRepository();
 var app = builder.Build();

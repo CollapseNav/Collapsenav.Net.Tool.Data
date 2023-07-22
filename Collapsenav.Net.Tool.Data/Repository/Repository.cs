@@ -74,6 +74,18 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
         var prop = types.First().Key;
         return prop;
     }
+
+    public IQueryable<E> Query<E>(Expression<Func<E, bool>>? exp = null) where E : class
+    {
+        var set = _db.Set<E>();
+        return exp == null ? set.AsQueryable() : set.Where(exp);
+    }
+
+    public IQueryable<E> QueryWithTrack<E>(Expression<Func<E, bool>>? exp = null) where E : class
+    {
+        var set = _db.Set<E>();
+        return exp == null ? set.AsQueryable() : set.Where(exp);
+    }
 }
 public class Repository<TKey, T> : Repository<T>, IRepository<TKey, T> where T : class, IEntity<TKey>
 {
