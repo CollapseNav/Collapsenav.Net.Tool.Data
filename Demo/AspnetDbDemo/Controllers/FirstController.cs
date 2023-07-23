@@ -1,10 +1,8 @@
 using Collapsenav.Net.Tool;
 using Collapsenav.Net.Tool.Data;
 using DataDemo.EntityLib;
-using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace AspnetDbDemo.Controllers;
 
@@ -19,16 +17,20 @@ public class FirstInput
 public class FirstController : ControllerBase
 {
     private readonly ICrudRepository<FirstEntity> _repository;
-    public FirstController(ICrudRepository<FirstEntity> repository)
+    private readonly IModifyRepository<SecondEntity> secRepo;
+    private readonly IModifyRepository<ThirdEntity> threpo;
+
+    public FirstController(ICrudRepository<FirstEntity> repository, IModifyRepository<SecondEntity> secRepo, IModifyRepository<ThirdEntity> threpo)
     {
         _repository = repository;
+        this.secRepo = secRepo;
+        this.threpo = threpo;
     }
 
     [HttpPost]
     public async Task<FirstEntity> CreateEntity(FirstEntity input)
     {
         input = await _repository.AddAsync(input);
-        await _repository.SaveAsync();
         return input;
     }
     [HttpGet("{id}")]
@@ -39,18 +41,16 @@ public class FirstController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<FirstEntity>> GetList([FromQuery] FirstInput input)
     {
-        var data = await _repository.CreateJoin()
-        .LeftJoin<SecondEntity>(i => i.Id, i => i.Id)
-        .Join<ThirdEntity>(i => i.Data2.Age, i => i.Age)
-        .Query
-        .ToListAsync();
-        Console.WriteLine(data.ToJson());
-
-        return await _repository.Query(item => true)
-        .WhereIf(input.Id.HasValue, item => item.Id == input.Id)
-        .WhereIf(input.Name.NotEmpty(), item => item.Name == input.Name)
-        .WhereIf(input.Description.NotEmpty(), item => item.Description == input.Description)
-        .ToListAsync();
+        await _repository.AddAsync(new FirstEntity());
+        await secRepo.AddAsync(new SecondEntity());
+        throw new Exception();
+        await threpo.AddAsync(new ThirdEntity());
+        // return await _repository.Query(item => true)
+        // .WhereIf(input.Id.HasValue, item => item.Id == input.Id)
+        // .WhereIf(input.Name.NotEmpty(), item => item.Name == input.Name)
+        // .WhereIf(input.Description.NotEmpty(), item => item.Description == input.Description)
+        // .ToListAsync();
+        return null;
     }
 
     [HttpPut]

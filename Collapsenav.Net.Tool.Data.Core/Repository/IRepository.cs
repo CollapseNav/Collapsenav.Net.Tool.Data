@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Collapsenav.Net.Tool.Data;
-public interface IRepository
+public interface IRepository : IDisposable
 {
     IQueryable<E> Query<E>(Expression<Func<E, bool>>? exp = null) where E : class;
     IQueryable<E> QueryWithTrack<E>(Expression<Func<E, bool>>? exp = null) where E : class;

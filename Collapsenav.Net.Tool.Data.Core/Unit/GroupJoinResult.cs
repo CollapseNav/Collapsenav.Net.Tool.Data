@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 
 namespace Collapsenav.Net.Tool.Data;
 
-public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9> where T1 : class
+public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9>
 {
     public GroupJoinResult(IRepository repo)
     {
@@ -19,7 +19,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9> where T1 : clas
         throw new Exception("求求了，别再联表了");
     }
 }
-public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8> where T1 : class
+public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8>
 {
     public GroupJoinResult(IRepository repo)
     {
@@ -65,7 +65,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8> where T1 : class
         return result;
     }
 }
-public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7> where T1 : class
+public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7>
 {
     public GroupJoinResult(IRepository repo)
     {
@@ -109,7 +109,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7> where T1 : class
         return result;
     }
 }
-public class GroupJoinResult<T1, T2, T3, T4, T5, T6> where T1 : class
+public class GroupJoinResult<T1, T2, T3, T4, T5, T6>
 {
     public GroupJoinResult(IRepository repo)
     {
@@ -151,7 +151,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6> where T1 : class
         return result;
     }
 }
-public class GroupJoinResult<T1, T2, T3, T4, T5> where T1 : class
+public class GroupJoinResult<T1, T2, T3, T4, T5>
 {
     public GroupJoinResult(IRepository repo)
     {
@@ -191,7 +191,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5> where T1 : class
         return result;
     }
 }
-public class GroupJoinResult<T1, T2, T3, T4> where T1 : class
+public class GroupJoinResult<T1, T2, T3, T4>
 {
     public GroupJoinResult(IRepository repo)
     {
@@ -229,7 +229,7 @@ public class GroupJoinResult<T1, T2, T3, T4> where T1 : class
         return result;
     }
 }
-public class GroupJoinResult<T1, T2, T3> where T1 : class
+public class GroupJoinResult<T1, T2, T3>
 {
     public GroupJoinResult(IRepository repo)
     {
@@ -266,7 +266,7 @@ public class GroupJoinResult<T1, T2, T3> where T1 : class
         return result;
     }
 }
-public class GroupJoinResult<T1, T2> where T1 : class
+public class GroupJoinResult<T1, T2>
 {
     private readonly IRepository repo;
     public GroupJoinResult(IRepository repo)

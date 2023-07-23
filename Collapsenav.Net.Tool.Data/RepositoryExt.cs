@@ -13,11 +13,13 @@ public static class RepositoryExt
         .AddScoped(typeof(IModifyRepository<>), typeof(ModifyRepository<>))
         .AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>))
         .AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>))
+        .AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>))
 
 
 
         .AddScoped(typeof(IRepository<,>), typeof(Repository<,>))
         .AddScoped(typeof(IReadRepository<,>), typeof(ReadRepository<,>))
+        .AddScoped(typeof(IWriteRepository<,>), typeof(WriteRepository<,>))
         .AddScoped(typeof(IQueryRepository<,>), typeof(QueryRepository<,>))
         .AddScoped(typeof(IModifyRepository<,>), typeof(ModifyRepository<,>))
         .AddScoped(typeof(ICrudRepository<,>), typeof(CrudRepository<,>))

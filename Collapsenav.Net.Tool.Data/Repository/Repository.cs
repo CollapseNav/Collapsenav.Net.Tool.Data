@@ -86,6 +86,11 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
         var set = _db.Set<E>();
         return exp == null ? set.AsQueryable() : set.Where(exp);
     }
+
+    public void Dispose()
+    {
+        TransManager.Remove(_db);
+    }
 }
 public class Repository<TKey, T> : Repository<T>, IRepository<TKey, T> where T : class, IEntity<TKey>
 {

@@ -7,6 +7,7 @@ public partial class WriteRepository<T> : Repository<T>, IWriteRepository<T>
 {
     public WriteRepository(DbContext db) : base(db)
     {
+        TransManager.Add(db);
     }
     /// <summary>
     /// 添加数据(单个)

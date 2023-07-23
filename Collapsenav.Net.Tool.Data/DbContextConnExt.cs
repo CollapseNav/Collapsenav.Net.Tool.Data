@@ -27,7 +27,12 @@ public static class DbContextConnExt
     /// </summary>
     public static IServiceCollection AddDefaultDbContext<T>(this IServiceCollection services) where T : DbContext
     {
-        services.AddScoped<DbContext, T>();
+        services.AddScoped<DbContext, T>(provider =>
+        {
+            Console.WriteLine($"Create {typeof(T).Name}");
+            var context = provider.GetRequiredService<T>();
+            return context;
+        });
         return services;
     }
     /// <summary>

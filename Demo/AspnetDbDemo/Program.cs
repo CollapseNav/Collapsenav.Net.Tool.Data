@@ -4,11 +4,10 @@ using DataDemo.EntityLib;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddDefaultSwaggerGen();
 builder.Services.AddSqlitePool<EntityContext>("./Data.db");
 builder.Services.AddDefaultDbContext<EntityContext>();
+builder.Services.AddDefaultSwaggerGen();
 builder.Services.AddRepository();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
