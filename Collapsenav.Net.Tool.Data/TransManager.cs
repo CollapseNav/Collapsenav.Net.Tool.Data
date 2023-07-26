@@ -27,7 +27,7 @@ public class TransManager
     }
     public static void Remove(DbContext context)
     {
-        if (!HasError)
+        if (HasError)
             return;
         if (ContextCount.ContainsKey(context))
         {

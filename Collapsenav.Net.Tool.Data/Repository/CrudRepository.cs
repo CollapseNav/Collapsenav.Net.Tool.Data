@@ -35,6 +35,11 @@ public class CrudRepository<T> : Repository<T>, ICrudRepository<T> where T : cla
     {
         return await Read.QueryPageAsync(query, page);
     }
+
+    public virtual async Task<PageData<ReturnT>> QueryPageAsync<ReturnT>(IQueryable<ReturnT>? query, PageRequest? page = null)
+    {
+        return await Read.QueryPageAsync(query, page);
+    }
 }
 public class CrudRepository<TKey, T> : CrudRepository<T>, ICrudRepository<TKey, T> where T : class, IEntity<TKey>, new()
 {

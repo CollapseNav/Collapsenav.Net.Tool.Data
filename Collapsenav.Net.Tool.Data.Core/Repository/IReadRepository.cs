@@ -10,6 +10,7 @@ public interface IReadRepository<T> : IRepository<T>, ICountRepository<T>, IChec
     Task<IEnumerable<T>> QueryDataAsync(IQueryable<T>? query);
     Task<IEnumerable<T>> QueryAsync(IQueryable<T>? query);
     Task<PageData<T>> QueryPageAsync(IQueryable<T>? query, PageRequest? page = null);
+    Task<PageData<ReturnT>> QueryPageAsync<ReturnT>(IQueryable<ReturnT>? query, PageRequest? page = null);
 }
 public interface IReadRepository<TKey, T> : IReadRepository<T>, IRepository<TKey, T> where T : class, IEntity<TKey>
 {

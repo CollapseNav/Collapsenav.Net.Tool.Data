@@ -33,6 +33,12 @@ public class ReadRepository<T> : Repository<T>, IReadRepository<T> where T : cla
         page ??= new PageRequest();
         return new PageData<T>(query == null ? null : await query.Skip(page.Skip).Take(page.Max).ToListAsync(), query == null ? null : await query.CountAsync());
     }
+
+    public virtual async Task<PageData<ReturnT>> QueryPageAsync<ReturnT>(IQueryable<ReturnT>? query, PageRequest? page = null)
+    {
+        page ??= new PageRequest();
+        return new PageData<ReturnT>(query == null ? null : await query.Skip(page.Skip).Take(page.Max).ToListAsync(), query == null ? null : await query.CountAsync());
+    }
 }
 public class ReadRepository<TKey, T> : ReadRepository<T>, IReadRepository<TKey, T> where T : class, IEntity<TKey>
 {
