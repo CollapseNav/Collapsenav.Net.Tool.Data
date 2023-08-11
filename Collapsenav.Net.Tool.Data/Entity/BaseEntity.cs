@@ -17,32 +17,29 @@ public partial class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
     public TKey? Id { get; set; }
     public TKey? CreatorId { get; set; }
     public TKey? LastModifierId { get; set; }
-    public new virtual void Init()
+    public override void Init()
     {
         if (GetKey != null)
             Id = GetKey();
         CreationTime = GetNow();
         LastModificationTime = GetNow();
         IsDeleted = false;
-        InitModifyId();
+        base.Init();
     }
     /// <summary>
     /// 获取主键值
     /// </summary>
     public static Func<TKey>? GetKey = null;
 
-    public new virtual void InitModifyId()
-    {
-    }
-    public new virtual void SoftDelete()
+    public override void SoftDelete()
     {
         IsDeleted = true;
-        InitModifyId();
+        base.SoftDelete();
     }
-    public new virtual void Update()
+    public override void Update()
     {
         LastModificationTime = GetNow();
-        InitModifyId();
+        base.Update();
     }
 
     public new Type? KeyType()
