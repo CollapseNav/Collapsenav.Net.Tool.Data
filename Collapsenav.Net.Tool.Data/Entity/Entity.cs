@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
 namespace Collapsenav.Net.Tool.Data;
@@ -34,6 +35,13 @@ public partial class Entity : IEntity
 }
 public partial class Entity<TKey> : Entity, IEntity<TKey>
 {
-    [Key]
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public TKey? Id { get; set; }
+}
+
+
+public partial class AutoIncrementEntity<TKey> : Entity, IEntity<TKey>
+{
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public TKey? Id { get; set; }
 }

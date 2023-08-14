@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Collapsenav.Net.Tool.Data;
 
 public partial class BaseEntity : Entity
@@ -13,7 +15,7 @@ public partial class BaseEntity : Entity
 }
 public partial class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
 {
-    [Key]
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
     public TKey? Id { get; set; }
     public TKey? CreatorId { get; set; }
     public TKey? LastModifierId { get; set; }
@@ -45,5 +47,18 @@ public partial class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
     public new Type? KeyType()
     {
         return typeof(TKey);
+    }
+}
+
+public class AutoIncrementBaseEntity<TKey> : BaseEntity<TKey>
+{
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public new TKey? Id { get; set; }
+    public override void Init()
+    {
+        CreationTime = GetNow();
+        LastModificationTime = GetNow();
+        IsDeleted = false;
+        base.Init();
     }
 }
