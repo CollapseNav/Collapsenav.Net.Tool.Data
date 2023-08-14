@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Z.EntityFramework.Plus;
 
 namespace Collapsenav.Net.Tool.Data;
 public partial class WriteRepository<T> : Repository<T>, IWriteRepository<T>

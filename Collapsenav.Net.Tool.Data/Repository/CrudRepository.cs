@@ -23,7 +23,12 @@ public class CrudRepository<T> : Repository<T>, ICrudRepository<T> where T : cla
     public virtual async Task<int> UpdateAsync(Expression<Func<T, bool>>? where, Expression<Func<T, T>>? entity) => await Write.UpdateAsync(where, entity);
     public virtual async Task<IEnumerable<T>> QueryAsync(Expression<Func<T, bool>>? exp) => await Read.QueryAsync(exp);
     public virtual async Task<T?> GetByIdAsync(object? id) => await Read.GetByIdAsync(id);
-    public virtual async Task<bool> DeleteAsync(object? id, bool isTrue = false) => await Write.DeleteAsync(id, isTrue);
+    public virtual async Task<bool> DeleteAsync(object? id, bool isTrue = false)
+    {
+        if (id == null)
+            return false;
+        return await Write.DeleteAsync(id, isTrue);
+    }
     public virtual async Task<IEnumerable<T>> QueryAsync(IQueryable<T>? query) => await Read.QueryAsync(query);
 
     [Obsolete("统一接口名称, 该方法将被弃用, 使用 QueryAsync 代替")]
@@ -39,6 +44,10 @@ public class CrudRepository<T> : Repository<T>, ICrudRepository<T> where T : cla
     public virtual async Task<PageData<ReturnT>> QueryPageAsync<ReturnT>(IQueryable<ReturnT>? query, PageRequest? page = null)
     {
         return await Read.QueryPageAsync(query, page);
+    }
+    public virtual async Task<int> UpdateWithoutTransactionAsync(Expression<Func<T, bool>>? where, Expression<Func<T, T>>? entity)
+    {
+        return await Write.UpdateWithoutTransactionAsync(where, entity);
     }
 }
 public class CrudRepository<TKey, T> : CrudRepository<T>, ICrudRepository<TKey, T> where T : class, IEntity<TKey>, new()

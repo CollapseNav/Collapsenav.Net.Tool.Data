@@ -2,12 +2,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Collapsenav.Net.Tool.Data;
-public interface INoConstraintsRepository
-{
-    IQueryable<E> Query<E>(Expression<Func<E, bool>>? exp = null) where E : class;
-    IQueryable<E> QueryWithTrack<E>(Expression<Func<E, bool>>? exp = null) where E : class;
-}
-public interface INoConstraintsRepository<T> : INoConstraintsRepository
+public interface INoConstraintsRepository<T> : IRepository
 {
     /// <summary>
     /// 获取 Query

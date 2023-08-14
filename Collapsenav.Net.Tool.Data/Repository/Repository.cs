@@ -34,6 +34,7 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
     {
         var count = _db.SaveChanges();
         ClearTracker();
+        TransManager.CommitTranscation(_db);
         return count;
     }
     /// <summary>
@@ -43,6 +44,7 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
     {
         var count = await _db.SaveChangesAsync();
         ClearTracker();
+        TransManager.CommitTranscation(_db);
         return count;
     }
 

@@ -17,6 +17,7 @@ public interface INoConstraintsModifyRepository<T> : INoConstraintsWriteReposito
     /// 更新
     /// </summary>
     Task<int> UpdateAsync(Expression<Func<T, bool>>? where, Expression<Func<T, T>>? entity);
+    Task<int> UpdateWithoutTransactionAsync(Expression<Func<T, bool>>? where, Expression<Func<T, T>>? entity);
 }
 public interface INoConstraintsModifyRepository<TKey, T> : INoConstraintsModifyRepository<T>, INoConstraintsWriteRepository<TKey, T>
 {
