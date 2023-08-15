@@ -33,7 +33,23 @@ public partial class ModifyRepository<T> : WriteRepository<T>, IModifyRepository
             return 0;
         TransManager.CreateTranscation(_db);
         // TODO 处理软删除的情况
-        return isTrue ? await dbSet.Where(exp).DeleteAsync() : 0;
+        if (isTrue)
+        {
+            return await dbSet.Where(exp).DeleteAsync();
+        }
+        else
+        {
+            var type = typeof(T);
+            if (type.IsType<BaseEntity>())
+            {
+                return await dbSet.Where(exp).UpdateAsync(item => new
+                {
+                    IsDeleted = true,
+                    LastModificationTime = DateTime.Now,
+                });
+            }
+        }
+        return 0;
     }
     /// <summary>
     /// 实现按需要只更新部分更新
