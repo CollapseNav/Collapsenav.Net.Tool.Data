@@ -1,5 +1,4 @@
 using System.Text;
-using Microsoft.Data.SqlClient;
 
 namespace Collapsenav.Net.Tool.Data;
 
