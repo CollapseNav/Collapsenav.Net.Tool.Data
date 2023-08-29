@@ -3,45 +3,58 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
 namespace Collapsenav.Net.Tool.Data;
-public partial class Entity : IEntity
+public abstract class Entity : IEntity
 {
     public virtual void Init()
     {
-        InitModifyId();
+        InitModify();
     }
-    public virtual void InitModifyId()
-    {
-    }
+    public virtual void InitModify() { }
 
-    public PropertyInfo? KeyProp()
+    public virtual PropertyInfo? KeyProp()
     {
         var prop = GetType().AttrValues<KeyAttribute>().FirstOrDefault().Key;
         return prop;
     }
 
-    public Type? KeyType()
+    public virtual Type? KeyType()
     {
         return KeyProp()?.PropertyType;
     }
 
     public virtual void SoftDelete()
     {
-        InitModifyId();
+        InitModify();
     }
     public virtual void Update()
     {
-        InitModifyId();
+        InitModify();
     }
 }
-public partial class Entity<TKey> : Entity, IEntity<TKey>
+public abstract class Entity<TKey> : Entity, IEntity<TKey>
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
     public TKey? Id { get; set; }
+    public override PropertyInfo? KeyProp()
+    {
+        return GetType().GetProperty("Id");
+    }
+    public override Type? KeyType()
+    {
+        return typeof(TKey);
+    }
 }
 
-
-public partial class AutoIncrementEntity<TKey> : Entity, IEntity<TKey>
+public abstract class AutoIncrementEntity<TKey> : Entity, IEntity<TKey>
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public TKey? Id { get; set; }
+    public override PropertyInfo? KeyProp()
+    {
+        return GetType().GetProperty("Id");
+    }
+    public override Type? KeyType()
+    {
+        return typeof(TKey);
+    }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Collapsenav.Net.Tool.Data;
 
-public partial class BaseEntity : Entity
+public abstract class BaseEntity : Entity, IBaseEntity
 {
     public bool? IsDeleted { get; set; }
     public DateTime? CreationTime { get; set; }
@@ -12,8 +12,20 @@ public partial class BaseEntity : Entity
     /// 获取当前时间
     /// </summary>
     public static Func<DateTime> GetNow = () => DateTime.Now;
+
+    public override void Init()
+    {
+        CreationTime = GetNow();
+        base.Init();
+    }
+
+    public override void InitModify()
+    {
+        LastModificationTime = GetNow();
+        base.InitModify();
+    }
 }
-public partial class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
+public abstract class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
     public TKey? Id { get; set; }
@@ -38,19 +50,20 @@ public partial class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
         IsDeleted = true;
         base.SoftDelete();
     }
-    public override void Update()
+
+    public override void InitModify()
     {
         LastModificationTime = GetNow();
-        base.Update();
+        base.InitModify();
     }
 
-    public new Type? KeyType()
+    public override Type? KeyType()
     {
         return typeof(TKey);
     }
 }
 
-public class AutoIncrementBaseEntity<TKey> : BaseEntity<TKey>
+public abstract class AutoIncrementBaseEntity<TKey> : BaseEntity<TKey>
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public new TKey? Id { get; set; }
