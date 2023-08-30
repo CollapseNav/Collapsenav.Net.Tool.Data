@@ -18,13 +18,7 @@ public class ReadRepository<T> : Repository<T>, IReadRepository<T> where T : cla
 
     public virtual async Task<IEnumerable<T>> QueryDataAsync(IQueryable<T>? query) => query == null ? Enumerable.Empty<T>() : await query.ToListAsync();
     public virtual async Task<IEnumerable<T>> QueryAsync(IQueryable<T>? query) => query == null ? Enumerable.Empty<T>() : await query.ToListAsync();
-    /// <summary>
-    /// 判断是否有符合条件的数据
-    /// </summary>
     public virtual async Task<bool> IsExistAsync(Expression<Func<T, bool>>? exp) => exp == null ? await dbSet.AnyAsync() : await dbSet.AnyAsync(exp);
-    /// <summary>
-    /// 计算符合条件的数据数量
-    /// </summary>
     public virtual async Task<int> CountAsync(Expression<Func<T, bool>>? exp = null) => await Query(exp).CountAsync();
 
     public virtual async Task<PageData<T>> QueryPageAsync(IQueryable<T>? query, PageRequest? page = null)

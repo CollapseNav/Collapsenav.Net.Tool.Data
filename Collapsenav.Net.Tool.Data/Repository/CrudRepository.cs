@@ -49,6 +49,12 @@ public class CrudRepository<T> : Repository<T>, ICrudRepository<T> where T : cla
     {
         return await Write.UpdateWithoutTransactionAsync(where, entity);
     }
+
+    protected override void Dispose(bool disposing)
+    {
+        TransManager.Remove(_db);
+        base.Dispose(disposing);
+    }
 }
 public class CrudRepository<TKey, T> : CrudRepository<T>, ICrudRepository<TKey, T> where T : class, IEntity<TKey>, new()
 {
