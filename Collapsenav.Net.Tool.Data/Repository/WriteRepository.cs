@@ -50,10 +50,15 @@ public partial class WriteRepository<T> : Repository<T>, IWriteRepository<T>
 
     protected override void Dispose(bool disposing)
     {
-        TransManager.Remove(_db);
-        base.Dispose(disposing);
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                TransManager.Remove(_db);
+            }
+            disposedValue = true;
+        }
     }
-
 }
 public partial class WriteRepository<TKey, T> : WriteRepository<T>, IWriteRepository<TKey, T>
     where T : class, IEntity<TKey>, new()

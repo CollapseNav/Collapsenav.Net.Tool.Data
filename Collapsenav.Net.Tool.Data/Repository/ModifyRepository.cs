@@ -56,11 +56,7 @@ public partial class ModifyRepository<T> : WriteRepository<T>, IModifyRepository
 public partial class ModifyRepository<TKey, T> : ModifyRepository<T>, IModifyRepository<TKey, T>
     where T : class, IEntity<TKey>, new()
 {
-    protected IWriteRepository<TKey, T> Repo;
-    public ModifyRepository(DbContext db) : base(db)
-    {
-        Repo = new WriteRepository<TKey, T>(_db);
-    }
+    public ModifyRepository(DbContext db) : base(db) { }
     public virtual async Task<int> DeleteAsync(IEnumerable<TKey>? id, bool isTrue = false)
     {
         if (id == null)
@@ -77,6 +73,6 @@ public partial class ModifyRepository<TKey, T> : ModifyRepository<T>, IModifyRep
 
     public virtual async Task<bool> DeleteAsync(TKey? id, bool isTrue = false)
     {
-        return await Repo.DeleteAsync(id, isTrue);
+        return await base.DeleteAsync(id, isTrue);
     }
 }

@@ -96,3 +96,47 @@ public class TestNotBaseModifyEntity : Entity
     public int? Number { get; set; }
     public bool? IsTest { get; set; }
 }
+public class TestModifyKeyEntity : Entity<int?>
+{
+    public TestModifyKeyEntity() { }
+    public TestModifyKeyEntity(int id, string code, int? number, bool? isTest)
+    {
+        Id = id;
+        Code = code;
+        Number = number;
+        IsTest = isTest;
+    }
+    public string Code { get; set; }
+    public int? Number { get; set; }
+    public bool? IsTest { get; set; }
+}
+
+public class TestModifyAutoKeyEntity : AutoIncrementEntity<int?>
+{
+    public TestModifyAutoKeyEntity() { }
+    public TestModifyAutoKeyEntity(int id, string code, int? number, bool? isTest)
+    {
+        Id = id;
+        Code = code;
+        Number = number;
+        IsTest = isTest;
+    }
+    public string Code { get; set; }
+    public int? Number { get; set; }
+    public bool? IsTest { get; set; }
+}
+
+public class TestModifyAutoEntity : AutoIncrementBaseEntity<int?>
+{
+    public TestModifyAutoEntity() { }
+    public TestModifyAutoEntity(int id, string code, int? number, bool? isTest)
+    {
+        Id = id;
+        Code = code;
+        Number = number;
+        IsTest = isTest;
+    }
+    public string Code { get; set; }
+    public int? Number { get; set; }
+    public bool? IsTest { get; set; }
+}

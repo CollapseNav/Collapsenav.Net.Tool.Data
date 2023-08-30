@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -93,5 +94,30 @@ public class ModifyRepositoryTest
         var leftData = await Read.QueryAsync(item => true);
         Assert.True(delCount == 8);
         Assert.True(leftData.IsEmpty());
+    }
+
+    [Fact, Order(26)]
+    public async Task ModifyRepositoryAutoSaveRollBackTestAsync()
+    {
+        var repo = GetService<IModifyRepository<int, TestModifyEntity>>();
+        await repo.AddAsync(new TestModifyEntity());
+        repo.Dispose();
+        repo = GetService<IModifyRepository<int, TestModifyEntity>>();
+        var query = await repo.Query().ToListAsync();
+        Assert.Empty(query);
+    }
+    [Fact, Order(26)]
+    public async Task ModifyRepositoryAutoSaveTestAsync()
+    {
+        TransManager.UseAutoCommit();
+        IModifyRepository<int, TestModifyEntity> repo = new ModifyRepository<int, TestModifyEntity>(GetService<TestDbContext>());
+        await repo.AddAsync(new TestModifyEntity());
+        repo.Dispose();
+        repo = new ModifyRepository<int, TestModifyEntity>(GetService<TestDbContext>());
+        var query = await repo.Query().ToListAsync();
+        await repo.DeleteAsync(item => true, true);
+        repo.Dispose();
+        Assert.NotEmpty(query);
+        TransManager.UseAutoCommit(false);
     }
 }
