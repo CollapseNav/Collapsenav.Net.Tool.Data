@@ -1,9 +1,16 @@
 namespace Collapsenav.Net.Tool.Data;
 
+/// <summary>
+/// 分页返回的数据
+/// </summary>
 public class PageData : PageData<object>
 {
 }
 
+/// <summary>
+/// 分页返回的数据
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class PageData<T>
 {
     public int? Total { get; set; }

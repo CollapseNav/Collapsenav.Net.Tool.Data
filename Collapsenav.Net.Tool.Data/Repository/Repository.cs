@@ -13,12 +13,6 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
         _db = db;
         dbSet = _db.Set<T>();
     }
-    /// <summary>
-    /// 查询所有符合条件的数据
-    /// </summary>
-    /// <param name="exp">筛选条件
-    /// PS:若使用默认的NULL，则返回所有数据
-    /// </param>
     public virtual IQueryable<T> Query(Expression<Func<T, bool>>? exp = null)
     {
         return exp == null ? dbSet.AsNoTracking().AsQueryable() : dbSet.AsNoTracking().Where(exp);
@@ -27,20 +21,14 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
     {
         return exp == null ? dbSet.AsQueryable() : dbSet.Where(exp);
     }
-    /// <summary>
-    /// 保存修改
-    /// </summary>
-    public int Save()
+    public virtual int Save()
     {
         var count = _db.SaveChanges();
         ClearTracker();
         TransManager.CommitTranscation(_db);
         return count;
     }
-    /// <summary>
-    /// 保存修改
-    /// </summary>
-    public async Task<int> SaveAsync()
+    public virtual async Task<int> SaveAsync()
     {
         var count = await _db.SaveChangesAsync();
         ClearTracker();
@@ -48,6 +36,9 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
         return count;
     }
 
+    /// <summary>
+    /// 清除track跟踪
+    /// </summary>
     private void ClearTracker()
     {
 #if NET6_0_OR_GREATER
@@ -57,18 +48,14 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
         entries.ForEach(item => item.State = EntityState.Detached);
 #endif
     }
-    /// <summary>
-    /// 获取主键
-    /// </summary>
-    public Type KeyType()
+    public virtual Type KeyType()
     {
         var prop = KeyProp() ?? throw new Exception("");
         if (prop.PropertyType.IsGenericType)
             return prop.PropertyType.GenericTypeArguments.First();
         return prop.PropertyType;
     }
-
-    public PropertyInfo KeyProp()
+    public virtual PropertyInfo KeyProp()
     {
         var types = typeof(T).AttrValues<KeyAttribute>();
         if (types.IsEmpty())
@@ -77,19 +64,19 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
         return prop;
     }
 
-    public IQueryable<E> Query<E>(Expression<Func<E, bool>>? exp = null) where E : class
+    public virtual IQueryable<E> Query<E>(Expression<Func<E, bool>>? exp = null) where E : class
     {
         var set = _db.Set<E>();
         return exp == null ? set.AsQueryable() : set.Where(exp);
     }
 
-    public IQueryable<E> QueryWithTrack<E>(Expression<Func<E, bool>>? exp = null) where E : class
+    public virtual IQueryable<E> QueryWithTrack<E>(Expression<Func<E, bool>>? exp = null) where E : class
     {
         var set = _db.Set<E>();
         return exp == null ? set.AsQueryable() : set.Where(exp);
     }
 
-    public void Dispose()
+    public virtual void Dispose()
     {
         TransManager.Remove(_db);
     }

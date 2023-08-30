@@ -10,10 +10,16 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9>
     }
     private readonly IRepository repo;
     public IQueryable<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8, T9>>? Query;
+    /// <summary>
+    /// 求求了，别再联表了
+    /// </summary>
     public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9> LeftJoin<T10, KeyProp>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8, T9>, KeyProp>> LKey, Expression<Func<T10, KeyProp>> RKey) where T10 : class, IEntity
     {
         throw new Exception("求求了，别再联表了");
     }
+    /// <summary>
+    /// 求求了，别再联表了
+    /// </summary>
     public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9> Join<T10, KeyProp>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8, T9>, KeyProp>> LKey, Expression<Func<T10, KeyProp>> RKey) where T10 : class, IEntity
     {
         throw new Exception("求求了，别再联表了");

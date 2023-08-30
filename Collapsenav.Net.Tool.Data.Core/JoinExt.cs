@@ -2,7 +2,7 @@ namespace Collapsenav.Net.Tool.Data;
 public static class JoinExt
 {
     /// <summary>
-    /// 开始join
+    /// 创建Join
     /// </summary>
     public static GroupJoinResult<T> CreateJoin<T>(this IRepository<T> repo) where T : class, IEntity
     {
@@ -10,7 +10,7 @@ public static class JoinExt
         return result;
     }
     /// <summary>
-    /// 开始join
+    /// 创建Join
     /// </summary>
     public static GroupJoinResult<T> StartJoin<T>(this IRepository<T> repo) where T : class, IEntity
     {

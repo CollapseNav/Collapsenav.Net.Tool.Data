@@ -6,10 +6,6 @@ namespace Collapsenav.Net.Tool.Data;
 public class QueryRepository<T> : ReadRepository<T>, IQueryRepository<T> where T : class, IEntity
 {
     public QueryRepository(DbContext db) : base(db) { }
-
-    /// <summary>
-    /// 查询数据
-    /// </summary>
     public virtual async Task<IEnumerable<T>> QueryAsync(Expression<Func<T, bool>>? exp = null) => await Query(exp).ToListAsync();
     public virtual async Task<PageData<T>> QueryPageAsync(Expression<Func<T, bool>>? exp, PageRequest? page = null)
     {

@@ -7,12 +7,13 @@ public abstract class Entity : IEntity
 {
     public virtual void Init()
     {
-        InitModify();
+        Update();
     }
     public virtual void InitModify() { }
 
     public virtual PropertyInfo? KeyProp()
     {
+        // 默认情况下尝试将有KeyAttribute的属性作为主键
         var prop = GetType().AttrValues<KeyAttribute>().FirstOrDefault().Key;
         return prop;
     }
@@ -24,7 +25,7 @@ public abstract class Entity : IEntity
 
     public virtual void SoftDelete()
     {
-        InitModify();
+        Update();
     }
     public virtual void Update()
     {

@@ -11,7 +11,10 @@ public abstract class BaseEntity : Entity, IBaseEntity
     /// <summary>
     /// 获取当前时间
     /// </summary>
-    public static Func<DateTime> GetNow = () => DateTime.Now;
+    /// <Remarks>
+    /// pgsql要求存入的为utc时间, 此时就可以通过重新赋值进行修正
+    /// </Remarks>
+    public static Func<DateTime> GetNow { get; set; } = () => DateTime.Now;
 
     public override void Init()
     {
@@ -35,15 +38,13 @@ public abstract class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
     {
         if (GetKey != null)
             Id = GetKey();
-        CreationTime = GetNow();
-        LastModificationTime = GetNow();
         IsDeleted = false;
         base.Init();
     }
     /// <summary>
     /// 获取主键值
     /// </summary>
-    public static Func<TKey>? GetKey = null;
+    public static Func<TKey>? GetKey { get; set; } = null;
 
     public override void SoftDelete()
     {
