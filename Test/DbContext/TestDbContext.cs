@@ -6,6 +6,7 @@ public class TestDbContext : DbContext
     public DbSet<TestEntity> Tests { get; set; }
     public DbSet<TestQueryEntity> TestQuerys { get; set; }
     public DbSet<TestModifyEntity> TestModifys { get; set; }
+    public DbSet<TestNotBaseModifyEntity> TestNotBaseModifys { get; set; }
     public TestDbContext(DbContextOptions<TestDbContext> options) : base(options)
     {
     }

@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Xunit;
 
 namespace Collapsenav.Net.Tool.Data.Test;

@@ -1,8 +1,5 @@
 using System.Linq.Expressions;
-
 namespace Collapsenav.Net.Tool.Data;
-
-
 public interface INoConstraintsQueryRepository<T> : INoConstraintsReadRepository<T>
 {
     /// <summary>
@@ -11,6 +8,12 @@ public interface INoConstraintsQueryRepository<T> : INoConstraintsReadRepository
     /// <param name="exp">查询表达式</param>
     /// <returns></returns>
     Task<IEnumerable<T>> QueryAsync(Expression<Func<T, bool>>? exp = null);
+    /// <summary>
+    /// 根据Id集合查询
+    /// </summary>
+    /// <param name="ids">主键集合</param>
+    /// <returns></returns>
+    Task<IEnumerable<T>> QueryByIdsAsync<TKey>(IEnumerable<TKey>? ids);
     /// <summary>
     /// 分页查询
     /// </summary>
@@ -29,13 +32,4 @@ public interface INoConstraintsQueryRepository<T> : INoConstraintsReadRepository
     /// <returns></returns>
     /// TODO 后续说不定可以将排序等参数与分页参数合并
     Task<PageData<T>> QueryPageAsync<E>(Expression<Func<T, bool>>? exp, Expression<Func<T, E>>? orderBy, bool isAsc = true, PageRequest? page = null);
-}
-public interface INoConstraintsQueryRepository<TKey, T> : INoConstraintsQueryRepository<T>, INoConstraintsReadRepository<TKey, T>
-{
-    /// <summary>
-    /// 根据Id集合查询
-    /// </summary>
-    /// <param name="ids">主键集合</param>
-    /// <returns></returns>
-    Task<IEnumerable<T>> QueryAsync(IEnumerable<TKey>? ids);
 }

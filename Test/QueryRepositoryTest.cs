@@ -9,11 +9,11 @@ namespace Collapsenav.Net.Tool.Data.Test;
 public class QueryRepositoryTest
 {
     protected readonly IServiceProvider Provider;
-    protected readonly IQueryRepository<int, TestEntity> Repository;
+    protected readonly IQueryRepository<TestEntity> Repository;
     public QueryRepositoryTest()
     {
         Provider = DIConfig.GetProvider();
-        Repository = GetService<IQueryRepository<int, TestEntity>>();
+        Repository = GetService<IQueryRepository<TestEntity>>();
     }
     protected T GetService<T>()
     {
@@ -51,10 +51,10 @@ public class QueryRepositoryTest
     public async Task QueryRepositoryQueryByIdsTest()
     {
         var ids = new[] { 1, 3, 5, 7, 9 };
-        var data = await Repository.QueryAsync(ids);
+        var data = await Repository.QueryByIdsAsync(ids);
         Assert.True(data.Count() == 5);
         ids = new[] { 2, 6, 8 };
-        data = await Repository.QueryAsync(ids);
+        data = await Repository.QueryByIdsAsync(ids);
         Assert.True(data.Count() == 3);
     }
 

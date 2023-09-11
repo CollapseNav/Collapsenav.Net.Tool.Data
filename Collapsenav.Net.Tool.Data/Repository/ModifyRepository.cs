@@ -18,6 +18,28 @@ public partial class ModifyRepository<T> : WriteRepository<T>, IModifyRepository
         await dbSet.AddRangeAsync(entityList);
         return entityList.Count();
     }
+    public virtual async Task<int> DeleteAsync<TKey>(IEnumerable<TKey>? id, bool isTrue = false)
+    {
+        if (id == null)
+            return 0;
+        TransManager.CreateTranscation(_db);
+        var entitys = id.Select(item => dbSet.Find(item)).Where(item => item! != null).Select(item => item!);
+        if (isTrue)
+        {
+            entitys.ForEach(item => dbSet.Remove(item));
+            return entitys.Count();
+        }
+        return await Task.Factory.StartNew(() =>
+        {
+            id.Select(item => dbSet.Find(item)).Where(item => item! != null).Select(item => item!).ForEach(item =>
+            {
+                item.SoftDelete();
+                item.Update();
+                dbSet.Update(item);
+            });
+            return id.Count();
+        });
+    }
     public virtual async Task<int> DeleteAsync(Expression<Func<T, bool>>? exp, bool isTrue = false)
     {
         if (exp == null)
@@ -51,28 +73,5 @@ public partial class ModifyRepository<T> : WriteRepository<T>, IModifyRepository
     public virtual async Task<int> UpdateWithoutTransactionAsync(Expression<Func<T, bool>>? where, Expression<Func<T, T>>? entity)
     {
         return where == null ? 0 : await dbSet.Where(where).UpdateAsync(entity);
-    }
-}
-public partial class ModifyRepository<TKey, T> : ModifyRepository<T>, IModifyRepository<TKey, T>
-    where T : class, IEntity<TKey>, new()
-{
-    public ModifyRepository(DbContext db) : base(db) { }
-    public virtual async Task<int> DeleteAsync(IEnumerable<TKey>? id, bool isTrue = false)
-    {
-        if (id == null)
-            return 0;
-        TransManager.CreateTranscation(_db);
-        if (isTrue)
-            return await dbSet.Where(item => id.Contains(item.Id)).DeleteAsync();
-        return await dbSet.Where(item => id.Contains(item.Id)).UpdateAsync(entity => new
-        {
-            LastModificationTime = DateTime.Now,
-            IsDeleted = true
-        });
-    }
-
-    public virtual async Task<bool> DeleteAsync(TKey? id, bool isTrue = false)
-    {
-        return await base.DeleteAsync(id, isTrue);
     }
 }

@@ -95,7 +95,3 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
         GC.SuppressFinalize(this);
     }
 }
-public class Repository<TKey, T> : Repository<T>, IRepository<TKey, T> where T : class, IEntity<TKey>
-{
-    public Repository(DbContext db) : base(db) { }
-}

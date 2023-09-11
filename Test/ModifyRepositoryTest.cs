@@ -11,13 +11,13 @@ namespace Collapsenav.Net.Tool.Data.Test;
 public class ModifyRepositoryTest
 {
     protected readonly IServiceProvider Provider;
-    protected readonly IModifyRepository<int, TestModifyEntity> Repository;
-    protected readonly IQueryRepository<int, TestModifyEntity> Read;
+    protected readonly IModifyRepository<TestModifyEntity> Repository;
+    protected readonly IQueryRepository<TestModifyEntity> Read;
     public ModifyRepositoryTest()
     {
         Provider = DIConfig.GetProvider();
-        Repository = GetService<IModifyRepository<int, TestModifyEntity>>();
-        Read = GetService<IQueryRepository<int, TestModifyEntity>>();
+        Repository = GetService<IModifyRepository<TestModifyEntity>>();
+        Read = GetService<IQueryRepository<TestModifyEntity>>();
     }
     protected T GetService<T>()
     {
@@ -99,10 +99,10 @@ public class ModifyRepositoryTest
     [Fact, Order(26)]
     public async Task ModifyRepositoryAutoSaveRollBackTestAsync()
     {
-        var repo = GetService<IModifyRepository<int, TestModifyEntity>>();
+        var repo = GetService<IModifyRepository<TestModifyEntity>>();
         await repo.AddAsync(new TestModifyEntity());
         repo.Dispose();
-        repo = GetService<IModifyRepository<int, TestModifyEntity>>();
+        repo = GetService<IModifyRepository<TestModifyEntity>>();
         var query = await repo.Query().ToListAsync();
         Assert.Empty(query);
     }
@@ -110,10 +110,10 @@ public class ModifyRepositoryTest
     public async Task ModifyRepositoryAutoSaveTestAsync()
     {
         TransManager.UseAutoCommit();
-        IModifyRepository<int, TestModifyEntity> repo = new ModifyRepository<int, TestModifyEntity>(GetService<TestDbContext>());
+        IModifyRepository<TestModifyEntity> repo = new ModifyRepository<TestModifyEntity>(GetService<TestDbContext>());
         await repo.AddAsync(new TestModifyEntity());
         repo.Dispose();
-        repo = new ModifyRepository<int, TestModifyEntity>(GetService<TestDbContext>());
+        repo = new ModifyRepository<TestModifyEntity>(GetService<TestDbContext>());
         var query = await repo.Query().ToListAsync();
         await repo.DeleteAsync(item => true, true);
         repo.Dispose();

@@ -49,6 +49,10 @@ public class CrudRepository<T> : Repository<T>, ICrudRepository<T> where T : cla
     {
         return await Write.UpdateWithoutTransactionAsync(where, entity);
     }
+    public virtual async Task<bool> DeleteAsync<TKey>(TKey? id, bool isTrue = false) => await Write.DeleteAsync(id, isTrue);
+    public virtual async Task<int> DeleteAsync<TKey>(IEnumerable<TKey>? id, bool isTrue = false) => await Write.DeleteAsync(id, isTrue);
+    public virtual async Task<T?> GetByIdAsync<TKey>(TKey? id) => await Read.GetByIdAsync(id);
+    public virtual async Task<IEnumerable<T>> QueryByIdsAsync<TKey>(IEnumerable<TKey>? ids) => await Read.QueryByIdsAsync(ids);
 
     protected override void Dispose(bool disposing)
     {
@@ -56,19 +60,3 @@ public class CrudRepository<T> : Repository<T>, ICrudRepository<T> where T : cla
         base.Dispose(disposing);
     }
 }
-public class CrudRepository<TKey, T> : CrudRepository<T>, ICrudRepository<TKey, T> where T : class, IEntity<TKey>, new()
-{
-    protected new readonly IQueryRepository<TKey, T> Read;
-    protected new readonly IModifyRepository<TKey, T> Write;
-    public CrudRepository(DbContext db) : base(db)
-    {
-        Read = new QueryRepository<TKey, T>(db);
-        Write = new ModifyRepository<TKey, T>(db);
-    }
-    public virtual async Task<bool> DeleteAsync(TKey? id, bool isTrue = false) => await Write.DeleteAsync(id, isTrue);
-    public virtual async Task<int> DeleteAsync(IEnumerable<TKey>? id, bool isTrue = false) => await Write.DeleteAsync(id, isTrue);
-    public override async Task<int> DeleteAsync(Expression<Func<T, bool>>? exp, bool isTrue = false) => await Write.DeleteAsync(exp, isTrue);
-    public virtual async Task<T?> GetByIdAsync(TKey? id) => await Read.GetByIdAsync(id);
-    public virtual async Task<IEnumerable<T>> QueryAsync(IEnumerable<TKey>? ids) => await Read.QueryAsync(ids);
-}
-

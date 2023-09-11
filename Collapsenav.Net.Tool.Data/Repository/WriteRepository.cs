@@ -26,28 +26,24 @@ public partial class WriteRepository<T> : Repository<T>, IWriteRepository<T>
         await Task.FromResult("");
         return 1;
     }
-    public virtual async Task<bool> DeleteAsync(object? id, bool isTrue = false)
+    public virtual async Task<bool> DeleteAsync<TKey>(TKey? id, bool isTrue = false)
     {
-        var entity = KeyType().Name switch
-        {
-            nameof(Int32) => await dbSet.FindAsync(int.Parse(id?.ToString() ?? string.Empty)),
-            nameof(Int64) => await dbSet.FindAsync(long.Parse(id?.ToString() ?? string.Empty)),
-            nameof(String) => await dbSet.FindAsync(id?.ToString() ?? string.Empty),
-            nameof(Guid) => await dbSet.FindAsync(Guid.Parse(id?.ToString() ?? string.Empty)),
-            _ => null,
-        };
+        if (id == null)
+            return false;
+        var entity = await dbSet.FindAsync(id);
         if (entity == null)
             return false;
         if (isTrue)
-            dbSet.Remove(entity);
+        {
+            var result = dbSet.Remove(entity);
+            return result.State == EntityState.Deleted;
+        }
         else
         {
             entity.SoftDelete();
-            await UpdateAsync(entity);
+            return (await UpdateAsync(entity)) > 0;
         }
-        return true;
     }
-
     protected override void Dispose(bool disposing)
     {
         if (!disposedValue)
@@ -58,16 +54,5 @@ public partial class WriteRepository<T> : Repository<T>, IWriteRepository<T>
             }
             disposedValue = true;
         }
-    }
-}
-public partial class WriteRepository<TKey, T> : WriteRepository<T>, IWriteRepository<TKey, T>
-    where T : class, IEntity<TKey>, new()
-{
-    public WriteRepository(DbContext db) : base(db) { }
-    public virtual async Task<bool> DeleteAsync(TKey? id, bool isTrue = false)
-    {
-        if (id == null)
-            return false;
-        return await base.DeleteAsync(id, isTrue);
     }
 }

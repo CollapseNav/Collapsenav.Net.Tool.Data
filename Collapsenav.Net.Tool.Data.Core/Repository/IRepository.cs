@@ -16,7 +16,4 @@ public interface IRepository : IDisposable
 public interface IRepository<T> : INoConstraintsRepository<T>, IRepository where T : IEntity
 {
 }
-public interface IRepository<TKey, T> : INoConstraintsRepository<TKey, T>, IRepository<T> where T : IEntity<TKey>
-{
-}
 

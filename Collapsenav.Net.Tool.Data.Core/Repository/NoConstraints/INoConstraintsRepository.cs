@@ -1,6 +1,5 @@
 using System.Linq.Expressions;
 using System.Reflection;
-
 namespace Collapsenav.Net.Tool.Data;
 public interface INoConstraintsRepository<T> : IRepository
 {
@@ -38,8 +37,4 @@ public interface INoConstraintsRepository<T> : IRepository
     /// </summary>
     /// <returns></returns>
     PropertyInfo? KeyProp();
-
-}
-public interface INoConstraintsRepository<TKey, T> : INoConstraintsRepository<T>
-{
 }

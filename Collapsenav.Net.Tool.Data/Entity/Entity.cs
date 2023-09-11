@@ -46,16 +46,8 @@ public abstract class Entity<TKey> : Entity, IEntity<TKey>
     }
 }
 
-public abstract class AutoIncrementEntity<TKey> : Entity, IEntity<TKey>
+public abstract class AutoIncrementEntity<TKey> : Entity<TKey>
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public TKey? Id { get; set; }
-    public override PropertyInfo? KeyProp()
-    {
-        return GetType().GetProperty("Id");
-    }
-    public override Type? KeyType()
-    {
-        return typeof(TKey);
-    }
+    public new TKey? Id { get; set; }
 }

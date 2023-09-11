@@ -1,5 +1,4 @@
 using System.Linq.Expressions;
-
 namespace Collapsenav.Net.Tool.Data;
 public interface INoConstraintsCheckExistRepository<T> : INoConstraintsRepository<T>
 {
