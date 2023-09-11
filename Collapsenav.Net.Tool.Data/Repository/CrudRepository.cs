@@ -22,13 +22,6 @@ public class CrudRepository<T> : Repository<T>, ICrudRepository<T> where T : cla
     public virtual async Task<int> UpdateAsync(T? entity) => await Write.UpdateAsync(entity);
     public virtual async Task<int> UpdateAsync(Expression<Func<T, bool>>? where, Expression<Func<T, T>>? entity) => await Write.UpdateAsync(where, entity);
     public virtual async Task<IEnumerable<T>> QueryAsync(Expression<Func<T, bool>>? exp) => await Read.QueryAsync(exp);
-    public virtual async Task<T?> GetByIdAsync(object? id) => await Read.GetByIdAsync(id);
-    public virtual async Task<bool> DeleteAsync(object? id, bool isTrue = false)
-    {
-        if (id == null)
-            return false;
-        return await Write.DeleteAsync(id, isTrue);
-    }
     public virtual async Task<IEnumerable<T>> QueryAsync(IQueryable<T>? query) => await Read.QueryAsync(query);
 
     [Obsolete("统一接口名称, 该方法将被弃用, 使用 QueryAsync 代替")]
@@ -50,7 +43,7 @@ public class CrudRepository<T> : Repository<T>, ICrudRepository<T> where T : cla
         return await Write.UpdateWithoutTransactionAsync(where, entity);
     }
     public virtual async Task<bool> DeleteAsync<TKey>(TKey? id, bool isTrue = false) => await Write.DeleteAsync(id, isTrue);
-    public virtual async Task<int> DeleteAsync<TKey>(IEnumerable<TKey>? id, bool isTrue = false) => await Write.DeleteAsync(id, isTrue);
+    public virtual async Task<int> DeleteByIdsAsync<TKey>(IEnumerable<TKey>? id, bool isTrue = false) => await Write.DeleteByIdsAsync(id, isTrue);
     public virtual async Task<T?> GetByIdAsync<TKey>(TKey? id) => await Read.GetByIdAsync(id);
     public virtual async Task<IEnumerable<T>> QueryByIdsAsync<TKey>(IEnumerable<TKey>? ids) => await Read.QueryByIdsAsync(ids);
 

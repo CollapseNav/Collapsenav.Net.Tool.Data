@@ -30,7 +30,7 @@ public partial class WriteRepository<T> : Repository<T>, IWriteRepository<T>
     {
         if (id == null)
             return false;
-        var entity = await dbSet.FindAsync(id);
+        var entity = await dbSet.FindAsync(GetKeyValue(id));
         if (entity == null)
             return false;
         if (isTrue)

@@ -66,6 +66,19 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
         return prop;
     }
 
+    protected object GetKeyValue(object input)
+    {
+        var keyType = KeyType();
+        return keyType.Name! switch
+        {
+            nameof(Int32) => int.Parse(input.ToString() ?? string.Empty),
+            nameof(Int64) => long.Parse(input.ToString() ?? string.Empty),
+            nameof(String) => input.ToString() ?? string.Empty,
+            nameof(Guid) => Guid.Parse(input.ToString() ?? string.Empty),
+            _ => keyType.HasMethod("Parse") ? (keyType.GetMethod("Parse")!.Invoke(null, new[] { input }) ?? string.Empty) : string.Empty,
+        };
+    }
+
     public virtual IQueryable<E> Query<E>(Expression<Func<E, bool>>? exp = null) where E : class
     {
         var set = _db.Set<E>();

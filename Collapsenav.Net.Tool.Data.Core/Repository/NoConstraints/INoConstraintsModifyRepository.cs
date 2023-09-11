@@ -21,7 +21,7 @@ public interface INoConstraintsModifyRepository<T> : INoConstraintsWriteReposito
     /// <param name="id"></param>
     /// <param name="isTrue">是否物理删除</param>
     /// <returns></returns>
-    Task<int> DeleteAsync<TKey>(IEnumerable<TKey>? id, bool isTrue = false);
+    Task<int> DeleteByIdsAsync<TKey>(IEnumerable<TKey>? id, bool isTrue = false);
     /// <summary>
     /// 批量更新(默认带事务)
     /// </summary>

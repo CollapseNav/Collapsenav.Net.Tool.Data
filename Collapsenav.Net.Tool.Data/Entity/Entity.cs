@@ -10,12 +10,12 @@ public abstract class Entity : IEntity
         Update();
     }
     public virtual void InitModify() { }
-
+    protected PropertyInfo? keyProp;
     public virtual PropertyInfo? KeyProp()
     {
         // 默认情况下尝试将有KeyAttribute的属性作为主键
-        var prop = GetType().AttrValues<KeyAttribute>().FirstOrDefault().Key;
-        return prop;
+        keyProp ??= GetType().AttrValues<KeyAttribute>().FirstOrDefault().Key;
+        return keyProp;
     }
 
     public virtual Type? KeyType()
@@ -31,6 +31,24 @@ public abstract class Entity : IEntity
     {
         InitModify();
     }
+    public virtual void SetKeyValue(object input)
+    {
+        KeyProp()?.SetValue(this, ConvertKeyValue(input));
+    }
+
+    public virtual object ConvertKeyValue(object input)
+    {
+        var keyType = KeyType();
+        var obj = keyType!.Name switch
+        {
+            nameof(Int32) => int.Parse(input.ToString() ?? string.Empty),
+            nameof(Int64) => long.Parse(input.ToString() ?? string.Empty),
+            nameof(String) => input.ToString() ?? string.Empty,
+            nameof(Guid) => Guid.Parse(input.ToString() ?? string.Empty),
+            _ => keyType.HasMethod("Parse") ? (keyType.GetMethod("Parse")!.Invoke(null, new[] { input }) ?? 0) : 0,
+        };
+        return obj;
+    }
 }
 public abstract class Entity<TKey> : Entity, IEntity<TKey>
 {
@@ -38,11 +56,20 @@ public abstract class Entity<TKey> : Entity, IEntity<TKey>
     public TKey? Id { get; set; }
     public override PropertyInfo? KeyProp()
     {
-        return GetType().GetProperty("Id");
+        keyProp ??= GetType().GetProperty("Id");
+        return keyProp;
     }
     public override Type? KeyType()
     {
         return typeof(TKey);
+    }
+
+    public override void SetKeyValue(object input)
+    {
+        if (input.GetType() == typeof(TKey))
+            Id = (TKey)input;
+        else
+            KeyProp()?.SetValue(this, ConvertKeyValue(input));
     }
 }
 

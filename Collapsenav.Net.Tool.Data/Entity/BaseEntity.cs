@@ -46,6 +46,13 @@ public abstract class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
     /// </summary>
     public static Func<TKey>? GetKey { get; set; } = null;
 
+    public override void SetKeyValue(object input)
+    {
+        if (input.GetType() == typeof(TKey))
+            Id = (TKey)input;
+        else
+            Id = (TKey)ConvertKeyValue(input);
+    }
     public override void SoftDelete()
     {
         IsDeleted = true;

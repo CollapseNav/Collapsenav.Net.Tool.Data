@@ -115,7 +115,7 @@ public class CrudRepositoryTest
         Assert.True(delCount == 10);
         await Repository.DeleteAsync(11, false);
         Repository.Save();
-        await Repository.DeleteAsync(new[] { 12 }, false);
+        await Repository.DeleteByIdsAsync(new[] { 12 }, false);
         Repository.Save();
         var leftData = await Repository.QueryAsync(item => item.IsDeleted != true);
         Assert.True(leftData.Count() == 8);
@@ -130,7 +130,7 @@ public class CrudRepositoryTest
         Assert.True(delCount == 10);
         await Repository.DeleteAsync(11, true);
         Repository.Save();
-        await Repository.DeleteAsync(new[] { 12 }, true);
+        await Repository.DeleteByIdsAsync(new[] { 12 }, true);
         Repository.Save();
         var leftData = await Repository.QueryAsync(item => item.IsDeleted != true);
         Assert.True(leftData.Count() == 8);

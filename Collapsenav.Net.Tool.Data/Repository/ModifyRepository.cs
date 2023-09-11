@@ -6,9 +6,7 @@ namespace Collapsenav.Net.Tool.Data;
 public partial class ModifyRepository<T> : WriteRepository<T>, IModifyRepository<T>
     where T : class, IEntity, new()
 {
-    public ModifyRepository(DbContext db) : base(db)
-    {
-    }
+    public ModifyRepository(DbContext db) : base(db) { }
     public virtual async Task<int> AddAsync(IEnumerable<T>? entityList)
     {
         if (entityList == null)
@@ -18,12 +16,12 @@ public partial class ModifyRepository<T> : WriteRepository<T>, IModifyRepository
         await dbSet.AddRangeAsync(entityList);
         return entityList.Count();
     }
-    public virtual async Task<int> DeleteAsync<TKey>(IEnumerable<TKey>? id, bool isTrue = false)
+    public virtual async Task<int> DeleteByIdsAsync<TKey>(IEnumerable<TKey>? id, bool isTrue = false)
     {
         if (id == null)
             return 0;
         TransManager.CreateTranscation(_db);
-        var entitys = id.Select(item => dbSet.Find(item)).Where(item => item! != null).Select(item => item!);
+        var entitys = id.Select(item => dbSet.Find(GetKeyValue(item!))).Where(item => item! != null).Select(item => item!);
         if (isTrue)
         {
             entitys.ForEach(item => dbSet.Remove(item));
@@ -31,13 +29,14 @@ public partial class ModifyRepository<T> : WriteRepository<T>, IModifyRepository
         }
         return await Task.Factory.StartNew(() =>
         {
-            id.Select(item => dbSet.Find(item)).Where(item => item! != null).Select(item => item!).ForEach(item =>
+            var matches = id.Select(item => dbSet.Find(GetKeyValue(item!))).Where(item => item! != null).Select(item => item!);
+            matches.ForEach(item =>
             {
                 item.SoftDelete();
                 item.Update();
                 dbSet.Update(item);
             });
-            return id.Count();
+            return matches.Count();
         });
     }
     public virtual async Task<int> DeleteAsync(Expression<Func<T, bool>>? exp, bool isTrue = false)

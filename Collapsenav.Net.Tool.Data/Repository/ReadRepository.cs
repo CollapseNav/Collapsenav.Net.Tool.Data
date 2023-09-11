@@ -9,16 +9,11 @@ public class ReadRepository<T> : Repository<T>, IReadRepository<T> where T : cla
 
     public virtual async Task<T?> GetByIdAsync<TKey>(TKey? id)
     {
+        if (id == null)
+            return null;
         if (typeof(TKey) == KeyType())
             return await dbSet.FindAsync(id);
-        return KeyType().Name! switch
-        {
-            nameof(Int32) => await dbSet.FindAsync(int.Parse(id?.ToString() ?? string.Empty)),
-            nameof(Int64) => await dbSet.FindAsync(long.Parse(id?.ToString() ?? string.Empty)),
-            nameof(String) => await dbSet.FindAsync(id?.ToString() ?? string.Empty),
-            nameof(Guid) => await dbSet.FindAsync(Guid.Parse(id?.ToString() ?? string.Empty)),
-            _ => await dbSet.FindAsync(id?.ToString() ?? string.Empty),
-        };
+        return await dbSet.FindAsync(GetKeyValue(id));
     }
     public virtual async Task<IEnumerable<T>> QueryDataAsync(IQueryable<T>? query) => query == null ? Enumerable.Empty<T>() : await query.ToListAsync();
     public virtual async Task<IEnumerable<T>> QueryAsync(IQueryable<T>? query) => query == null ? Enumerable.Empty<T>() : await query.ToListAsync();

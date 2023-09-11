@@ -26,6 +26,8 @@ public interface IEntity
     /// 获取主键属性
     /// </summary>
     PropertyInfo? KeyProp();
+    void SetKeyValue(object input);
+    object ConvertKeyValue(object input);
 }
 public interface IEntity<TKey> : IEntity
 {
