@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -8,9 +9,9 @@ namespace Collapsenav.Net.Tool.Data;
 /// </summary>
 public class TransManager
 {
-    public static Dictionary<DbContext, long> ContextCount { get; private set; } = new();
+    public static ConcurrentDictionary<DbContext, long> ContextCount { get; private set; } = new();
 
-    public static Dictionary<DbContext, IDbContextTransaction> Trans { get; private set; } = new();
+    public static ConcurrentDictionary<DbContext, IDbContextTransaction> Trans { get; private set; } = new();
     /// <summary>
     /// 是否自动提交
     /// </summary>
@@ -49,7 +50,7 @@ public class TransManager
         if (ContextCount.ContainsKey(context))
             ContextCount[context]++;
         else
-            ContextCount.Add(context, 1);
+            ContextCount.TryAdd(context, 1);
     }
     /// <summary>
     /// 尝试移除上下文
@@ -76,7 +77,7 @@ public class TransManager
             // 如果context被清除,则尝试提交事务
             if (ContextCount[context] == 0)
             {
-                ContextCount.Remove(context);
+                ContextCount.Remove(context, out long value);
                 if (context.ChangeTracker.HasChanges())
                     context.SaveChanges();
             }
@@ -99,7 +100,7 @@ public class TransManager
     {
         if (Trans.ContainsKey(context))
             return;
-        Trans.Add(context, context.Database.BeginTransaction());
+        Trans.TryAdd(context, context.Database.BeginTransaction());
     }
 
     public static void CommitTranscation(DbContext context)
