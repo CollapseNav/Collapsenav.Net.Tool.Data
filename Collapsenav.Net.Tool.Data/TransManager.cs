@@ -77,7 +77,11 @@ public class TransManager
             // 如果context被清除,则尝试提交事务
             if (ContextCount[context] == 0)
             {
+#if NETSTANDARD2_0
+                ContextCount.TryRemove(context, out long value);
+#else
                 ContextCount.Remove(context, out long value);
+#endif
                 if (context.ChangeTracker.HasChanges())
                     context.SaveChanges();
             }
