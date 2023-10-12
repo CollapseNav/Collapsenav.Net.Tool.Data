@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Collapsenav.Net.Tool.Data.Test;
 [TestCaseOrderer("Collapsenav.Net.Tool.Data.Test.TestOrders", "Collapsenav.Net.Tool.Data.Test")]
+[Collection("1")]
 public class QueryRepositoryTest
 {
     protected readonly IServiceProvider Provider;
@@ -56,6 +57,8 @@ public class QueryRepositoryTest
         ids = new[] { 2, 6, 8 };
         data = await Repository.QueryByIdsAsync(ids);
         Assert.True(data.Count() == 3);
+        data = await Repository.QueryByIdsAsync(Enumerable.Empty<int>());
+        Assert.True(data.IsEmpty());
     }
 
     [Fact, Order(15)]

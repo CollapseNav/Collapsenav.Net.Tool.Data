@@ -8,11 +8,11 @@ public class SqliteConn : Conn
 
     public override string ToString()
     {
-        return GetConnString();
+        return $"Data Source = {Source}";
     }
 
     public override string GetConnString()
     {
-        return $"Data Source = {Source}";
+        return ToString();
     }
 }

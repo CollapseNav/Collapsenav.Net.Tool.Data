@@ -6,8 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Collapsenav.Net.Tool.Data.Test;
-
 [TestCaseOrderer("Collapsenav.Net.Tool.Data.Test.TestOrders", "Collapsenav.Net.Tool.Data.Test")]
+[Collection("a")]
 public class JoinTest
 {
     protected readonly IServiceProvider Provider;
@@ -63,7 +63,7 @@ public class JoinTest
         Assert.True(data.Count == 10);
     }
 
-    [Fact, Order(0)]
+    [Fact, Order(1)]
     public async Task EightLeftJoinTest()
     {
         var data = await Repository.CreateJoin()
@@ -122,7 +122,7 @@ public class JoinTest
             Assert.Equal("求求了，别再联表了", ex.Message);
         }
     }
-    [Fact, Order(0)]
+    [Fact, Order(2)]
     public async Task EightJoinTest()
     {
         var data = await Repository.CreateJoin()

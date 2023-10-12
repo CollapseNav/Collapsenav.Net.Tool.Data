@@ -3,8 +3,11 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
+[assembly: TestCollectionOrderer("Collapsenav.Net.Tool.Data.Test.TestCollection", "Collapsenav.Net.Tool.Data.Test")]
 namespace Collapsenav.Net.Tool.Data.Test;
 [TestCaseOrderer("Collapsenav.Net.Tool.Data.Test.TestOrders", "Collapsenav.Net.Tool.Data.Test")]
+[Collection("b")]
 public class CheckExistRepositoryTest
 {
     protected readonly IServiceProvider Provider;

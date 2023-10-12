@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Collapsenav.Net.Tool.Data.Test;
 [TestCaseOrderer("Collapsenav.Net.Tool.Data.Test.TestOrders", "Collapsenav.Net.Tool.Data.Test")]
+[Collection("f")]
 public class NotBaseModifyRepositoryTest
 {
     protected readonly IServiceProvider Provider;

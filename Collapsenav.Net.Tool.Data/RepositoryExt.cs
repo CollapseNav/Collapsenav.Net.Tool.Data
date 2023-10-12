@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Collapsenav.Net.Tool.Data;
 public static class RepositoryExt
@@ -22,7 +23,7 @@ public static class RepositoryExt
     {
         services.AddRepository();
         foreach (var type in types)
-            services.AddScoped(type);
+            services.TryAddScoped(type);
         return services;
     }
 }

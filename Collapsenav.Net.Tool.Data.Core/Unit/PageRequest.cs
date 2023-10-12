@@ -9,7 +9,6 @@ public class PageRequest
     /// <value></value>
     public virtual int Skip
     {
-        get => skip ?? (Index - 1) * Max; set => skip = value;
+        get => (Index - 1) * Max;
     }
-    protected int? skip;
 }

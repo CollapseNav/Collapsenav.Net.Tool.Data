@@ -1,7 +1,7 @@
 using Xunit;
 
 namespace Collapsenav.Net.Tool.Data.Test;
-
+[TestCaseOrderer("Collapsenav.Net.Tool.Data.Test.TestOrders", "Collapsenav.Net.Tool.Data.Test")]
 public class OtherTest
 {
     [Fact]

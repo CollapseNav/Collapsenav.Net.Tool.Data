@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -36,6 +38,21 @@ public class TestOrders : ITestCaseOrderer
             var sortY = yOrder.GetNamedArgument<int>("Sort");
             return sortX - sortY;
         });
+        return result;
+    }
+}
+
+public class TestCollection : ITestCollectionOrderer
+{
+    public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)
+    {
+        var result = testCollections.OrderBy(collection => collection.DisplayName);
+        var logPath = "./dads.txt";
+        var logText = string.Empty;
+        if (File.Exists(logPath))
+            logText = File.ReadAllText(logPath);
+        logText += result.Select(item => item.DisplayName).Join("\n");
+        logText.ToBytes().SaveTo(logPath);
         return result;
     }
 }
