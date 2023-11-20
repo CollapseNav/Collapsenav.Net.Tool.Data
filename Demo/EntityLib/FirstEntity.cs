@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Collapsenav.Net.Tool.Data;
 
 namespace DataDemo.EntityLib;
