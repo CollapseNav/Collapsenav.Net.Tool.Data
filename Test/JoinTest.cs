@@ -27,7 +27,6 @@ public class JoinTest
     {
         var data = await Repository.CreateJoin()
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Number, i => i.Number)
-        .Query
         .Select(item => new
         {
             item.Data1.Number,
@@ -42,7 +41,6 @@ public class JoinTest
     {
         var data = await Repository.StartJoin()
         .Join<TestNotBaseModifyEntity>(i => i.Number, i => i.Number)
-        .Query
         .Select(item => new
         {
             item.Data1.Number,
@@ -75,7 +73,6 @@ public class JoinTest
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data6.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data7.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data8.Number, i => i.Number)
-        .Query
         .Select(item => new
         {
             Number1 = item.Data1.Number,
@@ -103,7 +100,6 @@ public class JoinTest
             .LeftJoin<TestNotBaseModifyEntity>(i => i.Data7.Number, i => i.Number)
             .LeftJoin<TestNotBaseModifyEntity>(i => i.Data8.Number, i => i.Number)
             .LeftJoin<TestNotBaseModifyEntity>(i => i.Data8.Number, i => i.Number)
-            .Query
             .Select(item => new
             {
                 Number1 = item.Data1.Number,
@@ -134,7 +130,6 @@ public class JoinTest
         .Join<TestNotBaseModifyEntity>(i => i.Data6.Number, i => i.Number)
         .Join<TestNotBaseModifyEntity>(i => i.Data7.Number, i => i.Number)
         .Join<TestNotBaseModifyEntity>(i => i.Data8.Number, i => i.Number)
-        .Query
         .Select(item => new
         {
             Number1 = item.Data1.Number,
@@ -162,7 +157,6 @@ public class JoinTest
             .Join<TestNotBaseModifyEntity>(i => i.Data7.Number, i => i.Number)
             .Join<TestNotBaseModifyEntity>(i => i.Data8.Number, i => i.Number)
             .Join<TestNotBaseModifyEntity>(i => i.Data9.Number, i => i.Number)
-            .Query
             .Select(item => new
             {
                 Number1 = item.Data1.Number,
