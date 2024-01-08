@@ -7,10 +7,9 @@ public class CrudRepository<T> : Repository<T>, ICrudRepository<T> where T : cla
 {
     protected readonly IQueryRepository<T> Read;
     protected readonly IModifyRepository<T> Write;
-    public CrudRepository(DbContext db) : base(db)
+    public CrudRepository(IQueryRepository<T> read, IModifyRepository<T> write, DbContext db) : base(db)
     {
-        Read = new QueryRepository<T>(db);
-        Write = new ModifyRepository<T>(db);
+        (Read, Write) = (read, write);
     }
     public virtual async Task<int> AddAsync(IEnumerable<T>? entityList) => await Write.AddAsync(entityList);
     public virtual async Task<T?> AddAsync(T? entity) => await Write.AddAsync(entity);
