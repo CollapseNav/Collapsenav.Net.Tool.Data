@@ -26,6 +26,10 @@ public class QueryRepositoryTest
     {
         var datas = await Repository.QueryAsync(item => item.Id < 5);
         Assert.True(datas.Count() == 4);
+        datas = await Repository.QueryDataAsync(Repository.Query().Where(i => i.Id < 5));
+        Assert.True(datas.Count() == 4);
+        datas = await Repository.QueryAsync(Repository.Query().Where(i => i.Id < 5));
+        Assert.True(datas.Count() == 4);
         var data = await Repository.GetByIdAsync(1);
         Assert.True(data.Number == 85);
     }
@@ -54,8 +58,13 @@ public class QueryRepositoryTest
         var ids = new[] { 1, 3, 5, 7, 9 };
         var data = await Repository.QueryByIdsAsync(ids);
         Assert.True(data.Count() == 5);
-        ids = new[] { 2, 6, 8 };
+        ids = new[] { 2, 6, 8, 1000 };
         data = await Repository.QueryByIdsAsync(ids);
+        ids = null;
+        Assert.Empty(await Repository.QueryByIdsAsync(ids));
+
+        int? i = null;
+        Assert.Null(await Repository.GetByIdAsync(i));
         Assert.True(data.Count() == 3);
         data = await Repository.QueryByIdsAsync(Enumerable.Empty<int>());
         Assert.True(data.IsEmpty());
@@ -65,6 +74,16 @@ public class QueryRepositoryTest
     public async Task QueryRepositoryQueryPageTest()
     {
         var data = await Repository.QueryPageAsync(item => item.Id > 6);
+        Assert.True(data.Length == 4);
+        Assert.True(data.Data.First().Id == 7);
+        Assert.True(data.Data.Last().Id == 10);
+
+        data = await Repository.QueryPageAsync(Repository.Query().Where(i => i.Id > 6), new PageRequest());
+        Assert.True(data.Length == 4);
+        Assert.True(data.Data.First().Id == 7);
+        Assert.True(data.Data.Last().Id == 10);
+
+        data = await Repository.QueryPageAsync<TestEntity>(Repository.Query().Where(i => i.Id > 6), new PageRequest());
         Assert.True(data.Length == 4);
         Assert.True(data.Data.First().Id == 7);
         Assert.True(data.Data.Last().Id == 10);

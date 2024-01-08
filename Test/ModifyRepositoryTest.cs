@@ -41,6 +41,8 @@ public class ModifyRepositoryTest
                 new (20,"23333",2333,true),
             };
         await Repository.AddAsync(entitys.First());
+        TestModifyEntity a = null;
+        Assert.Null(await Repository.AddAsync(a));
         await Repository.AddAsync(entitys.Skip(1));
         IEnumerable<TestModifyEntity> nullValue = null;
         await Repository.AddAsync(nullValue);

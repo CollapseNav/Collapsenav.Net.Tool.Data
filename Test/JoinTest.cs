@@ -182,7 +182,7 @@ public class JoinTest
 
         try
         {
-            data = await Repository.CreateJoin()
+            data = await Repository
             .Join<TestNotBaseModifyEntity>(i => i.Number, i => i.Number)
             .Join<TestNotBaseModifyEntity>(i => i.Data2.Number, i => i.Number)
             .Join<TestNotBaseModifyEntity>(i => i.Data3.Number, i => i.Number)

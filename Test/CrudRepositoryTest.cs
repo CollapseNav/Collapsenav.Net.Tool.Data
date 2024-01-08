@@ -29,6 +29,8 @@ public class CrudRepositoryTest
         Assert.True(datas.Count() == 4);
         var data = await Repository.GetByIdAsync(1);
         Assert.True(data.Number == 92);
+        datas = await Repository.QueryAsync(Repository.Query(item => item.Id < 5));
+        Assert.True(datas.Count() == 4);
     }
 
     [Fact, Order(32)]
@@ -67,6 +69,16 @@ public class CrudRepositoryTest
         Assert.True(data.Length == 4);
         Assert.True(data.Data.First().Id == 7);
         Assert.True(data.Data.Last().Id == 10);
+
+        data = await Repository.QueryPageAsync(Repository.Query(item => item.Id > 6));
+        Assert.True(data.Length == 4);
+        Assert.True(data.Data.First().Id == 7);
+        Assert.True(data.Data.Last().Id == 10);
+
+        data = await Repository.QueryPageAsync<TestQueryEntity>(Repository.Query(item => item.Id > 6));
+        Assert.True(data.Length == 4);
+        Assert.True(data.Data.First().Id == 7);
+        Assert.True(data.Data.Last().Id == 10);
     }
     [Fact, Order(36)]
     public async Task CrudRepositoryQueryPageOrderTest()
@@ -90,9 +102,10 @@ public class CrudRepositoryTest
                 new (17,"23333",2333,true),
                 new (18,"23333",2333,true),
                 new (19,"23333",2333,true),
-                new (20,"23333",2333,true),
-            };
+        };
         await Repository.AddAsync(entitys);
+        await Repository.SaveAsync();
+        await Repository.AddAsync(new TestQueryEntity(20, "23333", 2333, true));
         await Repository.SaveAsync();
         var data = await Repository.QueryAsync(item => true);
         Assert.True(data.Count() == 20);
@@ -106,6 +119,10 @@ public class CrudRepositoryTest
         var numberEqual123 = await Repository.QueryAsync(item => item.Number == 123);
         Assert.True(updateCount == 2);
         Assert.True(numberEqual123.Count() == 2);
+        await Repository.UpdateAsync(new TestQueryEntity { Id = 15, Code = "1111" });
+        await Repository.SaveAsync();
+        var data = await Repository.GetByIdAsync(15);
+        Assert.True(data.Code == "1111");
     }
 
     [Fact, Order(43)]

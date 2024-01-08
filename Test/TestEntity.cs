@@ -16,6 +16,12 @@ public class TestEntity : BaseEntity<int>
     public bool? IsTest { get; set; }
 }
 
+public class TestReturn
+{
+    public string Code { get; set; }
+    public int? Number { get; set; }
+}
+
 public class TestQueryEntity : BaseEntity<int>
 {
     public TestQueryEntity() { }
