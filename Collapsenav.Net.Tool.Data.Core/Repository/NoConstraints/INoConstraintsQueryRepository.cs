@@ -8,8 +8,6 @@ public interface INoConstraintsQueryRepository<T> : INoConstraintsRepository<T>,
     /// <param name="id"></param>
     /// <returns></returns>
     Task<T?> GetByIdAsync<TKey>(TKey id);
-    [Obsolete("统一接口名称, 该方法将被弃用, 使用 QueryAsync 代替")]
-    Task<IEnumerable<T>> QueryDataAsync(IQueryable<T>? query);
     /// <summary>
     /// 根据query进行查询，与直接ToList没啥区别
     /// </summary>

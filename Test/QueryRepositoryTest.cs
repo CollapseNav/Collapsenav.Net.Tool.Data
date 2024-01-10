@@ -26,7 +26,7 @@ public class QueryRepositoryTest
     {
         var datas = await Repository.QueryAsync(item => item.Id < 5);
         Assert.True(datas.Count() == 4);
-        datas = await Repository.QueryDataAsync(Repository.Query().Where(i => i.Id < 5));
+        datas = await Repository.QueryAsync(Repository.Query().Where(i => i.Id < 5));
         Assert.True(datas.Count() == 4);
         datas = await Repository.QueryAsync(Repository.Query().Where(i => i.Id < 5));
         Assert.True(datas.Count() == 4);
