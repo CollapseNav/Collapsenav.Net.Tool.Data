@@ -1,7 +1,13 @@
 using System.Linq.Expressions;
 namespace Collapsenav.Net.Tool.Data;
-public interface INoConstraintsModifyRepository<T> : INoConstraintsWriteRepository<T>
+public interface INoConstraintsModifyRepository<T> : INoConstraintsRepository<T>
 {
+    /// <summary>
+    /// 添加
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    Task<T?> AddAsync(T? entity);
     /// <summary>
     /// 添加
     /// </summary>
@@ -16,12 +22,25 @@ public interface INoConstraintsModifyRepository<T> : INoConstraintsWriteReposito
     /// <returns></returns>
     Task<int> DeleteAsync(Expression<Func<T, bool>>? exp, bool isTrue = false);
     /// <summary>
+    /// 删除
+    /// </summary>
+    /// <param name="id">需要删除的数据id</param>
+    /// <param name="isTrue">是否物理删除，默认为逻辑删除/软删除</param>
+    /// <returns></returns>
+    Task<bool> DeleteAsync<TKey>(TKey? id, bool isTrue = false);
+    /// <summary>
     /// 根据id批量删除
     /// </summary>
     /// <param name="id"></param>
     /// <param name="isTrue">是否物理删除</param>
     /// <returns></returns>
     Task<int> DeleteByIdsAsync<TKey>(IEnumerable<TKey>? id, bool isTrue = false);
+    /// <summary>
+    /// 更新
+    /// </summary>
+    /// <param name="entity">主键有值的实体</param>
+    /// <returns></returns>
+    Task<int> UpdateAsync(T? entity);
     /// <summary>
     /// 批量更新(默认带事务)
     /// </summary>

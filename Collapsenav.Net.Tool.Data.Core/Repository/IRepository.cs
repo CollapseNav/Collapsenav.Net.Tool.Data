@@ -14,7 +14,7 @@ public interface IRepository : IDisposable
     IQueryable<E> QueryWithTrack<E>(Expression<Func<E, bool>>? exp = null) where E : class;
 
 }
-public interface IRepository<T> : INoConstraintsRepository<T>, IRepository where T : IEntity
+public interface IRepository<T> : INoConstraintsRepository<T> where T : IEntity
 {
     GroupJoinResult<T, T2> LeftJoin<T2>(Expression<Func<T, object>> LKey, Expression<Func<T2, object>> RKey) where T2 : class, IEntity;
     GroupJoinResult<T, T2> Join<T2>(Expression<Func<T, object>> LKey, Expression<Func<T2, object>> RKey) where T2 : class, IEntity;

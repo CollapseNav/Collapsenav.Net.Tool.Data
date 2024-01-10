@@ -9,12 +9,10 @@ public static class RepositoryExt
         services
         .AddScoped(typeof(IRepository<>), typeof(Repository<>))
         .AddScoped(typeof(IQueryRepository<>), typeof(QueryRepository<>))
-        .AddScoped(typeof(ICheckExistRepository<>), typeof(ReadRepository<>))
-        .AddScoped(typeof(ICountRepository<>), typeof(ReadRepository<>))
+        .AddScoped(typeof(ICheckExistRepository<>), typeof(QueryRepository<>))
+        .AddScoped(typeof(ICountRepository<>), typeof(QueryRepository<>))
         .AddScoped(typeof(IModifyRepository<>), typeof(ModifyRepository<>))
         .AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>))
-        .AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>))
-        .AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>))
         .AddDefaultIdGenerator()
         ;
         return services;
