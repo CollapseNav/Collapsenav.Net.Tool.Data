@@ -46,4 +46,9 @@ public class CrudRepository<T> : Repository<T>, ICrudRepository<T> where T : cla
         TransManager.Remove(_db);
         base.Dispose(disposing);
     }
+
+    public virtual async Task<IEnumerable<E>> QueryAsync<E>(IQueryable<E>? query)
+    {
+        return await Read.QueryAsync(query);
+    }
 }

@@ -71,15 +71,42 @@ public abstract class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
     }
 }
 
-public abstract class AutoIncrementBaseEntity<TKey> : BaseEntity<TKey>
+public abstract class AutoIncrementBaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public new TKey? Id { get; set; }
+    public TKey? Id { get; set; }
+    public TKey? CreatorId { get; set; }
+    public TKey? LastModifierId { get; set; }
     public override void Init()
     {
         CreationTime = GetNow();
         LastModificationTime = GetNow();
         IsDeleted = false;
         base.Init();
+    }
+    /// <summary>
+    /// 获取主键值
+    /// </summary>
+    public static Func<TKey>? GetKey { get; set; } = null;
+    public override void SetKeyValue(object input)
+    {
+        if (input.GetType() == typeof(TKey))
+            Id = (TKey)input;
+        else
+            Id = (TKey)ConvertKeyValue(input);
+    }
+    public override void SoftDelete()
+    {
+        IsDeleted = true;
+        base.SoftDelete();
+    }
+    public override void InitModify()
+    {
+        LastModificationTime = GetNow();
+        base.InitModify();
+    }
+    public override Type? KeyType()
+    {
+        return typeof(TKey);
     }
 }

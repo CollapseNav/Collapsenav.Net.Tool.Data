@@ -60,4 +60,9 @@ public class QueryRepository<T> : Repository<T>, IQueryRepository<T> where T : c
         page ??= new PageRequest();
         return new PageData<ReturnT>(query == null ? null : await query.Skip(page.Skip).Take(page.Max).ToListAsync(), query == null ? null : await query.CountAsync());
     }
+
+    public virtual async Task<IEnumerable<E>> QueryAsync<E>(IQueryable<E>? query)
+    {
+        return query == null ? Enumerable.Empty<E>() : await query.ToListAsync();
+    }
 }

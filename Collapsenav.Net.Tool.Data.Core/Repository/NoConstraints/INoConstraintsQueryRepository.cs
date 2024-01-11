@@ -14,6 +14,7 @@ public interface INoConstraintsQueryRepository<T> : INoConstraintsRepository<T>,
     /// <param name="query"></param>
     /// <returns></returns>
     Task<IEnumerable<T>> QueryAsync(IQueryable<T>? query);
+    Task<IEnumerable<E>> QueryAsync<E>(IQueryable<E>? query);
     /// <summary>
     /// 根据query进行分页查询
     /// </summary>
