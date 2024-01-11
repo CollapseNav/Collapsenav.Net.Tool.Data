@@ -1,3 +1,4 @@
+using AspnetDbDemo.Controllers;
 using Collapsenav.Net.Tool.Data;
 using Collapsenav.Net.Tool.WebApi;
 using DataDemo.EntityLib;
@@ -5,7 +6,8 @@ using DataDemo.EntityLib;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSqlitePool<EntityContext>("./Data.db");
+builder.Services.AddMariaDb<EntityContext>(new MariaDbConn("localhost", 3306, "DataDemo", "root", "abc@123"));
+// builder.Services.AddSqlitePool<EntityContext>("./Data.db");
 builder.Services.AddDefaultDbContext<EntityContext>();
 builder.Services.AddDefaultSwaggerGen();
 builder.Services.AddRepository();

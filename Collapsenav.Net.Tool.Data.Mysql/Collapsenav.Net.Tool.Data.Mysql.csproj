@@ -9,9 +9,7 @@
         <PackageId>Collapsenav.Net.Tool.Data.Mysql</PackageId>
     </PropertyGroup>
     <ItemGroup>
-        <!-- <ProjectReference Include="..\..\Tool\Collapsenav.Net.Tool\Collapsenav.Net.Tool.csproj"/> -->
         <ProjectReference Include="..\Collapsenav.Net.Tool.Data\Collapsenav.Net.Tool.Data.csproj"/>
-        <ProjectReference Include="..\Collapsenav.Net.Tool.Data.Core\Collapsenav.Net.Tool.Data.Core.csproj"/>
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
         <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.*"/>
