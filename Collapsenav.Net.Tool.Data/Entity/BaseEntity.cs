@@ -48,7 +48,7 @@ public abstract class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
 
     public override void SetKeyValue(object input)
     {
-        if (input.GetType() == typeof(TKey))
+        if (input.GetType().IsType(typeof(TKey)))
             Id = (TKey)input;
         else
             Id = (TKey)ConvertKeyValue(input);
@@ -70,7 +70,6 @@ public abstract class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
         return typeof(TKey);
     }
 }
-
 public abstract class AutoIncrementBaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -84,13 +83,9 @@ public abstract class AutoIncrementBaseEntity<TKey> : BaseEntity, IBaseEntity<TK
         IsDeleted = false;
         base.Init();
     }
-    /// <summary>
-    /// 获取主键值
-    /// </summary>
-    public static Func<TKey>? GetKey { get; set; } = null;
     public override void SetKeyValue(object input)
     {
-        if (input.GetType() == typeof(TKey))
+        if (input.GetType().IsType(typeof(TKey)))
             Id = (TKey)input;
         else
             Id = (TKey)ConvertKeyValue(input);

@@ -39,6 +39,10 @@ public abstract class Entity : IEntity
     public virtual object ConvertKeyValue(object input)
     {
         var keyType = KeyType();
+
+        if (keyType != null && keyType.IsGenericType)
+            keyType = keyType.GenericTypeArguments.First();
+
         var obj = keyType!.Name switch
         {
             nameof(Int32) => int.Parse(input.ToString() ?? string.Empty),
@@ -66,15 +70,31 @@ public abstract class Entity<TKey> : Entity, IEntity<TKey>
 
     public override void SetKeyValue(object input)
     {
-        if (input.GetType() == typeof(TKey))
+        if (input.GetType().IsType(typeof(TKey)))
             Id = (TKey)input;
         else
             KeyProp()?.SetValue(this, ConvertKeyValue(input));
     }
 }
-
-public abstract class AutoIncrementEntity<TKey> : Entity<TKey>
+public abstract class AutoIncrementEntity<TKey> : Entity, IEntity<TKey>
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public new TKey? Id { get; set; }
+    public TKey? Id { get; set; }
+    public override PropertyInfo? KeyProp()
+    {
+        keyProp ??= GetType().GetProperty("Id");
+        return keyProp;
+    }
+    public override Type? KeyType()
+    {
+        return typeof(TKey);
+    }
+
+    public override void SetKeyValue(object input)
+    {
+        if (input.GetType().IsType(typeof(TKey)))
+            Id = (TKey)input;
+        else
+            KeyProp()?.SetValue(this, ConvertKeyValue(input));
+    }
 }

@@ -68,4 +68,48 @@ public class OtherTest
         var entity = new TestModifyAutoEntity();
         Assert.True(entity.KeyProp().PropertyType == typeof(int?));
     }
+
+    [Fact]
+    public void AutoKeyFuncTest()
+    {
+        var entity = new TestModifyAutoEntity();
+        Assert.Null(entity.Id);
+        entity.SetKeyValue(233);
+        Assert.Equal(233, entity.Id);
+        entity.SetKeyValue("233");
+        Assert.Equal(233, entity.Id);
+        entity.SoftDelete();
+        Assert.Null(entity.Id);
+        Assert.True(entity.IsDeleted);
+
+        entity.Init();
+        Assert.False(entity.IsDeleted);
+    }
+    [Fact]
+    public void AutoKeyEntityFuncTest()
+    {
+        var entity = new TestModifyAutoKeyEntity();
+        Assert.Null(entity.Id);
+        entity.SetKeyValue(233);
+        Assert.Equal(233, entity.Id);
+        entity.SetKeyValue("233");
+        Assert.Equal(233, entity.Id);
+        entity.SoftDelete();
+        Assert.Null(entity.Id);
+    }
+    [Fact]
+    public void BaseEntityFuncTest()
+    {
+        var entity = new TestModifyEntity();
+        Assert.Equal(0, entity.Id);
+        entity.SetKeyValue(233);
+        Assert.Equal(233, entity.Id);
+        entity.SetKeyValue("233");
+        Assert.Equal(233, entity.Id);
+        entity.SoftDelete();
+        Assert.True(entity.IsDeleted);
+
+        entity.Init();
+        Assert.False(entity.IsDeleted);
+    }
 }

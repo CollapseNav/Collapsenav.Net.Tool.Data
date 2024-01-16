@@ -50,6 +50,10 @@ public class TestModifyEntity : BaseEntity<int>
     public string Code { get; set; }
     public int? Number { get; set; }
     public bool? IsTest { get; set; }
+    public override void SoftDelete()
+    {
+        base.SoftDelete();
+    }
 }
 
 public class TestNotBaseEntity : Entity
@@ -130,6 +134,11 @@ public class TestModifyAutoKeyEntity : AutoIncrementEntity<int?>
     public string Code { get; set; }
     public int? Number { get; set; }
     public bool? IsTest { get; set; }
+    public override void SoftDelete()
+    {
+        Id = null;
+        base.SoftDelete();
+    }
 }
 
 public class TestModifyAutoEntity : AutoIncrementBaseEntity<int?>
@@ -145,4 +154,9 @@ public class TestModifyAutoEntity : AutoIncrementBaseEntity<int?>
     public string Code { get; set; }
     public int? Number { get; set; }
     public bool? IsTest { get; set; }
+    public override void SoftDelete()
+    {
+        Id = null;
+        base.SoftDelete();
+    }
 }
