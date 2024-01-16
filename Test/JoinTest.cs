@@ -65,6 +65,7 @@ public class JoinTest
     {
         var query = Repository.CreateJoin()
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Number, i => i.Number);
+        query.ForEach(i => { });
         var data = await query
         .Select(item => new
         {
@@ -88,6 +89,7 @@ public class JoinTest
         var query = Repository.CreateJoin()
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data2.Number, i => i.Number);
+        query.ForEach(i => { });
         var data = await query
         .Select(item => new
         {
@@ -115,6 +117,7 @@ public class JoinTest
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data2.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data3.Number, i => i.Number);
+        query.ForEach(i => { });
         var data = await query
         .Select(item => new
         {
@@ -144,6 +147,7 @@ public class JoinTest
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data2.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data3.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data4.Number, i => i.Number);
+        query.ForEach(i => { });
         var data = await query
         .Select(item => new
         {
@@ -176,6 +180,7 @@ public class JoinTest
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data3.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data4.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data5.Number, i => i.Number);
+        query.ForEach(i => { });
         var data = await query
         .Select(item => new
         {
@@ -211,6 +216,7 @@ public class JoinTest
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data4.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data5.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data6.Number, i => i.Number);
+        query.ForEach(i => { });
         var data = await query
         .Select(item => new
         {
@@ -249,6 +255,7 @@ public class JoinTest
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data5.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data6.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data7.Number, i => i.Number);
+        query.ForEach(i => { });
         var data = await query
         .Select(item => new
         {
@@ -289,6 +296,7 @@ public class JoinTest
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data6.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data7.Number, i => i.Number)
         .LeftJoin<TestNotBaseModifyEntity>(i => i.Data8.Number, i => i.Number);
+        query.ForEach(i => { });
         var data = await query
         .Select(item => new
         {
@@ -364,6 +372,7 @@ public class JoinTest
         .Join<TestNotBaseModifyEntity>(i => i.Data6.Number, i => i.Number)
         .Join<TestNotBaseModifyEntity>(i => i.Data7.Number, i => i.Number)
         .Join<TestNotBaseModifyEntity>(i => i.Data8.Number, i => i.Number);
+        query.ForEach(i => { });
         var data = await query
         .Select(item => new
         {
