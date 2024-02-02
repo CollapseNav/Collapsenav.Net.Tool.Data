@@ -72,18 +72,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8> : IQueryable<GroupJ
         var rquery = repo.Query<T9>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9>(repo)
         {
-            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8, T9>
-            {
-                Data1 = x.Data1,
-                Data2 = x.Data2,
-                Data3 = x.Data3,
-                Data4 = x.Data4,
-                Data5 = x.Data5,
-                Data6 = x.Data6,
-                Data7 = x.Data7,
-                Data8 = x.Data8,
-                Data9 = y,
-            })
+            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8, T9>(x) { Data9 = y, })
         };
         return result;
     }
@@ -133,17 +122,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7> : IQueryable<GroupJoinR
         var rquery = repo.Query<T8>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8>(repo)
         {
-            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8>
-            {
-                Data1 = x.Data1,
-                Data2 = x.Data2,
-                Data3 = x.Data3,
-                Data4 = x.Data4,
-                Data5 = x.Data5,
-                Data6 = x.Data6,
-                Data7 = x.Data7,
-                Data8 = y,
-            })
+            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8>(x) { Data8 = y, })
         };
         return result;
     }
@@ -191,16 +170,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6> : IQueryable<GroupJoinResul
         var rquery = repo.Query<T7>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5, T6, T7>(repo)
         {
-            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7>
-            {
-                Data1 = x.Data1,
-                Data2 = x.Data2,
-                Data3 = x.Data3,
-                Data4 = x.Data4,
-                Data5 = x.Data5,
-                Data6 = x.Data6,
-                Data7 = y,
-            })
+            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7>(x) { Data7 = y, })
         };
         return result;
     }
@@ -247,15 +217,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5> : IQueryable<GroupJoinResultIte
         var rquery = repo.Query<T6>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5, T6>(repo)
         {
-            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3, T4, T5, T6>
-            {
-                Data1 = x.Data1,
-                Data2 = x.Data2,
-                Data3 = x.Data3,
-                Data4 = x.Data4,
-                Data5 = x.Data5,
-                Data6 = y,
-            })
+            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3, T4, T5, T6>(x) { Data6 = y, })
         };
         return result;
     }
@@ -301,14 +263,7 @@ public class GroupJoinResult<T1, T2, T3, T4> : IQueryable<GroupJoinResultItem<T1
         var rquery = repo.Query<T5>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5>(repo)
         {
-            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3, T4, T5>
-            {
-                Data1 = x.Data1,
-                Data2 = x.Data2,
-                Data3 = x.Data3,
-                Data4 = x.Data4,
-                Data5 = y,
-            })
+            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3, T4, T5>(x) { Data5 = y, })
         };
         return result;
     }
@@ -353,13 +308,7 @@ public class GroupJoinResult<T1, T2, T3> : IQueryable<GroupJoinResultItem<T1, T2
         var rquery = repo.Query<T4>();
         var result = new GroupJoinResult<T1, T2, T3, T4>(repo)
         {
-            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3, T4>
-            {
-                Data1 = x.Data1,
-                Data2 = x.Data2,
-                Data3 = x.Data3,
-                Data4 = y
-            })
+            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3, T4>(x) { Data4 = y })
         };
         return result;
     }
@@ -403,12 +352,7 @@ public class GroupJoinResult<T1, T2> : IQueryable<GroupJoinResultItem<T1, T2>>
         var rquery = repo.Query<T3>();
         var result = new GroupJoinResult<T1, T2, T3>(repo)
         {
-            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3>
-            {
-                Data1 = x.Data1,
-                Data2 = x.Data2,
-                Data3 = y,
-            })
+            Query = Query.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2, T3>(x) { Data3 = y, })
         };
         return result;
     }
@@ -453,11 +397,7 @@ public class GroupJoinResult<T1> : IQueryable<GroupJoinResultItem<T1>> where T1 
         var rquery = repo.Query<T2>();
         var result = new GroupJoinResult<T1, T2>(repo)
         {
-            Query = lquery.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2>
-            {
-                Data1 = x,
-                Data2 = y
-            })
+            Query = lquery.Join(rquery, LKey, RKey, (x, y) => new GroupJoinResultItem<T1, T2>(new GroupJoinResultItem<T1> { Data1 = x }) { Data2 = y })
         };
         return result;
     }
