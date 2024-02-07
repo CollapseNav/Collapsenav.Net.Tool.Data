@@ -69,7 +69,7 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
     protected object GetKeyValue(object input)
     {
         var keyType = KeyType();
-        return keyType.Name! switch
+        return keyType.Name switch
         {
             nameof(Int32) => int.Parse(input.ToString() ?? string.Empty),
             nameof(Int64) => long.Parse(input.ToString() ?? string.Empty),

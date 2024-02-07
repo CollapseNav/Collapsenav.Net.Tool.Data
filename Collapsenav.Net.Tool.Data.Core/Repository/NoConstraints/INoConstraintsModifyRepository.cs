@@ -1,5 +1,9 @@
 using System.Linq.Expressions;
 namespace Collapsenav.Net.Tool.Data;
+/// <summary>
+/// 无泛型约束的修改仓储
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public interface INoConstraintsModifyRepository<T> : INoConstraintsRepository<T>
 {
     /// <summary>

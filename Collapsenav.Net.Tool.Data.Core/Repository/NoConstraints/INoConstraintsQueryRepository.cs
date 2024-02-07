@@ -1,5 +1,9 @@
 using System.Linq.Expressions;
 namespace Collapsenav.Net.Tool.Data;
+/// <summary>
+/// 无泛型约束的查询仓储
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public interface INoConstraintsQueryRepository<T> : INoConstraintsRepository<T>, INoConstraintsCountRepository<T>, INoConstraintsCheckExistRepository<T>
 {
     /// <summary>
@@ -9,11 +13,15 @@ public interface INoConstraintsQueryRepository<T> : INoConstraintsRepository<T>,
     /// <returns></returns>
     Task<T?> GetByIdAsync<TKey>(TKey id);
     /// <summary>
-    /// 根据query进行查询，与直接ToList没啥区别
+    /// 根据query进行查询
     /// </summary>
     /// <param name="query"></param>
     /// <returns></returns>
     Task<IEnumerable<T>> QueryAsync(IQueryable<T>? query);
+    /// <summary>
+    /// 根据query进行查询
+    /// </summary>
+    /// <param name="query"></param>
     Task<IEnumerable<E>> QueryAsync<E>(IQueryable<E>? query);
     /// <summary>
     /// 根据query进行分页查询

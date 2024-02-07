@@ -1,6 +1,10 @@
 using System.Linq.Expressions;
 using System.Reflection;
 namespace Collapsenav.Net.Tool.Data;
+/// <summary>
+/// 无泛型约束的基础仓储
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public interface INoConstraintsRepository<T> : IRepository
 {
     /// <summary>
@@ -20,21 +24,17 @@ public interface INoConstraintsRepository<T> : IRepository
     /// <summary>
     /// 异步保存
     /// </summary>
-    /// <returns></returns>
     Task<int> SaveAsync();
     /// <summary>
     /// 保存
     /// </summary>
-    /// <returns></returns>
     int Save();
     /// <summary>
     /// 获取主键type
     /// </summary>
-    /// <returns></returns>
     Type? KeyType();
     /// <summary>
     /// 主键属性
     /// </summary>
-    /// <returns></returns>
     PropertyInfo? KeyProp();
 }
