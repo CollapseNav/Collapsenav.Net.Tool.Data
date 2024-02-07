@@ -69,3 +69,5 @@ public interface INoConstraintsQueryRepository<T> : INoConstraintsRepository<T>,
     /// TODO 后续说不定可以将排序等参数与分页参数合并
     Task<PageData<T>> QueryPageAsync<E>(Expression<Func<T, bool>>? exp, Expression<Func<T, E>>? orderBy, bool isAsc = true, PageRequest? page = null);
 }
+
+public interface INoConstraintsQueryRepository<Context, T> : INoConstraintsQueryRepository<T> { }

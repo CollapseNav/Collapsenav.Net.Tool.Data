@@ -8,11 +8,16 @@ public static class RepositoryExt
     {
         services
         .AddScoped(typeof(IRepository<>), typeof(Repository<>))
-        .AddScoped(typeof(IQueryRepository<>), typeof(QueryRepository<>))
+        .AddScoped(typeof(IRepository<,>), typeof(Repository<,>))
         .AddScoped(typeof(ICheckExistRepository<>), typeof(QueryRepository<>))
         .AddScoped(typeof(ICountRepository<>), typeof(QueryRepository<>))
+        .AddScoped(typeof(IQueryRepository<>), typeof(QueryRepository<>))
+        .AddScoped(typeof(IQueryRepository<,>), typeof(QueryRepository<,>))
         .AddScoped(typeof(IModifyRepository<>), typeof(ModifyRepository<>))
+        .AddScoped(typeof(IModifyRepository<,>), typeof(ModifyRepository<,>))
         .AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>))
+        .AddScoped(typeof(ICrudRepository<,>), typeof(CrudRepository<,>))
+        .AddScoped(typeof(ICrudRepository<,,>), typeof(CrudRepository<,,>))
         .AddDefaultIdGenerator()
         ;
         return services;

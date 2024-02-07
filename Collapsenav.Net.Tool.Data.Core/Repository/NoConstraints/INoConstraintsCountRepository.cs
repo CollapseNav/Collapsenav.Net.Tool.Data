@@ -9,3 +9,4 @@ public interface INoConstraintsCountRepository<T> : INoConstraintsRepository<T>
     /// <returns></returns>
     Task<int> CountAsync(Expression<Func<T, bool>>? exp = null);
 }
+public interface INoConstraintsCountRepository<Context, T> : INoConstraintsCountRepository<T> { }
