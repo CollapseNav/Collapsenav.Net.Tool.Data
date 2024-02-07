@@ -4,3 +4,4 @@ namespace Collapsenav.Net.Tool.Data;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public interface IQueryRepository<T> : INoConstraintsQueryRepository<T>, IRepository<T>, ICountRepository<T>, ICheckExistRepository<T> where T : class, IEntity { }
+public interface IQueryRepository<Context, T> : IQueryRepository<T> where T : class, IEntity { }

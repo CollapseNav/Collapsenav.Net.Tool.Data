@@ -38,3 +38,4 @@ public interface INoConstraintsRepository<T> : IRepository
     /// </summary>
     PropertyInfo? KeyProp();
 }
+public interface INoConstraintsRepository<Context, T> : IRepository { }

@@ -60,3 +60,4 @@ public interface INoConstraintsModifyRepository<T> : INoConstraintsRepository<T>
     /// <returns></returns>
     Task<int> UpdateWithoutTransactionAsync(Expression<Func<T, bool>>? where, Expression<Func<T, T>>? entity);
 }
+public interface INoConstraintsModifyRepository<Context, T> : INoConstraintsModifyRepository<T> { }

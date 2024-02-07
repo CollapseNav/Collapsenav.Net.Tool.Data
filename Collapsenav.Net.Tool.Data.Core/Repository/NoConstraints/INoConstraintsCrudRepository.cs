@@ -6,3 +6,4 @@ namespace Collapsenav.Net.Tool.Data;
 public interface INoConstraintsCrudRepository<T> : INoConstraintsModifyRepository<T>, INoConstraintsQueryRepository<T>
 {
 }
+public interface INoConstraintsCrudRepository<Context, T> : INoConstraintsCrudRepository<T> { }

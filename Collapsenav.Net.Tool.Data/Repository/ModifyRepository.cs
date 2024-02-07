@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Z.EntityFramework.Plus;
 
 namespace Collapsenav.Net.Tool.Data;
+public partial class ModifyRepository<Context, T> : ModifyRepository<T>, IModifyRepository<Context, T>
+    where T : class, IEntity, new() where Context : DbContext
+{
+    public ModifyRepository(Context db) : base(db) { }
+}
 public partial class ModifyRepository<T> : Repository<T>, IModifyRepository<T>
     where T : class, IEntity, new()
 {

@@ -44,4 +44,15 @@ public static class DbContextConnExt
         BaseEntity<long?>.GetKey ??= () => SnowFlake.NextId();
         return services;
     }
+
+    public static IServiceCollection AddReadContext<Context>(this IServiceCollection services) where Context : ReadContext
+    {
+        services.AddScoped<ReadContext, Context>();
+        return services;
+    }
+    public static IServiceCollection AddWriteContext<Context>(this IServiceCollection services) where Context : WriteContext
+    {
+        services.AddScoped<WriteContext, Context>();
+        return services;
+    }
 }

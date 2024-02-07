@@ -9,3 +9,4 @@ public interface INoConstraintsCheckExistRepository<T> : INoConstraintsRepositor
     /// <returns></returns>
     Task<bool> IsExistAsync(Expression<Func<T, bool>>? exp);
 }
+public interface INoConstraintsCheckExistRepository<Context, T> : INoConstraintsCheckExistRepository<T> { }

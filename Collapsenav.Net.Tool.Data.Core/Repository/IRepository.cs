@@ -37,3 +37,4 @@ public interface IRepository<T> : INoConstraintsRepository<T> where T : IEntity
     /// <param name="RKey"></param>
     GroupJoinResult<T, T2> Join<T2>(Expression<Func<T, object>> LKey, Expression<Func<T2, object>> RKey) where T2 : class, IEntity;
 }
+public interface IRepository<Context, T> : IRepository<T> where T : IEntity { }
