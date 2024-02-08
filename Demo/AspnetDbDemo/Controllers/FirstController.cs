@@ -19,12 +19,14 @@ public class FirstController : ControllerBase
     private readonly ICrudRepository<FirstEntity> _repository;
     private readonly IModifyRepository<SecondEntity> secRepo;
     private readonly IModifyRepository<ThirdEntity> threpo;
+    private readonly IQueryRepository<RRContext, FirstEntity> readrepo;
 
-    public FirstController(ICrudRepository<FirstEntity> repository, IModifyRepository<SecondEntity> secRepo, IModifyRepository<ThirdEntity> threpo)
+    public FirstController(ICrudRepository<FirstEntity> repository, IModifyRepository<WriteContext, SecondEntity> secRepo, IModifyRepository<ThirdEntity> threpo, IQueryRepository<RRContext, FirstEntity> readrepo)
     {
         _repository = repository;
         this.secRepo = secRepo;
         this.threpo = threpo;
+        this.readrepo = readrepo;
     }
 
     [HttpPost]
@@ -36,15 +38,15 @@ public class FirstController : ControllerBase
     [HttpGet("{id}")]
     public async Task<FirstEntity> GetOne(long? id)
     {
-        return await _repository.GetByIdAsync(id);
+        return await readrepo.GetByIdAsync(id);
     }
     [HttpGet]
     public async Task<IEnumerable<FirstEntity>> GetList([FromQuery] FirstInput input)
     {
-        await _repository.AddAsync(new FirstEntity());
-        await secRepo.AddAsync(new SecondEntity());
-        throw new Exception();
-        await threpo.AddAsync(new ThirdEntity());
+        // await _repository.AddAsync(new FirstEntity());
+        await secRepo.AddAsync(new SecondEntity() { Id = (int)SnowFlake.NextId() });
+        // throw new Exception();
+        // await threpo.AddAsync(new ThirdEntity());
         // return await _repository.Query(item => true)
         // .WhereIf(input.Id.HasValue, item => item.Id == input.Id)
         // .WhereIf(input.Name.NotEmpty(), item => item.Name == input.Name)

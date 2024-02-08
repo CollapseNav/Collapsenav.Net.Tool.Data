@@ -71,4 +71,21 @@ public static class MysqlExt
         return services.AddDbContextPool<T>(builder => builder.UseMySql(connstring, ServerVersion.AutoDetect(connstring), ass == null ? null : m => m.MigrationsAssembly(ass?.GetName().Name)));
 #endif
     }
+
+    public static Action<DbContextOptionsBuilder> GetBuilder(this MariaDbConn conn, Assembly? ass = null)
+    {
+#if NETSTANDARD2_0
+        return builder => builder.UseMySql(conn.GetConnString(), ass == null ? null : m => m.MigrationsAssembly(ass?.GetName().Name));
+#else
+        return builder => builder.UseMySql(conn.GetConnString(), ServerVersion.AutoDetect(conn.GetConnString()), ass == null ? null : m => m.MigrationsAssembly(ass?.GetName().Name));
+#endif
+    }
+    public static Action<DbContextOptionsBuilder> GetBuilder(this MysqlConn conn, Assembly? ass = null)
+    {
+#if NETSTANDARD2_0
+        return builder => builder.UseMySql(conn.GetConnString(), ass == null ? null : m => m.MigrationsAssembly(ass?.GetName().Name));
+#else
+        return builder => builder.UseMySql(conn.GetConnString(), ServerVersion.AutoDetect(conn.GetConnString()), ass == null ? null : m => m.MigrationsAssembly(ass?.GetName().Name));
+#endif
+    }
 }

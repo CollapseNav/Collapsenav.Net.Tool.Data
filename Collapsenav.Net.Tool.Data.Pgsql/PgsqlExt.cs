@@ -35,4 +35,9 @@ public static class PgsqlExt
     {
         return services.AddDbContextPool<T>(builder => builder.UseNpgsql(connstring, ass == null ? null : m => m.MigrationsAssembly(ass?.GetName().Name)));
     }
+
+    public static Action<DbContextOptionsBuilder> GetBuilder(this PgsqlConn conn, Assembly? ass = null)
+    {
+        return builder => builder.UseNpgsql(conn.GetConnString(), ass == null ? null : m => m.MigrationsAssembly(ass?.GetName().Name));
+    }
 }

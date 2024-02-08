@@ -31,4 +31,9 @@ public static class MssqlExt
     {
         return services.AddDbContextPool<T>(builder => builder.UseSqlServer(connstring, ass == null ? null : m => m.MigrationsAssembly(ass?.GetName().Name)));
     }
+
+    public static Action<DbContextOptionsBuilder> GetBuilder(this SqlServerConn conn, Assembly? ass = null)
+    {
+        return builder => builder.UseSqlServer(conn.GetConnString(), ass == null ? null : m => m.MigrationsAssembly(ass?.GetName().Name));
+    }
 }

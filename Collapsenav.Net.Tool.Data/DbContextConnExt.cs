@@ -45,11 +45,49 @@ public static class DbContextConnExt
         return services;
     }
 
+    /// <summary>
+    /// 注册读上下文
+    /// </summary>
+    /// <typeparam name="Context"></typeparam>
+    /// <param name="services"></param>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddReadContext<Context>(this IServiceCollection services, Action<DbContextOptionsBuilder> options) where Context : ReadContext
+    {
+        services.AddDbContext<Context>(options);
+        services.AddReadContext<Context>();
+        return services;
+    }
+    /// <summary>
+    /// 注册写上下文
+    /// </summary>
+    /// <typeparam name="Context"></typeparam>
+    /// <param name="services"></param>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddWriteContext<Context>(this IServiceCollection services, Action<DbContextOptionsBuilder> options) where Context : WriteContext
+    {
+        services.AddDbContext<Context>(options);
+        services.AddWriteContext<Context>();
+        return services;
+    }
+    /// <summary>
+    /// 注册读上下文
+    /// </summary>
+    /// <typeparam name="Context"></typeparam>
+    /// <param name="services"></param>
+    /// <returns></returns>
     public static IServiceCollection AddReadContext<Context>(this IServiceCollection services) where Context : ReadContext
     {
         services.AddScoped<ReadContext, Context>();
         return services;
     }
+    /// <summary>
+    /// 注册写上下文
+    /// </summary>
+    /// <typeparam name="Context"></typeparam>
+    /// <param name="services"></param>
+    /// <returns></returns>
     public static IServiceCollection AddWriteContext<Context>(this IServiceCollection services) where Context : WriteContext
     {
         services.AddScoped<WriteContext, Context>();
