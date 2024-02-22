@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Z.EntityFramework.Plus;
 
@@ -8,15 +7,12 @@ public partial class ModifyRepository<Context, T> : ModifyRepository<T>, IModify
 {
     public ModifyRepository(Context db) : base(db) { }
 }
-public partial class ModifyRepository<T> : Repository<T>, IModifyRepository<T>
+public partial class ModifyRepository<T> : NoConstraintsModifyRepository<T>, IModifyRepository<T>
     where T : class, IEntity, new()
 {
-    public ModifyRepository(DbContext db) : base(db)
-    {
-        TransManager.Add(db);
-    }
+    public ModifyRepository(DbContext db) : base(db) { }
 
-    public virtual async Task<int> AddAsync(IEnumerable<T>? entityList)
+    public override async Task<int> AddAsync(IEnumerable<T>? entityList)
     {
         if (entityList == null)
             return 0;
@@ -25,7 +21,7 @@ public partial class ModifyRepository<T> : Repository<T>, IModifyRepository<T>
         await dbSet.AddRangeAsync(entityList);
         return entityList.Count();
     }
-    public virtual async Task<int> DeleteByIdsAsync<TKey>(IEnumerable<TKey>? id, bool isTrue = false)
+    public override async Task<int> DeleteByIdsAsync<TKey>(IEnumerable<TKey>? id, bool isTrue = false)
     {
         if (id == null)
             return 0;
@@ -48,41 +44,7 @@ public partial class ModifyRepository<T> : Repository<T>, IModifyRepository<T>
             return matches.Count();
         });
     }
-    public virtual async Task<int> DeleteAsync(Expression<Func<T, bool>>? exp, bool isTrue = false)
-    {
-        if (exp == null)
-            return 0;
-        TransManager.CreateTranscation(_db);
-        // TODO 处理软删除的情况
-        if (isTrue)
-        {
-            return await dbSet.Where(exp).DeleteAsync();
-        }
-        else
-        {
-            var type = typeof(T);
-            if (type.IsType<BaseEntity>())
-            {
-                return await dbSet.Where(exp).UpdateAsync(item => new
-                {
-                    IsDeleted = true,
-                    LastModificationTime = DateTime.Now,
-                });
-            }
-        }
-        return 0;
-    }
-    public virtual async Task<int> UpdateAsync(Expression<Func<T, bool>>? where, Expression<Func<T, T>>? entity)
-    {
-        TransManager.CreateTranscation(_db);
-        return where == null ? 0 : await dbSet.Where(where).UpdateAsync(entity);
-    }
-
-    public virtual async Task<int> UpdateWithoutTransactionAsync(Expression<Func<T, bool>>? where, Expression<Func<T, T>>? entity)
-    {
-        return where == null ? 0 : await dbSet.Where(where).UpdateAsync(entity);
-    }
-    public virtual async Task<T?> AddAsync(T? entity)
+    public override async Task<T?> AddAsync(T? entity)
     {
         if (entity == null)
             return null;
@@ -90,7 +52,7 @@ public partial class ModifyRepository<T> : Repository<T>, IModifyRepository<T>
         await dbSet.AddAsync(entity);
         return entity;
     }
-    public virtual async Task<int> UpdateAsync(T? entity)
+    public override async Task<int> UpdateAsync(T? entity)
     {
         if (entity == null)
             return 0;
@@ -100,7 +62,7 @@ public partial class ModifyRepository<T> : Repository<T>, IModifyRepository<T>
         await Task.FromResult("");
         return 1;
     }
-    public virtual async Task<bool> DeleteAsync<TKey>(TKey? id, bool isTrue = false)
+    public override async Task<bool> DeleteAsync<TKey>(TKey? id, bool isTrue = false) where TKey : default
     {
         if (id == null)
             return false;
@@ -116,17 +78,6 @@ public partial class ModifyRepository<T> : Repository<T>, IModifyRepository<T>
         {
             entity.SoftDelete();
             return (await UpdateAsync(entity)) > 0;
-        }
-    }
-    protected override void Dispose(bool disposing)
-    {
-        if (!disposedValue)
-        {
-            if (disposing)
-            {
-                TransManager.Remove(_db);
-            }
-            disposedValue = true;
         }
     }
 }

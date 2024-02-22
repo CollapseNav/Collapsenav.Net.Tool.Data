@@ -4,7 +4,7 @@ namespace Collapsenav.Net.Tool.Data;
 /// 无泛型约束的查询仓储
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public interface INoConstraintsQueryRepository<T> : INoConstraintsRepository<T>, INoConstraintsCountRepository<T>, INoConstraintsCheckExistRepository<T>
+public interface INoConstraintsQueryRepository<T> : INoConstraintsRepository<T>, INoConstraintsCountRepository<T>, INoConstraintsCheckExistRepository<T> where T : class
 {
     /// <summary>
     /// 根据Id查询
@@ -70,4 +70,4 @@ public interface INoConstraintsQueryRepository<T> : INoConstraintsRepository<T>,
     Task<PageData<T>> QueryPageAsync<E>(Expression<Func<T, bool>>? exp, Expression<Func<T, E>>? orderBy, bool isAsc = true, PageRequest? page = null);
 }
 
-public interface INoConstraintsQueryRepository<Context, T> : INoConstraintsQueryRepository<T> { }
+public interface INoConstraintsQueryRepository<Context, T> : INoConstraintsQueryRepository<T> where T : class { }

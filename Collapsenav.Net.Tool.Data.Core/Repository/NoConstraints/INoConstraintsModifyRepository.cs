@@ -4,7 +4,7 @@ namespace Collapsenav.Net.Tool.Data;
 /// 无泛型约束的修改仓储
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public interface INoConstraintsModifyRepository<T> : INoConstraintsRepository<T>
+public interface INoConstraintsModifyRepository<T> : INoConstraintsRepository<T> where T : class
 {
     /// <summary>
     /// 添加
@@ -60,4 +60,4 @@ public interface INoConstraintsModifyRepository<T> : INoConstraintsRepository<T>
     /// <returns></returns>
     Task<int> UpdateWithoutTransactionAsync(Expression<Func<T, bool>>? where, Expression<Func<T, T>>? entity);
 }
-public interface INoConstraintsModifyRepository<Context, T> : INoConstraintsModifyRepository<T> { }
+public interface INoConstraintsModifyRepository<Context, T> : INoConstraintsModifyRepository<T> where T : class { }

@@ -15,14 +15,14 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9> : IQueryable<Gr
     /// <summary>
     /// 求求了，别再联表了
     /// </summary>
-    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9> LeftJoin<T10>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8, T9>, object>> LKey, Expression<Func<T10, object>> RKey) where T10 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9> LeftJoin<T10>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8, T9>, object>> LKey, Expression<Func<T10, object>> RKey) where T10 : class
     {
         throw new Exception("求求了，别再联表了");
     }
     /// <summary>
     /// 求求了，别再联表了
     /// </summary>
-    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9> Join<T10>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8, T9>, object>> LKey, Expression<Func<T10, object>> RKey) where T10 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9> Join<T10>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8, T9>, object>> LKey, Expression<Func<T10, object>> RKey) where T10 : class
     {
         throw new Exception("求求了，别再联表了");
     }
@@ -46,7 +46,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8> : IQueryable<GroupJ
     public Type ElementType => Query.ElementType;
     public Expression Expression => Query.Expression;
     public IQueryProvider Provider => Query.Provider;
-    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9> LeftJoin<T9>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8>, object>> LKey, Expression<Func<T9, object>> RKey) where T9 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9> LeftJoin<T9>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8>, object>> LKey, Expression<Func<T9, object>> RKey) where T9 : class
     {
         var rquery = repo.Query<T9>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9>(repo)
@@ -67,7 +67,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8> : IQueryable<GroupJ
         };
         return result;
     }
-    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9> Join<T9>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8>, object>> LKey, Expression<Func<T9, object>> RKey) where T9 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9> Join<T9>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7, T8>, object>> LKey, Expression<Func<T9, object>> RKey) where T9 : class
     {
         var rquery = repo.Query<T9>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8, T9>(repo)
@@ -97,7 +97,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7> : IQueryable<GroupJoinR
     public Type ElementType => Query.ElementType;
     public Expression Expression => Query.Expression;
     public IQueryProvider Provider => Query.Provider;
-    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8> LeftJoin<T8>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7>, object>> LKey, Expression<Func<T8, object>> RKey) where T8 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8> LeftJoin<T8>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7>, object>> LKey, Expression<Func<T8, object>> RKey) where T8 : class
     {
         var rquery = repo.Query<T8>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8>(repo)
@@ -117,7 +117,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6, T7> : IQueryable<GroupJoinR
         };
         return result;
     }
-    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8> Join<T8>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7>, object>> LKey, Expression<Func<T8, object>> RKey) where T8 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8> Join<T8>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6, T7>, object>> LKey, Expression<Func<T8, object>> RKey) where T8 : class
     {
         var rquery = repo.Query<T8>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5, T6, T7, T8>(repo)
@@ -146,7 +146,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6> : IQueryable<GroupJoinResul
     public Type ElementType => Query.ElementType;
     public Expression Expression => Query.Expression;
     public IQueryProvider Provider => Query.Provider;
-    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7> LeftJoin<T7>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6>, object>> LKey, Expression<Func<T7, object>> RKey) where T7 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7> LeftJoin<T7>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6>, object>> LKey, Expression<Func<T7, object>> RKey) where T7 : class
     {
         var rquery = repo.Query<T7>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5, T6, T7>(repo)
@@ -165,7 +165,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5, T6> : IQueryable<GroupJoinResul
         };
         return result;
     }
-    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7> Join<T7>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6>, object>> LKey, Expression<Func<T7, object>> RKey) where T7 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4, T5, T6, T7> Join<T7>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5, T6>, object>> LKey, Expression<Func<T7, object>> RKey) where T7 : class
     {
         var rquery = repo.Query<T7>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5, T6, T7>(repo)
@@ -194,7 +194,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5> : IQueryable<GroupJoinResultIte
     public Type ElementType => Query.ElementType;
     public Expression Expression => Query.Expression;
     public IQueryProvider Provider => Query.Provider;
-    public GroupJoinResult<T1, T2, T3, T4, T5, T6> LeftJoin<T6>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5>, object>> LKey, Expression<Func<T6, object>> RKey) where T6 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4, T5, T6> LeftJoin<T6>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5>, object>> LKey, Expression<Func<T6, object>> RKey) where T6 : class
     {
         var rquery = repo.Query<T6>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5, T6>(repo)
@@ -212,7 +212,7 @@ public class GroupJoinResult<T1, T2, T3, T4, T5> : IQueryable<GroupJoinResultIte
         };
         return result;
     }
-    public GroupJoinResult<T1, T2, T3, T4, T5, T6> Join<T6>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5>, object>> LKey, Expression<Func<T6, object>> RKey) where T6 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4, T5, T6> Join<T6>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4, T5>, object>> LKey, Expression<Func<T6, object>> RKey) where T6 : class
     {
         var rquery = repo.Query<T6>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5, T6>(repo)
@@ -241,7 +241,7 @@ public class GroupJoinResult<T1, T2, T3, T4> : IQueryable<GroupJoinResultItem<T1
     public Type ElementType => Query.ElementType;
     public Expression Expression => Query.Expression;
     public IQueryProvider Provider => Query.Provider;
-    public GroupJoinResult<T1, T2, T3, T4, T5> LeftJoin<T5>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4>, object>> LKey, Expression<Func<T5, object>> RKey) where T5 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4, T5> LeftJoin<T5>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4>, object>> LKey, Expression<Func<T5, object>> RKey) where T5 : class
     {
         var rquery = repo.Query<T5>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5>(repo)
@@ -258,7 +258,7 @@ public class GroupJoinResult<T1, T2, T3, T4> : IQueryable<GroupJoinResultItem<T1
         };
         return result;
     }
-    public GroupJoinResult<T1, T2, T3, T4, T5> Join<T5>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4>, object>> LKey, Expression<Func<T5, object>> RKey) where T5 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4, T5> Join<T5>(Expression<Func<GroupJoinResultItem<T1, T2, T3, T4>, object>> LKey, Expression<Func<T5, object>> RKey) where T5 : class
     {
         var rquery = repo.Query<T5>();
         var result = new GroupJoinResult<T1, T2, T3, T4, T5>(repo)
@@ -287,7 +287,7 @@ public class GroupJoinResult<T1, T2, T3> : IQueryable<GroupJoinResultItem<T1, T2
     public Type ElementType => Query.ElementType;
     public Expression Expression => Query.Expression;
     public IQueryProvider Provider => Query.Provider;
-    public GroupJoinResult<T1, T2, T3, T4> LeftJoin<T4>(Expression<Func<GroupJoinResultItem<T1, T2, T3>, object>> LKey, Expression<Func<T4, object>> RKey) where T4 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4> LeftJoin<T4>(Expression<Func<GroupJoinResultItem<T1, T2, T3>, object>> LKey, Expression<Func<T4, object>> RKey) where T4 : class
     {
         var rquery = repo.Query<T4>();
         var result = new GroupJoinResult<T1, T2, T3, T4>(repo)
@@ -303,7 +303,7 @@ public class GroupJoinResult<T1, T2, T3> : IQueryable<GroupJoinResultItem<T1, T2
         };
         return result;
     }
-    public GroupJoinResult<T1, T2, T3, T4> Join<T4>(Expression<Func<GroupJoinResultItem<T1, T2, T3>, object>> LKey, Expression<Func<T4, object>> RKey) where T4 : class, IEntity
+    public GroupJoinResult<T1, T2, T3, T4> Join<T4>(Expression<Func<GroupJoinResultItem<T1, T2, T3>, object>> LKey, Expression<Func<T4, object>> RKey) where T4 : class
     {
         var rquery = repo.Query<T4>();
         var result = new GroupJoinResult<T1, T2, T3, T4>(repo)
@@ -332,7 +332,7 @@ public class GroupJoinResult<T1, T2> : IQueryable<GroupJoinResultItem<T1, T2>>
     public Type ElementType => Query.ElementType;
     public Expression Expression => Query.Expression;
     public IQueryProvider Provider => Query.Provider;
-    public GroupJoinResult<T1, T2, T3> LeftJoin<T3>(Expression<Func<GroupJoinResultItem<T1, T2>, object>> LKey, Expression<Func<T3, object>> RKey) where T3 : class, IEntity
+    public GroupJoinResult<T1, T2, T3> LeftJoin<T3>(Expression<Func<GroupJoinResultItem<T1, T2>, object>> LKey, Expression<Func<T3, object>> RKey) where T3 : class
     {
         var rquery = repo.Query<T3>();
         var result = new GroupJoinResult<T1, T2, T3>(repo)
@@ -347,7 +347,7 @@ public class GroupJoinResult<T1, T2> : IQueryable<GroupJoinResultItem<T1, T2>>
         };
         return result;
     }
-    public GroupJoinResult<T1, T2, T3> Join<T3>(Expression<Func<GroupJoinResultItem<T1, T2>, object>> LKey, Expression<Func<T3, object>> RKey) where T3 : class, IEntity
+    public GroupJoinResult<T1, T2, T3> Join<T3>(Expression<Func<GroupJoinResultItem<T1, T2>, object>> LKey, Expression<Func<T3, object>> RKey) where T3 : class
     {
         var rquery = repo.Query<T3>();
         var result = new GroupJoinResult<T1, T2, T3>(repo)
@@ -376,7 +376,7 @@ public class GroupJoinResult<T1> : IQueryable<GroupJoinResultItem<T1>> where T1 
     public Type ElementType => Query.ElementType;
     public Expression Expression => Query.Expression;
     public IQueryProvider Provider => Query.Provider;
-    public GroupJoinResult<T1, T2> LeftJoin<T2>(Expression<Func<T1, object>> LKey, Expression<Func<T2, object>> RKey) where T2 : class, IEntity
+    public GroupJoinResult<T1, T2> LeftJoin<T2>(Expression<Func<T1, object>> LKey, Expression<Func<T2, object>> RKey) where T2 : class
     {
         var lquery = repo.Query<T1>();
         var rquery = repo.Query<T2>();
@@ -391,7 +391,7 @@ public class GroupJoinResult<T1> : IQueryable<GroupJoinResultItem<T1>> where T1 
         };
         return result;
     }
-    public GroupJoinResult<T1, T2> Join<T2>(Expression<Func<T1, object>> LKey, Expression<Func<T2, object>> RKey) where T2 : class, IEntity
+    public GroupJoinResult<T1, T2> Join<T2>(Expression<Func<T1, object>> LKey, Expression<Func<T2, object>> RKey) where T2 : class
     {
         var lquery = repo.Query<T1>();
         var rquery = repo.Query<T2>();

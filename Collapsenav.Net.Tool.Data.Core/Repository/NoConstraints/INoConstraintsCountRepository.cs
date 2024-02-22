@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 namespace Collapsenav.Net.Tool.Data;
-public interface INoConstraintsCountRepository<T> : INoConstraintsRepository<T>
+public interface INoConstraintsCountRepository<T> : INoConstraintsRepository<T> where T : class
 {
     /// <summary>
     /// 统计数量
@@ -9,4 +9,4 @@ public interface INoConstraintsCountRepository<T> : INoConstraintsRepository<T>
     /// <returns></returns>
     Task<int> CountAsync(Expression<Func<T, bool>>? exp = null);
 }
-public interface INoConstraintsCountRepository<Context, T> : INoConstraintsCountRepository<T> { }
+public interface INoConstraintsCountRepository<Context, T> : INoConstraintsCountRepository<T> where T : class { }
