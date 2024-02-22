@@ -5,6 +5,26 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Collapsenav.Net.Tool.Data;
 public static class MysqlExt
 {
+    public static IServiceCollection AddDbContextPool<T>(this IServiceCollection services, MysqlConn conn, Assembly? ass = null) where T : DbContext
+    {
+        services.AddMysqlPool<T>(conn, ass);
+        return services;
+    }
+    public static IServiceCollection AddDbContext<T>(this IServiceCollection services, MysqlConn conn, Assembly? ass = null) where T : DbContext
+    {
+        services.AddMysqlPool<T>(conn, ass);
+        return services;
+    }
+    public static IServiceCollection AddDbContextPool<T>(this IServiceCollection services, MariaDbConn conn, Assembly? ass = null) where T : DbContext
+    {
+        services.AddMariaDbPool<T>(conn, ass);
+        return services;
+    }
+    public static IServiceCollection AddDbContext<T>(this IServiceCollection services, MariaDbConn conn, Assembly? ass = null) where T : DbContext
+    {
+        services.AddMariaDb<T>(conn, ass);
+        return services;
+    }
     public static IServiceCollection AddMysql<T>(this IServiceCollection services, MysqlConn conn, Assembly? ass = null) where T : DbContext
     {
         return services.AddMysql<T>(conn.GetConnString(), ass);

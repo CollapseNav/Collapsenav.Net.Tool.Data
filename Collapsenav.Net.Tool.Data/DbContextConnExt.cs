@@ -5,6 +5,16 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Collapsenav.Net.Tool.Data;
 public static class DbContextConnExt
 {
+    public static IServiceCollection AddDbContextPool<T>(this IServiceCollection services, SqliteConn conn, Assembly? ass = null) where T : DbContext
+    {
+        services.AddSqlitePool<T>(conn, ass);
+        return services;
+    }
+    public static IServiceCollection AddDbContext<T>(this IServiceCollection services, SqliteConn conn, Assembly? ass = null) where T : DbContext
+    {
+        services.AddSqlite<T>(conn, ass);
+        return services;
+    }
     public static IServiceCollection AddSqlite<T>(this IServiceCollection services, SqliteConn conn, Assembly? ass) where T : DbContext
     {
         return services.AddSqlite<T>(conn.GetConnString(), ass);

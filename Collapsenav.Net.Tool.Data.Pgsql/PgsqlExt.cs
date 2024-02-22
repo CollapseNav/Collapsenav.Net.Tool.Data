@@ -5,6 +5,16 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Collapsenav.Net.Tool.Data;
 public static class PgsqlExt
 {
+    public static IServiceCollection AddDbContextPool<T>(this IServiceCollection services, PgsqlConn conn, Assembly? ass = null) where T : DbContext
+    {
+        services.AddPgSqlPool<T>(conn, ass);
+        return services;
+    }
+    public static IServiceCollection AddDbContext<T>(this IServiceCollection services, PgsqlConn conn, Assembly? ass = null) where T : DbContext
+    {
+        services.AddPgSql<T>(conn, ass);
+        return services;
+    }
     public static IServiceCollection AddPgSql<T>(this IServiceCollection services, PgsqlConn conn, Assembly? ass = null) where T : DbContext
     {
         BaseEntity.GetNow = () => DateTime.UtcNow;

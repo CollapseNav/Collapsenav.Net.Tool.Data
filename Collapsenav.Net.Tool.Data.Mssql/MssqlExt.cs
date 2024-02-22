@@ -5,6 +5,16 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Collapsenav.Net.Tool.Data;
 public static class MssqlExt
 {
+    public static IServiceCollection AddDbContextPool<T>(this IServiceCollection services, SqlServerConn conn, Assembly? ass = null) where T : DbContext
+    {
+        services.AddSqlServerPool<T>(conn, ass);
+        return services;
+    }
+    public static IServiceCollection AddDbContext<T>(this IServiceCollection services, SqlServerConn conn, Assembly? ass = null) where T : DbContext
+    {
+        services.AddSqlServer<T>(conn, ass);
+        return services;
+    }
     public static IServiceCollection AddSqlServer<T>(this IServiceCollection services, SqlServerConn conn, Assembly? ass = null) where T : DbContext
     {
         return services.AddSqlServer<T>(conn.GetConnString(), ass);
