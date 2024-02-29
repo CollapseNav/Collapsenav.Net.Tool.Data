@@ -5,7 +5,7 @@ namespace DataDemo.EntityLib;
 /// <summary>
 /// 实体2
 /// </summary>
-public class SecondEntity : BaseEntity<int?>
+public class SecondEntity : BaseEntity<long?>
 {
     public string Name { get; set; }
     public int? Age { get; set; }
