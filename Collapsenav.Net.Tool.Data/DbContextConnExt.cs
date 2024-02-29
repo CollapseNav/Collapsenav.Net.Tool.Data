@@ -103,4 +103,8 @@ public static class DbContextConnExt
         services.AddScoped<WriteContext, Context>();
         return services;
     }
+    public static Action<DbContextOptionsBuilder> GetBuilder(this SqliteConn conn, Assembly? ass = null)
+    {
+        return builder => builder.UseSqlite(conn.GetConnString(), ass == null ? null : m => m.MigrationsAssembly(ass?.GetName().Name));
+    }
 }
