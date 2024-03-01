@@ -18,21 +18,23 @@ public class FirstController : ControllerBase
 {
     private readonly ICrudRepository<FirstEntity> _repository;
     private readonly IModifyRepository<SecondEntity> secRepo;
-    private readonly IModifyRepository<ThirdEntity> threpo;
     private readonly IQueryRepository<RRContext, FirstEntity> readrepo;
+    private readonly INoConstraintsCrudRepository<NoConstraintsThirdEntity> nothird;
 
-    public FirstController(ICrudRepository<FirstEntity> repository, IModifyRepository<WriteContext, SecondEntity> secRepo, IModifyRepository<ThirdEntity> threpo, IQueryRepository<RRContext, FirstEntity> readrepo)
+    public FirstController(ICrudRepository<FirstEntity> repository, IModifyRepository<WriteContext, SecondEntity> secRepo, IQueryRepository<RRContext, FirstEntity> readrepo, INoConstraintsCrudRepository<NoConstraintsThirdEntity> nothird)
     {
         _repository = repository;
         this.secRepo = secRepo;
-        this.threpo = threpo;
         this.readrepo = readrepo;
+        this.nothird = nothird;
     }
 
     [HttpPost]
     public async Task<FirstEntity> CreateEntity(FirstEntity input)
     {
+        input.Name = DateTime.Now.ToDefaultTimeString();
         input = await _repository.AddAsync(input);
+        await nothird.AddAsync(new NoConstraintsThirdEntity() { Name = DateTime.Now.ToDefaultMilliString() });
         return input;
     }
     [HttpGet("{id}")]
@@ -43,6 +45,7 @@ public class FirstController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<FirstEntity>> GetList([FromQuery] FirstInput input)
     {
+        var data = await nothird.QueryAsync();
         // await _repository.AddAsync(new FirstEntity());
         await secRepo.AddAsync(new SecondEntity() { Id = (int)SnowFlake.NextId() });
         // throw new Exception();
