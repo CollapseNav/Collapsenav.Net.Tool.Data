@@ -15,6 +15,22 @@ public class TestEntity : BaseEntity<int>
     public int? Number { get; set; }
     public bool? IsTest { get; set; }
 }
+public class NoConstraintsTestEntity
+{
+    [Key]
+    public int? Id { get; set; }
+    public NoConstraintsTestEntity() { }
+    public NoConstraintsTestEntity(int id, string code, int? number, bool? isTest)
+    {
+        Id = id;
+        Code = code;
+        Number = number;
+        IsTest = isTest;
+    }
+    public string Code { get; set; }
+    public int? Number { get; set; }
+    public bool? IsTest { get; set; }
+}
 
 public class TestReturn
 {
@@ -22,6 +38,22 @@ public class TestReturn
     public int? Number { get; set; }
 }
 
+public class NoConstraintsTestQueryEntity
+{
+    [Key]
+    public int? Id { get; set; }
+    public NoConstraintsTestQueryEntity() { }
+    public NoConstraintsTestQueryEntity(int id, string code, int? number, bool? isTest)
+    {
+        Id = id;
+        Code = code;
+        Number = number;
+        IsTest = isTest;
+    }
+    public string Code { get; set; }
+    public int? Number { get; set; }
+    public bool? IsTest { get; set; }
+}
 public class TestQueryEntity : BaseEntity<int>
 {
     public TestQueryEntity() { }
@@ -54,6 +86,23 @@ public class TestModifyEntity : BaseEntity<int>
     {
         base.SoftDelete();
     }
+}
+
+public class NoConstraintsTestModifyEntity
+{
+    [Key]
+    public int? Id { get; set; }
+    public NoConstraintsTestModifyEntity() { }
+    public NoConstraintsTestModifyEntity(int id, string code, int? number, bool? isTest)
+    {
+        Id = id;
+        Code = code;
+        Number = number;
+        IsTest = isTest;
+    }
+    public string Code { get; set; }
+    public int? Number { get; set; }
+    public bool? IsTest { get; set; }
 }
 
 public class TestNotBaseEntity : Entity
