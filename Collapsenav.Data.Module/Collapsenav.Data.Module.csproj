@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../version.props" />
+  <PropertyGroup>
+    <PackageTags>Tools,EF,Data</PackageTags>
+    <Description>
+      提供基于EF orm的仓储类实现
+    </Description>
+    <Product>Collapsenav.Data.Module</Product>
+    <PackageId>Collapsenav.Data.Module</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../Collapsenav.Module/Collapsenav.Module/Collapsenav.Module.csproj" />
+    <ProjectReference Include="../Collapsenav.Net.Tool.Data/Collapsenav.Net.Tool.Data.csproj" />
+  </ItemGroup>
+</Project>

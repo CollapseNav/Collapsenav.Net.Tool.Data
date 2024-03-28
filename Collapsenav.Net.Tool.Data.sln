@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityLib", "Demo\EntityLib
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspnetDbDemo", "Demo\AspnetDbDemo\AspnetDbDemo.csproj", "{CEEAC079-A81E-4788-93E9-A1100E80E950}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collapsenav.Data.Module", "Collapsenav.Data.Module\Collapsenav.Data.Module.csproj", "{104F4AE2-8113-4255-88E7-EF2020A3D6BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{CEEAC079-A81E-4788-93E9-A1100E80E950}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEEAC079-A81E-4788-93E9-A1100E80E950}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEEAC079-A81E-4788-93E9-A1100E80E950}.Release|Any CPU.Build.0 = Release|Any CPU
+		{104F4AE2-8113-4255-88E7-EF2020A3D6BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{104F4AE2-8113-4255-88E7-EF2020A3D6BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{104F4AE2-8113-4255-88E7-EF2020A3D6BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{104F4AE2-8113-4255-88E7-EF2020A3D6BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F98FB84D-FE7B-4819-A822-69BCC0DAE2E4} = {6495CEAC-C94C-42CA-8937-7AC097CBDEE7}
