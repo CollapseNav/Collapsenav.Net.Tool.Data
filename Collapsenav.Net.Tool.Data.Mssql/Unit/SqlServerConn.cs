@@ -10,13 +10,15 @@ public class SqlServerConn : Conn
 
     public override string ToString()
     {
-        return GetConnString();
+        if (ConnectionString.NotEmpty())
+            return ConnectionString;
+        StringBuilder sb = new();
+        sb.Append($"Data Source = {Source},{Port?.ToString() ?? "1433"}; Database = {DataBase}; Uid = {User}; Pwd = {Pwd};");
+        return sb.ToString();
     }
 
     public override string GetConnString()
     {
-        StringBuilder sb = new();
-        sb.Append($"Data Source = {Source},{Port?.ToString() ?? "1433"}; Database = {DataBase}; Uid = {User}; Pwd = {Pwd};");
-        return sb.ToString();
+        return ToString();
     }
 }

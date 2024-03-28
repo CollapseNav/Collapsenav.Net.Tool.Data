@@ -10,13 +10,15 @@ public class PgsqlConn : Conn
 
     public override string ToString()
     {
-        return GetConnString();
+        if (ConnectionString.NotEmpty())
+            return ConnectionString;
+        StringBuilder sb = new();
+        sb.Append($"Host = {Source}; Port = {Port.ToString()}; Database = {DataBase}; Username = {User}; Password = {Pwd};");
+        return sb.ToString();
     }
 
     public override string GetConnString()
     {
-        StringBuilder sb = new();
-        sb.Append($"Host = {Source}; Port = {Port.ToString()}; Database = {DataBase}; Username = {User}; Password = {Pwd};");
-        return sb.ToString();
+        return ToString();
     }
 }

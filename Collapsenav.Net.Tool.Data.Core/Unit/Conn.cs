@@ -20,6 +20,7 @@ public abstract class Conn
         DataBase = dataBase;
         User = user;
         Pwd = pwd;
+        ConnectionString = null;
     }
 
     /// <summary>
@@ -27,7 +28,11 @@ public abstract class Conn
     /// </summary>
     /// <returns></returns>
     public abstract string GetConnString();
-
+    public void LoadConnectString(string connString)
+    {
+        ConnectionString = connString;
+    }
+    public string? ConnectionString { get; protected set; }
     /// <summary>
     /// 主机
     /// </summary>

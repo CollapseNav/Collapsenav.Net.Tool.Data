@@ -9,13 +9,15 @@ public class MariaDbConn : Conn
     }
     public override string ToString()
     {
-        return GetConnString();
+        if (ConnectionString.NotEmpty())
+            return ConnectionString;
+        StringBuilder sb = new();
+        sb.Append($"Server = {Source}; Port = {Port?.ToString() ?? "3306"}; Database = {DataBase}; Uid = {User}; Pwd = {Pwd};");
+        return sb.ToString();
     }
 
     public override string GetConnString()
     {
-        StringBuilder sb = new();
-        sb.Append($"Server = {Source}; Port = {Port?.ToString() ?? "3306"}; Database = {DataBase}; Uid = {User}; Pwd = {Pwd};");
-        return sb.ToString();
+        return ToString();
     }
 }

@@ -8,7 +8,7 @@ public class SqliteConn : Conn
 
     public override string ToString()
     {
-        return $"Data Source = {Source}";
+        return ConnectionString ?? $"Data Source = {Source}";
     }
 
     public override string GetConnString()
