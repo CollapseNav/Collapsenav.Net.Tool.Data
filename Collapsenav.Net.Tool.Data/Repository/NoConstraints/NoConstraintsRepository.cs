@@ -112,12 +112,12 @@ public class NoConstraintsRepository<T> : INoConstraintsRepository<T> where T : 
         GC.SuppressFinalize(this);
     }
 
-    public virtual GroupJoinResult<T, T2> LeftJoin<T2>(Expression<Func<T, object>> LKey, Expression<Func<T2, object>> RKey) where T2 : class
+    public virtual GroupJoinResult<T, T2> LeftJoin<T2>(Expression<Func<T, object?>> LKey, Expression<Func<T2, object?>> RKey) where T2 : class
     {
         return this.CreateJoin().LeftJoin(LKey, RKey);
     }
 
-    public virtual GroupJoinResult<T, T2> Join<T2>(Expression<Func<T, object>> LKey, Expression<Func<T2, object>> RKey) where T2 : class
+    public virtual GroupJoinResult<T, T2> Join<T2>(Expression<Func<T, object?>> LKey, Expression<Func<T2, object?>> RKey) where T2 : class
     {
         return this.CreateJoin().Join(LKey, RKey);
     }
