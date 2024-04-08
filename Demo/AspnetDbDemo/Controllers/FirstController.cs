@@ -17,16 +17,10 @@ public class FirstInput
 public class FirstController : ControllerBase
 {
     private readonly ICrudRepository<FirstEntity> _repository;
-    private readonly IModifyRepository<SecondEntity> secRepo;
-    private readonly IQueryRepository<RRContext, FirstEntity> readrepo;
-    private readonly INoConstraintsCrudRepository<NoConstraintsThirdEntity> nothird;
 
-    public FirstController(ICrudRepository<FirstEntity> repository, IModifyRepository<WriteContext, SecondEntity> secRepo, IQueryRepository<RRContext, FirstEntity> readrepo, INoConstraintsCrudRepository<NoConstraintsThirdEntity> nothird)
+    public FirstController(ICrudRepository<FirstEntity> repository)
     {
         _repository = repository;
-        this.secRepo = secRepo;
-        this.readrepo = readrepo;
-        this.nothird = nothird;
     }
 
     [HttpPost]
@@ -34,20 +28,17 @@ public class FirstController : ControllerBase
     {
         input.Name = DateTime.Now.ToDefaultTimeString();
         input = await _repository.AddAsync(input);
-        await nothird.AddAsync(new NoConstraintsThirdEntity() { Name = DateTime.Now.ToDefaultMilliString() });
         return input;
     }
     [HttpGet("{id}")]
     public async Task<FirstEntity> GetOne(long? id)
     {
-        return await readrepo.GetByIdAsync(id);
+        return null;
     }
     [HttpGet]
     public async Task<IEnumerable<FirstEntity>> GetList([FromQuery] FirstInput input)
     {
-        var data = await nothird.QueryAsync();
         // await _repository.AddAsync(new FirstEntity());
-        await secRepo.AddAsync(new SecondEntity() { Id = (int)SnowFlake.NextId() });
         // throw new Exception();
         // await threpo.AddAsync(new ThirdEntity());
         // return await _repository.Query(item => true)
@@ -55,7 +46,7 @@ public class FirstController : ControllerBase
         // .WhereIf(input.Name.NotEmpty(), item => item.Name == input.Name)
         // .WhereIf(input.Description.NotEmpty(), item => item.Description == input.Description)
         // .ToListAsync();
-        return null;
+        return await _repository.QueryAsync(i => true);
     }
 
     [HttpPut]

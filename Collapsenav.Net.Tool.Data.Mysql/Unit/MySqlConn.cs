@@ -1,4 +1,6 @@
+using System.Reflection;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace Collapsenav.Net.Tool.Data;
 
@@ -19,5 +21,13 @@ public class MysqlConn : Conn
     public override string GetConnString()
     {
         return ToString();
+    }
+    public Action<DbContextOptionsBuilder> GetBuilder(Assembly? ass = null)
+    {
+#if NETSTANDARD2_0
+        return builder => builder.UseMySql(GetConnString(), ass == null ? null : m => m.MigrationsAssembly(ass?.GetName().Name));
+#else
+        return builder => builder.UseMySql(GetConnString(), ServerVersion.AutoDetect(GetConnString()), ass == null ? null : m => m.MigrationsAssembly(ass?.GetName().Name));
+#endif
     }
 }
