@@ -18,7 +18,7 @@ public class FirstController : ControllerBase
 {
     private readonly ICrudRepository<FirstEntity> _repository;
 
-    public FirstController(ICrudRepository<FirstEntity> repository)
+    public FirstController(ICrudRepository<ReadContext, FirstEntity> repository)
     {
         _repository = repository;
     }

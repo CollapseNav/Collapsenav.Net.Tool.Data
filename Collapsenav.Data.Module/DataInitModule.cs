@@ -1,4 +1,5 @@
-﻿using Collapsenav.Module;
+﻿using System.Reflection;
+using Collapsenav.Module;
 using Collapsenav.Net.Tool;
 using Collapsenav.Net.Tool.Data;
 using Microsoft.EntityFrameworkCore;
@@ -25,22 +26,13 @@ public class DataInitModule : InitModule
             if (connection.ConnectionString.NotEmpty() && connection.DbType != null)
             {
                 var connType = connTypes.FirstOrDefault(i => i.Name.StartsWith(connection.DbType.ToString()!, StringComparison.OrdinalIgnoreCase));
-                var dbcontexts = AppDomain.CurrentDomain.GetTypes<DbContext>().Where(i => !i.IsAbstract).ToList();
+                var dbcontexts = AppDomain.CurrentDomain.GetTypes<DbContext>().ToArray();
                 if (connType is not null)
                 {
                     Conn conn = (Activator.CreateInstance(connType, "") as Conn)!;
                     conn.LoadConnectString(connection.ConnectionString);
-                    var obj = (Action<DbContextOptionsBuilder>)connType.GetMethod("GetBuilder")?.Invoke(conn, new object?[] { null })!;
-                    foreach (var dbcontext in dbcontexts)
-                    {
-                        if (!dbcontext.IsType<WriteContext>() && !dbcontext.IsType<ReadContext>() && dbcontext != typeof(DbContext))
-                        {
-                            var ms = typeof(EntityFrameworkServiceCollectionExtensions).GetMethods();
-                            var addmethod = ms.First(i => i.IsGenericMethod && i.GetParameters().Length > 2 && i.GetParameters()[2].ParameterType == typeof(ServiceLifetime));
-                            addmethod.MakeGenericMethod(dbcontext).Invoke(services, new object?[] { services, obj, null, null });
-                            services.AddScoped(typeof(DbContext), dbcontext);
-                        }
-                    }
+                    var action = (Action<DbContextOptionsBuilder>)connType.GetMethod("GetBuilder")?.Invoke(conn, new object?[] { null })!;
+                    InitDbContext(services, action, dbcontexts);
                 }
             }
         }
@@ -51,6 +43,48 @@ public class DataInitModule : InitModule
         if (hostBuilder is null)
             return;
     }
+    /// <summary>
+    /// 初始化DbContext
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="action"></param>
+    /// <param name="contextTypes"></param>
+    private void InitDbContext(IServiceCollection services, Action<DbContextOptionsBuilder> action, Type[] contextTypes)
+    {
+        contextTypes = contextTypes.Where(type => !type.IsAbstract && type != typeof(DbContext)).ToArray();
+        foreach (var dbcontext in contextTypes)
+        {
+            MethodInfo[]? methods = null;
+            // 尝试注册 WriteContext
+            if (dbcontext.IsType<WriteContext>())
+            {
+                methods = typeof(DbContextConnExt).GetMethods();
+                var addmethod = methods.First(i => i.Name == nameof(DbContextConnExt.AddWriteContext) && i.IsGenericMethod && i.GetParameters().Length == 2);
+                addmethod.MakeGenericMethod(dbcontext).Invoke(services, new object?[] { services, action });
+            }
+            // 尝试注册 ReadContext
+            else if (dbcontext.IsType<ReadContext>())
+            {
+                methods = typeof(DbContextConnExt).GetMethods();
+                var addmethod = methods.First(i => i.Name == nameof(DbContextConnExt.AddReadContext) && i.IsGenericMethod && i.GetParameters().Length == 2);
+                addmethod.MakeGenericMethod(dbcontext).Invoke(services, new object?[] { services, action });
+            }
+            // 尝试注册普通DbContext
+            else
+            {
+                methods = typeof(EntityFrameworkServiceCollectionExtensions).GetMethods();
+                var addmethod = methods.First(i => i.Name == nameof(EntityFrameworkServiceCollectionExtensions.AddDbContext) && i.IsGenericMethod && i.GetParameters().Length > 2 && i.GetParameters()[2].ParameterType == typeof(ServiceLifetime));
+                addmethod.MakeGenericMethod(dbcontext).Invoke(services, new object?[] { services, action, null, null });
+                services.AddScoped(typeof(DbContext), dbcontext);
+            }
+        }
+    }
+    /// TODO: 可能需要调整json配置的格式，使其支持配置读写分离
+    /// <summary>
+    /// 尝试从appsettings.json中获取数据库连接
+    /// </summary>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
     private ConnectNode GetConnection(IConfiguration? configuration = null)
     {
         if (configuration is null)

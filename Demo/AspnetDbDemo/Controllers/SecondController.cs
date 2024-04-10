@@ -18,23 +18,23 @@ public class SecondInput
 public class SecondController : ControllerBase
 {
     private readonly ICrudRepository<SecondEntity> _repository;
-    public SecondController(ICrudRepository<SecondEntity> repository)
+    public SecondController(ICrudRepository<ReadContext, SecondEntity> repository)
     {
         _repository = repository;
     }
 
-    [HttpPost]
-    public async Task<SecondEntity> CreateEntity(SecondEntity input)
-    {
-        input = await _repository.AddAsync(input);
-        await _repository.SaveAsync();
-        return input;
-    }
-    [HttpGet("{id}")]
-    public async Task<SecondEntity> GetOne(long? id)
-    {
-        return await _repository.GetByIdAsync(id);
-    }
+    // [HttpPost]
+    // public async Task<SecondEntity> CreateEntity(SecondEntity input)
+    // {
+    //     input = await _repository.AddAsync(input);
+    //     await _repository.SaveAsync();
+    //     return input;
+    // }
+    // [HttpGet("{id}")]
+    // public async Task<SecondEntity> GetOne(long? id)
+    // {
+    //     return await _repository.GetByIdAsync(id);
+    // }
     [HttpGet]
     public async Task<IEnumerable<SecondEntity>> GetList([FromQuery] SecondInput input)
     {
@@ -44,19 +44,19 @@ public class SecondController : ControllerBase
         .WhereIf(input.Description.NotEmpty(), item => item.Description == input.Description)
         .ToListAsync();
     }
-    [HttpPut]
-    public async Task<int> UpdateEntity(SecondEntity input)
-    {
-        var count = await _repository.UpdateAsync(input);
-        await _repository.SaveAsync();
-        return count;
-    }
+    // [HttpPut]
+    // public async Task<int> UpdateEntity(SecondEntity input)
+    // {
+    //     var count = await _repository.UpdateAsync(input);
+    //     await _repository.SaveAsync();
+    //     return count;
+    // }
 
-    [HttpDelete("{id}")]
-    public async Task<bool> DeleteEntity(long id, [FromQuery] bool trueDel = true)
-    {
-        var flag = await _repository.DeleteAsync(id, trueDel);
-        await _repository.SaveAsync();
-        return flag;
-    }
+    // [HttpDelete("{id}")]
+    // public async Task<bool> DeleteEntity(long id, [FromQuery] bool trueDel = true)
+    // {
+    //     var flag = await _repository.DeleteAsync(id, trueDel);
+    //     await _repository.SaveAsync();
+    //     return flag;
+    // }
 }
