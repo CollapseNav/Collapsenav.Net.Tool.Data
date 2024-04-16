@@ -2,6 +2,7 @@
 using Collapsenav.Module;
 using Collapsenav.Net.Tool;
 using Collapsenav.Net.Tool.Data;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -101,5 +102,10 @@ public class DataInitModule : InitModule
                 conn.DbType = (ConnectionType)Enum.Parse(typeof(ConnectionType), connectionSection[nameof(ConnectNode.DbType)] ?? "Sqlite", true);
         }
         return conn;
+    }
+
+    public override void Use(IApplicationBuilder app, IConfiguration? configuration = null, IHostEnvironment? environment = null)
+    {
+        app.UseAutoCommit();
     }
 }
