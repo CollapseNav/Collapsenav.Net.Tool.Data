@@ -9,7 +9,6 @@
         <PackageId>Collapsenav.Net.Tool.Data</PackageId>
     </PropertyGroup>
     <ItemGroup>
-        <!-- <ProjectReference Include="..\..\Tool\Collapsenav.Net.Tool\Collapsenav.Net.Tool.csproj"/> -->
         <ProjectReference Include="..\Collapsenav.Net.Tool.Data.Core\Collapsenav.Net.Tool.Data.Core.csproj"/>
         <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
