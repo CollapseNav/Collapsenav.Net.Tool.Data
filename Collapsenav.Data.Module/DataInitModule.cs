@@ -12,7 +12,7 @@ namespace Collapsenav.Data.Module;
 
 public class DataInitModule : InitModule
 {
-    public override void Init(IServiceCollection services, IHostBuilder? hostBuilder = null, IConfiguration? configuration = null, IHostEnvironment? environment = null)
+    public virtual void Init(IServiceCollection services, IHostBuilder? hostBuilder = null, IConfiguration? configuration = null, IHostEnvironment? environment = null)
     {
         Init(services, configuration);
         Init(hostBuilder, configuration);
@@ -104,7 +104,7 @@ public class DataInitModule : InitModule
         return conn;
     }
 
-    public override void Use(IApplicationBuilder app, IConfiguration? configuration = null, IHostEnvironment? environment = null)
+    public virtual void Use(IApplicationBuilder app, IConfiguration? configuration = null, IHostEnvironment? environment = null)
     {
         app.UseAutoCommit();
     }
