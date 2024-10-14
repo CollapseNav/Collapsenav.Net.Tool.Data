@@ -13,6 +13,11 @@ public interface INoConstraintsModifyRepository<T> : INoConstraintsRepository<T>
     /// <returns></returns>
     Task<T?> AddAsync(T? entity);
     /// <summary>
+    /// 添加或更新
+    /// </summary>
+    /// <param name="entity"></param>
+    Task<T?> AddOrUpdateAsync(T? entity);
+    /// <summary>
     /// 添加
     /// </summary>
     /// <param name="entityList"></param>

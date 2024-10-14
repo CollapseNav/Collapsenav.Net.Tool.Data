@@ -146,4 +146,19 @@ public class ModifyRepositoryTest
         Assert.NotEmpty(query);
         TransManager.UseAutoCommit(false);
     }
+
+    [Fact, Order(27)]
+    public async Task AddOrUpdateTest()
+    {
+        var newEntity = new TestModifyEntity(111, "23333", 2333, true);
+        await Repository.AddOrUpdateAsync(newEntity);
+        await Repository.SaveAsync();
+        var existedValue = await Repository.Query(i => i.Id == 111).FirstOrDefaultAsync();
+        Assert.Equal("23333", existedValue.Code);
+        existedValue.Code = "33333";
+        await Repository.AddOrUpdateAsync(existedValue);
+        await Repository.SaveAsync();
+        var updatedValue = await Repository.Query(i => i.Id == 111).FirstOrDefaultAsync();
+        Assert.Equal("33333", updatedValue.Code);
+    }
 }

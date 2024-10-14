@@ -21,11 +21,11 @@ public class NoConstraintsRepository<T> : INoConstraintsRepository<T> where T : 
     }
     public virtual IQueryable<T> Query(Expression<Func<T, bool>>? exp = null)
     {
-        return exp == null ? dbSet.AsNoTracking().AsQueryable() : dbSet.AsNoTracking().Where(exp);
+        return dbSet.AsNoTracking().Where(exp ?? (i => true));
     }
     public virtual IQueryable<T> QueryWithTrack(Expression<Func<T, bool>>? exp = null)
     {
-        return exp == null ? dbSet.AsQueryable() : dbSet.Where(exp);
+        return dbSet.Where(exp ?? (i => true));
     }
     public virtual int Save()
     {
@@ -37,7 +37,7 @@ public class NoConstraintsRepository<T> : INoConstraintsRepository<T> where T : 
     public virtual async Task<int> SaveAsync()
     {
         var count = await _db.SaveChangesAsync();
-        ClearTracker();
+        // ClearTracker();
         TransManager.CommitTranscation(_db);
         return count;
     }
@@ -85,14 +85,12 @@ public class NoConstraintsRepository<T> : INoConstraintsRepository<T> where T : 
 
     public virtual IQueryable<E> Query<E>(Expression<Func<E, bool>>? exp = null) where E : class
     {
-        var set = _db.Set<E>();
-        return exp == null ? set.AsQueryable() : set.Where(exp);
+        return _db.Set<E>().AsNoTracking().Where(exp ?? (i => true));
     }
 
     public virtual IQueryable<E> QueryWithTrack<E>(Expression<Func<E, bool>>? exp = null) where E : class
     {
-        var set = _db.Set<E>();
-        return exp == null ? set.AsQueryable() : set.Where(exp);
+        return _db.Set<E>().Where(exp ?? (i => true));
     }
 
     protected virtual void Dispose(bool disposing)

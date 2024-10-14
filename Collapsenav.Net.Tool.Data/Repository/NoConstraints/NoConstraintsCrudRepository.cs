@@ -23,6 +23,7 @@ public class NoConstraintsCrudRepository<T> : NoConstraintsRepository<T>, INoCon
     }
     public virtual async Task<int> AddAsync(IEnumerable<T>? entityList) => await Write.AddAsync(entityList);
     public virtual async Task<T?> AddAsync(T? entity) => await Write.AddAsync(entity);
+    public virtual async Task<T?> AddOrUpdateAsync(T? entity) => await Write.AddOrUpdateAsync(entity);
     public virtual async Task<int> CountAsync(Expression<Func<T, bool>>? exp) => await Read.CountAsync(exp);
     public virtual async Task<int> DeleteAsync(Expression<Func<T, bool>>? exp, bool isTrue = false) => await Write.DeleteAsync(exp, isTrue);
     public virtual async Task<PageData<T>> QueryPageAsync(Expression<Func<T, bool>>? exp, PageRequest? page = null) => await Read.QueryPageAsync(exp, page);

@@ -23,6 +23,21 @@ public partial class NoConstraintsModifyRepository<T> : NoConstraintsRepository<
         await dbSet.AddRangeAsync(entityList);
         return entityList.Count();
     }
+    public virtual async Task<T?> AddOrUpdateAsync(T? entity)
+    {
+        if (entity == null)
+            return null;
+        var existedValue = await dbSet.FindAsync(GetKeyValue(KeyProp().GetValue(entity)));
+        if (existedValue == null)
+            return await AddAsync(entity);
+        else
+        {
+            var entry = _db.Entry(existedValue);
+            entry.State = EntityState.Detached;
+            await UpdateAsync(entity);
+            return entity;
+        }
+    }
     public virtual async Task<int> DeleteByIdsAsync<TKey>(IEnumerable<TKey>? id, bool isTrue = false)
     {
         if (id == null)
