@@ -20,21 +20,5 @@ public interface IRepository : IDisposable
 /// 基础仓储
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public interface IRepository<T> : INoConstraintsRepository<T> where T : class, IEntity
-{
-    // /// <summary>
-    // /// 提供的LeftJoin方法，用于创建GroupJoinResult以支持更多的Join
-    // /// </summary>
-    // /// <typeparam name="T2"></typeparam>
-    // /// <param name="LKey"></param>
-    // /// <param name="RKey"></param>
-    // GroupJoinResult<T, T2> LeftJoin<T2>(Expression<Func<T, object>> LKey, Expression<Func<T2, object>> RKey) where T2 : class, IEntity;
-    // /// <summary>
-    // /// 提供的Join方法，用于创建GroupJoinResult以支持更多的Join
-    // /// </summary>
-    // /// <typeparam name="T2"></typeparam>
-    // /// <param name="LKey"></param>
-    // /// <param name="RKey"></param>
-    // GroupJoinResult<T, T2> Join<T2>(Expression<Func<T, object>> LKey, Expression<Func<T2, object>> RKey) where T2 : class, IEntity;
-}
+public interface IRepository<T> : INoConstraintsRepository<T> where T : class, IEntity { }
 public interface IRepository<Context, T> : IRepository<T> where T : class, IEntity { }
