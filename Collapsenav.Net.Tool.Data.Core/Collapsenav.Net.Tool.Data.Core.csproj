@@ -10,6 +10,8 @@ core基础接口
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\Collapsenav.Net.Tool.Base\Collapsenav.Net.Tool\Collapsenav.Net.Tool.csproj"/>
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
         <!-- <PackageReference Include="Collapsenav.Net.Tool" version="1.4.0"/> -->
     </ItemGroup>
     

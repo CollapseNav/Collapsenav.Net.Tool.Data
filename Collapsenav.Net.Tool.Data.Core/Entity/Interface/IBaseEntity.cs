@@ -1,4 +1,5 @@
 namespace Collapsenav.Net.Tool.Data;
+
 public interface IBaseEntity : IEntity
 {
     /// <summary>
