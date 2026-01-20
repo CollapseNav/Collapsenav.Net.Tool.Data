@@ -2,6 +2,7 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Collapsenav.Net.Tool.Data.Test;
+
 public class DIConfig
 {
     public static ServiceProvider GetProvider()
@@ -11,6 +12,7 @@ public class DIConfig
         .AddDefaultDbContext<TestDbContext>()
         .AddRepository()
         .AddRepository(typeof(ModifyRepository<TestEntity>))
+        .AddScoped<IDB, EFDB<TestDbContext>>()
         .BuildServiceProvider();
     }
     public static ServiceProvider GetNotBaseProvider()
@@ -20,6 +22,7 @@ public class DIConfig
         .AddDefaultDbContext<TestNotBaseDbContext>()
         .AddRepository()
         .AddRepository(typeof(ModifyRepository<TestEntity>))
+        .AddScoped<IDB, EFDB<TestDbContext>>()
         .BuildServiceProvider();
     }
 }

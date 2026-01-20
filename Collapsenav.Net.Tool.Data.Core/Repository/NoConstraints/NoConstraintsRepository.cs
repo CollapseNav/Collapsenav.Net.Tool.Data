@@ -1,44 +1,32 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore;
-
 namespace Collapsenav.Net.Tool.Data;
-public class NoConstraintsRepository<Context, T> : NoConstraintsRepository<T>, INoConstraintsRepository<Context, T> where T : class, IEntity where Context : DbContext
-{
-    public NoConstraintsRepository(Context db) : base(db) { }
-}
+
 public class NoConstraintsRepository<T> : INoConstraintsRepository<T> where T : class
 {
-    protected readonly DbContext _db;
-    protected readonly DbSet<T> dbSet;
+    protected readonly IDB _db;
     protected bool disposedValue;
-
-    public NoConstraintsRepository(DbContext db)
+    public NoConstraintsRepository(IDB db)
     {
         _db = db;
-        dbSet = _db.Set<T>();
     }
     public virtual IQueryable<T> Query(Expression<Func<T, bool>>? exp = null)
     {
-        return dbSet.AsNoTracking().Where(exp ?? (i => true));
-    }
-    public virtual IQueryable<T> QueryWithTrack(Expression<Func<T, bool>>? exp = null)
-    {
-        return dbSet.Where(exp ?? (i => true));
+        return _db.Set<T>().Where(exp ?? (i => true));
     }
     public virtual int Save()
     {
         var count = _db.SaveChanges();
         ClearTracker();
-        TransManager.CommitTranscation(_db);
+        // TransManager.CommitTranscation(_db);
         return count;
     }
     public virtual async Task<int> SaveAsync()
     {
         var count = await _db.SaveChangesAsync();
         // ClearTracker();
-        TransManager.CommitTranscation(_db);
+        // TransManager.CommitTranscation(_db);
         return count;
     }
 
@@ -47,12 +35,12 @@ public class NoConstraintsRepository<T> : INoConstraintsRepository<T> where T : 
     /// </summary>
     private void ClearTracker()
     {
-#if NET6_0_OR_GREATER
-        _db.ChangeTracker.Clear();
-#else
-        var entries = _db.ChangeTracker.Entries();
-        entries.ForEach(item => item.State = EntityState.Detached);
-#endif
+        // #if NET6_0_OR_GREATER
+        //         _db.ChangeTracker.Clear();
+        // #else
+        //         var entries = _db.ChangeTracker.Entries();
+        //         entries.ForEach(item => item.State = EntityState.Detached);
+        // #endif
     }
     public virtual Type KeyType()
     {
@@ -64,8 +52,13 @@ public class NoConstraintsRepository<T> : INoConstraintsRepository<T> where T : 
     public virtual PropertyInfo KeyProp()
     {
         var types = typeof(T).AttrValues<KeyAttribute>();
-        if (types.IsEmpty())
-            throw new Exception("There's No KeyProp");
+        // if (types.IsEmpty())
+        // {
+        //     var key = _db.Model.FindEntityType(typeof(T))?.FindPrimaryKey()?.Properties.FirstOrDefault();
+        //     if (key != null)
+        //         return key.PropertyInfo;
+        //     throw new Exception("There's No KeyProp");
+        // }
         var prop = types.First().Key;
         return prop;
     }
@@ -85,14 +78,8 @@ public class NoConstraintsRepository<T> : INoConstraintsRepository<T> where T : 
 
     public virtual IQueryable<E> Query<E>(Expression<Func<E, bool>>? exp = null) where E : class
     {
-        return _db.Set<E>().AsNoTracking().Where(exp ?? (i => true));
-    }
-
-    public virtual IQueryable<E> QueryWithTrack<E>(Expression<Func<E, bool>>? exp = null) where E : class
-    {
         return _db.Set<E>().Where(exp ?? (i => true));
     }
-
     protected virtual void Dispose(bool disposing)
     {
         if (!disposedValue)
@@ -110,13 +97,13 @@ public class NoConstraintsRepository<T> : INoConstraintsRepository<T> where T : 
         GC.SuppressFinalize(this);
     }
 
-    public virtual GroupJoinResult<T, T2> LeftJoin<T2>(Expression<Func<T, object?>> LKey, Expression<Func<T2, object?>> RKey) where T2 : class
+    public GroupJoinResult<T, T2> LeftJoin<T2>(Expression<Func<T, object?>> LKey, Expression<Func<T2, object?>> RKey) where T2 : class
     {
-        return this.CreateJoin().LeftJoin(LKey, RKey);
+        throw new NotImplementedException();
     }
 
-    public virtual GroupJoinResult<T, T2> Join<T2>(Expression<Func<T, object?>> LKey, Expression<Func<T2, object?>> RKey) where T2 : class
+    public GroupJoinResult<T, T2> Join<T2>(Expression<Func<T, object?>> LKey, Expression<Func<T2, object?>> RKey) where T2 : class
     {
-        return this.CreateJoin().Join(LKey, RKey);
+        throw new NotImplementedException();
     }
 }

@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
 namespace Collapsenav.Net.Tool.Data;
+
 public abstract class Entity : IEntity
 {
     public virtual void Init()
     {
-        Update();
     }
     public virtual void InitModify() { }
     protected PropertyInfo? keyProp;
@@ -63,11 +63,22 @@ public abstract class Entity<TKey> : Entity, IEntity<TKey>
         keyProp ??= GetType().GetProperty("Id");
         return keyProp;
     }
+
+    public override void Init()
+    {
+        if (GetKey != null)
+            Id = GetKey();
+        base.Init();
+    }
     public override Type? KeyType()
     {
         return typeof(TKey);
     }
 
+    /// <summary>
+    /// 获取主键值
+    /// </summary>
+    public static Func<TKey>? GetKey { get; set; } = null;
     public override void SetKeyValue(object input)
     {
         if (input.GetType().IsType(typeof(TKey)))

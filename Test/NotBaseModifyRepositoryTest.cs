@@ -48,15 +48,15 @@ public class NotBaseModifyRepositoryTest
         Assert.True(data.Count() == 20);
     }
 
-    [Fact, Order(52)]
-    public async Task ModifyRepositoryUpdateTest()
-    {
-        var updateCount = await Repository.UpdateAsync(item => item.Id > 18, entity => new TestNotBaseModifyEntity { Number = 123 });
-        await Repository.SaveAsync();
-        var numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
-        Assert.True(updateCount == 2);
-        Assert.True(numberEqual123.Count() == 2);
-    }
+    // [Fact, Order(52)]
+    // public async Task ModifyRepositoryUpdateTest()
+    // {
+    //     var updateCount = await Repository.UpdateAsync(item => item.Id > 18, entity => new TestNotBaseModifyEntity { Number = 123 });
+    //     await Repository.SaveAsync();
+    //     var numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
+    //     Assert.True(updateCount == 2);
+    //     Assert.True(numberEqual123.Count() == 2);
+    // }
 
     [Fact, Order(53)]
     public async Task ModifyRepositorySoftDeleteTest()

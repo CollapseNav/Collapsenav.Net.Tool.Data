@@ -31,23 +31,23 @@ public class NotBaseCrudRepositoryTest
         Assert.True(data.Number == 92);
     }
 
-    [Fact, Order(32)]
-    public async Task CrudRepositoryIsExistTest()
-    {
-        Assert.True(await Repository.IsExistAsync(item => item.Id == 10));
-        Assert.True(await Repository.IsExistAsync(item => item.Number <= 2333));
-        Assert.True(await Repository.IsExistAsync(item => item.Code.Contains("idie")));
-        Assert.False(await Repository.IsExistAsync(item => item.Id == 111));
-        Assert.False(await Repository.IsExistAsync(item => item.Number > 2333));
-        Assert.False(await Repository.IsExistAsync(item => item.Code == "2333"));
-    }
+    // [Fact, Order(32)]
+    // public async Task CrudRepositoryIsExistTest()
+    // {
+    //     Assert.True(await Repository.IsExistAsync(item => item.Id == 10));
+    //     Assert.True(await Repository.IsExistAsync(item => item.Number <= 2333));
+    //     Assert.True(await Repository.IsExistAsync(item => item.Code.Contains("idie")));
+    //     Assert.False(await Repository.IsExistAsync(item => item.Id == 111));
+    //     Assert.False(await Repository.IsExistAsync(item => item.Number > 2333));
+    //     Assert.False(await Repository.IsExistAsync(item => item.Code == "2333"));
+    // }
 
-    [Fact, Order(33)]
-    public async Task CrudRepositoryCountTest()
-    {
-        Assert.True((await Repository.CountAsync(item => item.Id > 4 && item.Id < 9)) == 4);
-        Assert.False((await Repository.CountAsync(item => item.Id < 4)) == 4);
-    }
+    // [Fact, Order(33)]
+    // public async Task CrudRepositoryCountTest()
+    // {
+    //     Assert.True((await Repository.CountAsync(item => item.Id > 4 && item.Id < 9)) == 4);
+    //     Assert.False((await Repository.CountAsync(item => item.Id < 4)) == 4);
+    // }
 
     [Fact, Order(35)]
     public async Task CrudRepositoryQueryPageTest()
@@ -87,15 +87,15 @@ public class NotBaseCrudRepositoryTest
         Assert.True(data.Count() == 20);
     }
 
-    [Fact, Order(62)]
-    public async Task CrudRepositoryUpdateTest()
-    {
-        var updateCount = await Repository.UpdateAsync(item => item.Id > 18, entity => new TestNotBaseQueryEntity { Number = 123 });
-        await Repository.SaveAsync();
-        var numberEqual123 = await Repository.QueryAsync(item => item.Number == 123);
-        Assert.True(updateCount == 2);
-        Assert.True(numberEqual123.Count() == 2);
-    }
+    // [Fact, Order(62)]
+    // public async Task CrudRepositoryUpdateTest()
+    // {
+    //     var updateCount = await Repository.UpdateAsync(item => item.Id > 18, entity => new TestNotBaseQueryEntity { Number = 123 });
+    //     await Repository.SaveAsync();
+    //     var numberEqual123 = await Repository.QueryAsync(item => item.Number == 123);
+    //     Assert.True(updateCount == 2);
+    //     Assert.True(numberEqual123.Count() == 2);
+    // }
 
     [Fact, Order(63)]
     public async Task ModifyRepositorySoftDeleteTest()

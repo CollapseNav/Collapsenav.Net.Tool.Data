@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Collapsenav.Net.Tool.Data.Test;
+
 [TestCaseOrderer("Collapsenav.Net.Tool.Data.Test.TestOrders", "Collapsenav.Net.Tool.Data.Test")]
 [Collection("a")]
 public class JoinTest

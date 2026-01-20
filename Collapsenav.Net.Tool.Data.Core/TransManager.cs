@@ -1,6 +1,4 @@
 using System.Collections.Concurrent;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Collapsenav.Net.Tool.Data;
 
@@ -9,9 +7,9 @@ namespace Collapsenav.Net.Tool.Data;
 /// </summary>
 public class TransManager
 {
-    public static ConcurrentDictionary<DbContext, long> ContextCount { get; private set; } = new();
+    public static ConcurrentDictionary<IDB, long> ContextCount { get; private set; } = new();
 
-    public static ConcurrentDictionary<DbContext, IDbContextTransaction> Trans { get; private set; } = new();
+    // public static ConcurrentDictionary<IDB, IDbContextTransaction> Trans { get; private set; } = new();
     /// <summary>
     /// 是否自动提交
     /// </summary>
@@ -40,7 +38,7 @@ public class TransManager
     /// 注册上下文
     /// </summary>
     /// <param name="context"></param>
-    public static void Add(DbContext context)
+    public static void Add(IDB context)
     {
         // 如果没有开启自动提交, 则该操作失效
         if (!AutoCommit)
@@ -60,15 +58,15 @@ public class TransManager
     /// 当repository销毁时进行移除<br/>
     /// 所有repository销毁时才提交事务
     /// </remarks>
-    public static void Remove(DbContext context)
+    public static void Remove(IDB context)
     {
         // 如果报错则不执行提交事务的操作
         if (HasError)
         {
             if (ContextCount.ContainsKey(context))
                 ContextCount.Pop(context);
-            if (Trans.ContainsKey(context))
-                Trans.Pop(context);
+            // if (Trans.ContainsKey(context))
+            //     Trans.Pop(context);
             return;
         }
         if (ContextCount.ContainsKey(context))
@@ -82,36 +80,39 @@ public class TransManager
 #else
                 ContextCount.Remove(context, out long value);
 #endif
-                if (context.ChangeTracker.HasChanges())
-                    context.SaveChanges();
+                context.SaveChanges();
+                // if (context.ChangeTracker.HasChanges())
+                //     context.SaveChanges();
             }
         }
-        if (Trans.ContainsKey(context))
-        {
-            var trans = Trans.Pop(context);
-            if (trans == null)
-                return;
-            if (AutoCommit)
-                trans.Commit();
-            else
-                trans.Rollback();
-            trans.Dispose();
-        }
+        // if (Trans.ContainsKey(context))
+        // {
+        //     var trans = Trans.Pop(context);
+        //     if (trans == null)
+        //         return;
+        //     if (AutoCommit)
+        //         trans.Commit();
+        //     else
+        //         trans.Rollback();
+        //     trans.Dispose();
+        // }
     }
 
 
-    public static void CreateTranscation(DbContext context)
+    public static void CreateTranscation(IDB context)
     {
-        if (Trans.ContainsKey(context))
-            return;
-        Trans.TryAdd(context, context.Database.BeginTransaction());
+        context.BeginTransaction();
+        // if (Trans.ContainsKey(context))
+        //     return;
+        // Trans.TryAdd(context, context.Database.BeginTransaction());
     }
 
-    public static void CommitTranscation(DbContext context)
+    public static void CommitTranscation(IDB context)
     {
-        var trans = Trans.Pop(context);
-        if (trans == null)
-            return;
-        trans.Commit();
+        context.CommitAsync().Wait();
+        // var trans = Trans.Pop(context);
+        // if (trans == null)
+        //     return;
+        // trans.Commit();
     }
 }

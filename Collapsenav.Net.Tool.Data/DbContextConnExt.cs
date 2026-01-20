@@ -40,20 +40,6 @@ public static class DbContextConnExt
         services.AddScoped<DbContext, T>();
         return services;
     }
-    /// <summary>
-    /// 注册默认id生成
-    /// </summary>
-    /// <remarks>
-    /// 暂时只支持 Guid, Guid?, long, long?
-    /// </remarks>
-    public static IServiceCollection AddDefaultIdGenerator(this IServiceCollection services)
-    {
-        BaseEntity<Guid>.GetKey ??= () => Guid.NewGuid();
-        BaseEntity<Guid?>.GetKey ??= () => Guid.NewGuid();
-        BaseEntity<long>.GetKey ??= () => SnowFlake.NextId();
-        BaseEntity<long?>.GetKey ??= () => SnowFlake.NextId();
-        return services;
-    }
 
     /// <summary>
     /// 注册读上下文

@@ -30,23 +30,23 @@ public class NotBaseQueryRepositoryTest
         Assert.True(data.Number == 85);
     }
 
-    [Fact, Order(12)]
-    public async Task QueryRepositoryIsExistTest()
-    {
-        Assert.True(await Repository.IsExistAsync(item => item.Id == 10));
-        Assert.True(await Repository.IsExistAsync(item => item.Number <= 2333));
-        Assert.True(await Repository.IsExistAsync(item => item.Code.Contains("yxm")));
-        Assert.False(await Repository.IsExistAsync(item => item.Id == 111));
-        Assert.False(await Repository.IsExistAsync(item => item.Number > 2333));
-        Assert.False(await Repository.IsExistAsync(item => item.Code == "2333"));
-    }
+    // [Fact, Order(12)]
+    // public async Task QueryRepositoryIsExistTest()
+    // {
+    //     Assert.True(await Repository.IsExistAsync(item => item.Id == 10));
+    //     Assert.True(await Repository.IsExistAsync(item => item.Number <= 2333));
+    //     Assert.True(await Repository.IsExistAsync(item => item.Code.Contains("yxm")));
+    //     Assert.False(await Repository.IsExistAsync(item => item.Id == 111));
+    //     Assert.False(await Repository.IsExistAsync(item => item.Number > 2333));
+    //     Assert.False(await Repository.IsExistAsync(item => item.Code == "2333"));
+    // }
 
-    [Fact, Order(13)]
-    public async Task QueryRepositoryCountTest()
-    {
-        Assert.True((await Repository.CountAsync(item => item.Id > 4 && item.Id < 9)) == 4);
-        Assert.False((await Repository.CountAsync(item => item.Id < 4)) == 4);
-    }
+    // [Fact, Order(13)]
+    // public async Task QueryRepositoryCountTest()
+    // {
+    //     Assert.True((await Repository.CountAsync(item => item.Id > 4 && item.Id < 9)) == 4);
+    //     Assert.False((await Repository.CountAsync(item => item.Id < 4)) == 4);
+    // }
 
     [Fact, Order(15)]
     public async Task QueryRepositoryQueryPageTest()

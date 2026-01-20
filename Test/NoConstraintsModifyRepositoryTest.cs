@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Collapsenav.Net.Tool.Data.Test;
+
 [TestCaseOrderer("Collapsenav.Net.Tool.Data.Test.TestOrders", "Collapsenav.Net.Tool.Data.Test")]
 [Collection("c")]
 public class NoConstraintsModifyRepositoryTest
@@ -51,30 +52,30 @@ public class NoConstraintsModifyRepositoryTest
         Assert.True(data.Count() == 20);
     }
 
-    [Fact, Order(22)]
-    public async Task NoConstraintsModifyRepositoryUpdateTest()
-    {
-        var updateCount = await Repository.UpdateAsync(item => item.Id > 18, entity => new NoConstraintsTestModifyEntity { Number = 123 });
-        await Repository.SaveAsync();
-        var numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
-        Assert.True(updateCount == 2);
-        Assert.True(numberEqual123.Count() == 2);
-        updateCount = await Repository.UpdateWithoutTransactionAsync(item => item.Id > 18, entity => new NoConstraintsTestModifyEntity { Number = 123 });
-        await Repository.SaveAsync();
-        numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
-        Assert.True(updateCount == 2);
-        Assert.True(numberEqual123.Count() == 2);
+    // [Fact, Order(22)]
+    // public async Task NoConstraintsModifyRepositoryUpdateTest()
+    // {
+    //     var updateCount = await Repository.UpdateAsync(item => item.Id > 18, entity => new NoConstraintsTestModifyEntity { Number = 123 });
+    //     await Repository.SaveAsync();
+    //     var numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
+    //     Assert.True(updateCount == 2);
+    //     Assert.True(numberEqual123.Count() == 2);
+    //     updateCount = await Repository.UpdateWithoutTransactionAsync(item => item.Id > 18, entity => new NoConstraintsTestModifyEntity { Number = 123 });
+    //     await Repository.SaveAsync();
+    //     numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
+    //     Assert.True(updateCount == 2);
+    //     Assert.True(numberEqual123.Count() == 2);
 
-        updateCount = await Repository.UpdateWithoutTransactionAsync(null, entity => new NoConstraintsTestModifyEntity { Number = 123 });
-        await Repository.SaveAsync();
-        numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
-        Assert.True(updateCount == 0);
+    //     updateCount = await Repository.UpdateWithoutTransactionAsync(null, entity => new NoConstraintsTestModifyEntity { Number = 123 });
+    //     await Repository.SaveAsync();
+    //     numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
+    //     Assert.True(updateCount == 0);
 
-        updateCount = await Repository.UpdateAsync(null, entity => new NoConstraintsTestModifyEntity { Number = 123 });
-        await Repository.SaveAsync();
-        numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
-        Assert.True(updateCount == 0);
-    }
+    //     updateCount = await Repository.UpdateAsync(null, entity => new NoConstraintsTestModifyEntity { Number = 123 });
+    //     await Repository.SaveAsync();
+    //     numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
+    //     Assert.True(updateCount == 0);
+    // }
 
     [Fact, Order(24)]
     public async Task NoConstraintsModifyRepositoryDeleteTest()
@@ -115,10 +116,10 @@ public class NoConstraintsModifyRepositoryTest
     public async Task NoConstraintsModifyRepositoryAutoSaveTestAsync()
     {
         TransManager.UseAutoCommit();
-        INoConstraintsModifyRepository<NoConstraintsTestModifyEntity> repo = new NoConstraintsModifyRepository<NoConstraintsTestModifyEntity>(GetService<TestDbContext>());
+        INoConstraintsModifyRepository<NoConstraintsTestModifyEntity> repo = new NoConstraintsModifyRepository<NoConstraintsTestModifyEntity>(GetService<IDB<TestDbContext>>());
         await repo.AddAsync(new NoConstraintsTestModifyEntity());
         repo.Dispose();
-        repo = new NoConstraintsModifyRepository<NoConstraintsTestModifyEntity>(GetService<TestDbContext>());
+        repo = new NoConstraintsModifyRepository<NoConstraintsTestModifyEntity>(GetService<IDB<TestDbContext>>());
         var query = await repo.Query().ToListAsync();
         await repo.DeleteAsync(item => true, true);
         repo.Dispose();

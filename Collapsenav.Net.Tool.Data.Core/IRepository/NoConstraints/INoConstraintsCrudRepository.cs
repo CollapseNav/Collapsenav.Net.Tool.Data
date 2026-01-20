@@ -4,5 +4,3 @@ namespace Collapsenav.Net.Tool.Data;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public interface INoConstraintsCrudRepository<T> : INoConstraintsModifyRepository<T>, INoConstraintsQueryRepository<T> where T : class { }
-public interface INoConstraintsCrudRepository<Context, T> : INoConstraintsCrudRepository<T> where T : class { }
-public interface INoConstraintsCrudRepository<Read, Write, T> : INoConstraintsCrudRepository<T> where T : class { }

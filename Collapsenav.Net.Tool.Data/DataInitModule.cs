@@ -75,8 +75,9 @@ public class DataInitModule : InitModule
             {
                 methods = typeof(EntityFrameworkServiceCollectionExtensions).GetMethods();
                 var addmethod = methods.First(i => i.Name == nameof(EntityFrameworkServiceCollectionExtensions.AddDbContext) && i.IsGenericMethod && i.GetParameters().Length > 2 && i.GetParameters()[2].ParameterType == typeof(ServiceLifetime));
-                addmethod.MakeGenericMethod(dbcontext).Invoke(services, new object?[] { services, action, null, null });
+                addmethod.MakeGenericMethod(dbcontext).Invoke(services, parameters: new object?[] { services, action, ServiceLifetime.Scoped, null });
                 services.AddScoped(typeof(DbContext), dbcontext);
+                services.Where(item => item.Lifetime == ServiceLifetime.Scoped).ToList();
             }
         }
     }
