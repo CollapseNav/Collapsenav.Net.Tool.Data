@@ -18,7 +18,7 @@ public class FirstController : ControllerBase
 {
     private readonly ICrudRepository<FirstEntity> _repository;
 
-    public FirstController(ICrudRepository<ReadContext, FirstEntity> repository)
+    public FirstController(ICrudRepository<FirstEntity> repository)
     {
         _repository = repository;
     }
@@ -50,7 +50,7 @@ public class FirstController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<int> UpdateEntity(FirstEntity input)
+    public async Task<FirstEntity> UpdateEntity(FirstEntity input)
     {
         var count = await _repository.UpdateAsync(input);
         await _repository.SaveAsync();
@@ -58,7 +58,7 @@ public class FirstController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<bool> DeleteEntity(long id, [FromQuery] bool trueDel = true)
+    public async Task<int> DeleteEntity(long id, [FromQuery] bool trueDel = true)
     {
         var flag = await _repository.DeleteAsync(id, trueDel);
         await _repository.SaveAsync();

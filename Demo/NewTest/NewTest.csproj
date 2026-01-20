@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Collapsenav.Net.Tool.Swagger" Version="1.3.0"/>
+    <ProjectReference Include="../../Collapsenav.Data.Module/Collapsenav.Data.Module.csproj" />
+    <ProjectReference Include="../EntityLib/EntityLib.csproj"/>
+  </ItemGroup>
+
+</Project>

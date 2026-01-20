@@ -18,7 +18,7 @@ public class SecondInput
 public class SecondController : ControllerBase
 {
     private readonly ICrudRepository<SecondEntity> _repository;
-    public SecondController(ICrudRepository<ReadContext, SecondEntity> repository)
+    public SecondController(ICrudRepository<SecondEntity> repository)
     {
         _repository = repository;
     }

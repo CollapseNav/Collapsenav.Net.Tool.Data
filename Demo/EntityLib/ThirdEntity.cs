@@ -12,6 +12,12 @@ public class ThirdEntity : BaseEntity<long?>
     public string Name { get; set; }
     public int? Age { get; set; }
     public string Description { get; set; }
+
+    public override void Init()
+    {
+        base.Init();
+        CreationTime = DateTime.Now.AddDays(1);
+    }
 }
 
 [Table("ThirdEntity")]
