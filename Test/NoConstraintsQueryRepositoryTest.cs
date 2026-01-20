@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Collapsenav.Net.Tool.Data.Test;
+
 [TestCaseOrderer("Collapsenav.Net.Tool.Data.Test.TestOrders", "Collapsenav.Net.Tool.Data.Test")]
 [Collection("1")]
 public class NoConstraintsQueryRepositoryTest
@@ -50,7 +51,7 @@ public class NoConstraintsQueryRepositoryTest
         ids = new[] { 2, 6, 8, 1000 };
         data = await Repository.QueryByIdsAsync(ids);
         ids = null;
-        Assert.Empty(await Repository.QueryByIdsAsync(ids));
+        await Assert.ThrowsAsync<ArgumentNullException>(async () => await Repository.QueryByIdsAsync(ids));
 
         int? i = null;
         Assert.Null(await Repository.GetByIdAsync(i));

@@ -49,7 +49,7 @@ public class QueryRepositoryTest
         ids = new[] { 2, 6, 8, 1000 };
         data = await Repository.QueryByIdsAsync(ids);
         ids = null;
-        Assert.Empty(await Repository.QueryByIdsAsync(ids));
+        await Assert.ThrowsAsync<ArgumentNullException>(async () => await Repository.QueryByIdsAsync(ids));
 
         int? i = null;
         Assert.Null(await Repository.GetByIdAsync(i));

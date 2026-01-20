@@ -22,7 +22,7 @@ public class DIConfig
         .AddDefaultDbContext<TestNotBaseDbContext>()
         .AddRepository()
         .AddRepository(typeof(ModifyRepository<TestEntity>))
-        .AddScoped<IDB, EFDB<TestDbContext>>()
+        .AddScoped<IDB, EFDB<TestNotBaseDbContext>>()
         .BuildServiceProvider();
     }
 }

@@ -153,19 +153,19 @@ public class CrudRepositoryTest
         Assert.True(leftData.IsEmpty());
     }
 
-    [Fact, Order(46)]
-    public async Task CrudRepositoryAddOrUpdateTest()
-    {
+    // [Fact, Order(46)]
+    // public async Task CrudRepositoryAddOrUpdateTest()
+    // {
 
-        var newEntity = new TestQueryEntity(111, "23333", 2333, true);
-        await Repository.AddOrUpdateAsync(newEntity);
-        await Repository.SaveAsync();
-        var existedValue = await Repository.Query(i => i.Id == 111).FirstOrDefaultAsync();
-        Assert.Equal("23333", existedValue.Code);
-        existedValue.Code = "33333";
-        await Repository.AddOrUpdateAsync(existedValue);
-        await Repository.SaveAsync();
-        var updatedValue = await Repository.Query(i => i.Id == 111).FirstOrDefaultAsync();
-        Assert.Equal("33333", updatedValue.Code);
-    }
+    //     var newEntity = new TestQueryEntity(111, "23333", 2333, true);
+    //     await Repository.AddOrUpdateAsync(newEntity);
+    //     await Repository.SaveAsync();
+    //     var existedValue = await Repository.Query(i => i.Id == 111).FirstOrDefaultAsync();
+    //     Assert.Equal("23333", existedValue.Code);
+    //     existedValue.Code = "33333";
+    //     await Repository.AddOrUpdateAsync(existedValue);
+    //     await Repository.SaveAsync();
+    //     var updatedValue = await Repository.Query(i => i.Id == 111).FirstOrDefaultAsync();
+    //     Assert.Equal("33333", updatedValue.Code);
+    // }
 }

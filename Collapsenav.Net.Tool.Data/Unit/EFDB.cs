@@ -61,6 +61,8 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
 
     public virtual Task<int> DeleteAsync<T>(Expression<Func<T, bool>>? exp, bool isTrue = false) where T : class
     {
+        if (exp == null)
+            throw new ArgumentNullException(nameof(exp));
         if (isTrue)
         {
             return db.Set<T>().Where(exp).DeleteFromQueryAsync();
@@ -153,12 +155,18 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
             throw new ArgumentNullException(nameof(ids));
         var list = new List<T>();
         foreach (var id in ids)
-            list.Add(await db.FindAsync<T>(id));
+        {
+            var node = await db.FindAsync<T>(id);
+            if (node != null)
+                list.Add(node);
+        }
         return list;
     }
 
     public virtual IQueryable<T> Query<T>(Expression<Func<T, bool>>? exp = null) where T : class
     {
+        if (exp == null)
+            exp = item => true;
         return db.Set<T>().Where(exp);
     }
 
@@ -238,6 +246,8 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
 
     public Task<int> UpdateAsync<T>(Expression<Func<T, bool>>? where, Expression<Func<T, T>>? entity) where T : class
     {
+        if (where == null)
+            throw new ArgumentNullException(nameof(where));
         return db.Set<T>().Where(where).UpdateAsync(entity);
     }
 }

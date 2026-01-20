@@ -63,7 +63,7 @@ public class NotBaseModifyRepositoryTest
     {
         var delCount = await Repository.DeleteAsync(item => item.Id < 11, false);
         await Repository.SaveAsync();
-        Assert.True(delCount == 0);
+        Assert.True(delCount == 10);
         await Repository.DeleteAsync(11, false);
         Repository.Save();
         var leftData = await Read.QueryAsync();

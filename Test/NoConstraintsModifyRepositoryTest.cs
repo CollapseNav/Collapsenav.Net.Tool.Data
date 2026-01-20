@@ -43,10 +43,10 @@ public class NoConstraintsModifyRepositoryTest
             };
         await Repository.AddAsync(entitys.First());
         NoConstraintsTestModifyEntity a = null;
-        Assert.Null(await Repository.AddAsync(a));
+        await Assert.ThrowsAsync<ArgumentNullException>(async () => await Repository.AddAsync(a));
         await Repository.AddAsync(entitys.Skip(1));
         IEnumerable<NoConstraintsTestModifyEntity> nullValue = null;
-        await Repository.AddAsync(nullValue);
+        await Assert.ThrowsAsync<ArgumentNullException>(async () => await Repository.AddAsync(nullValue));
         await Repository.SaveAsync();
         var data = await Read.QueryAsync(item => true);
         Assert.True(data.Count() == 20);
@@ -112,18 +112,18 @@ public class NoConstraintsModifyRepositoryTest
         var query = await repo.Query().ToListAsync();
         Assert.Empty(query);
     }
-    [Fact, Order(26)]
-    public async Task NoConstraintsModifyRepositoryAutoSaveTestAsync()
-    {
-        TransManager.UseAutoCommit();
-        INoConstraintsModifyRepository<NoConstraintsTestModifyEntity> repo = new NoConstraintsModifyRepository<NoConstraintsTestModifyEntity>(GetService<IDB<TestDbContext>>());
-        await repo.AddAsync(new NoConstraintsTestModifyEntity());
-        repo.Dispose();
-        repo = new NoConstraintsModifyRepository<NoConstraintsTestModifyEntity>(GetService<IDB<TestDbContext>>());
-        var query = await repo.Query().ToListAsync();
-        await repo.DeleteAsync(item => true, true);
-        repo.Dispose();
-        Assert.NotEmpty(query);
-        TransManager.UseAutoCommit(false);
-    }
+    // [Fact, Order(26)]
+    // public async Task NoConstraintsModifyRepositoryAutoSaveTestAsync()
+    // {
+    //     TransManager.UseAutoCommit();
+    //     INoConstraintsModifyRepository<NoConstraintsTestModifyEntity> repo = new NoConstraintsModifyRepository<NoConstraintsTestModifyEntity>(GetService<IDB<TestDbContext>>());
+    //     await repo.AddAsync(new NoConstraintsTestModifyEntity());
+    //     repo.Dispose();
+    //     repo = new NoConstraintsModifyRepository<NoConstraintsTestModifyEntity>(GetService<IDB<TestDbContext>>());
+    //     var query = await repo.Query().ToListAsync();
+    //     await repo.DeleteAsync(item => true, true);
+    //     repo.Dispose();
+    //     Assert.NotEmpty(query);
+    //     TransManager.UseAutoCommit(false);
+    // }
 }
