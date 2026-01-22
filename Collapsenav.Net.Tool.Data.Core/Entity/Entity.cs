@@ -6,10 +6,7 @@ namespace Collapsenav.Net.Tool.Data;
 
 public abstract class Entity : IEntity
 {
-    public virtual void Init()
-    {
-    }
-    public virtual void InitModify() { }
+    public virtual void Init() { }
     protected PropertyInfo? keyProp;
     public virtual PropertyInfo? KeyProp()
     {
@@ -17,25 +14,19 @@ public abstract class Entity : IEntity
         keyProp ??= GetType().AttrValues<KeyAttribute>().FirstOrDefault().Key;
         return keyProp;
     }
-
     public virtual Type? KeyType()
     {
         return KeyProp()?.PropertyType;
     }
-
     public virtual void SoftDelete()
     {
         Update();
     }
-    public virtual void Update()
-    {
-        InitModify();
-    }
+    public virtual void Update() { }
     public virtual void SetKeyValue(object input)
     {
         KeyProp()?.SetValue(this, ConvertKeyValue(input));
     }
-
     public virtual object ConvertKeyValue(object input)
     {
         var keyType = KeyType();
@@ -63,7 +54,6 @@ public abstract class Entity<TKey> : Entity, IEntity<TKey>
         keyProp ??= GetType().GetProperty("Id");
         return keyProp;
     }
-
     public override void Init()
     {
         if (GetKey != null)
@@ -74,7 +64,6 @@ public abstract class Entity<TKey> : Entity, IEntity<TKey>
     {
         return typeof(TKey);
     }
-
     /// <summary>
     /// 获取主键值
     /// </summary>

@@ -22,10 +22,10 @@ public abstract class BaseEntity : Entity, IBaseEntity
         base.Init();
     }
 
-    public override void InitModify()
+    public override void Update()
     {
         LastModificationTime = GetNow();
-        base.InitModify();
+        base.Update();
     }
 }
 public abstract class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
@@ -59,10 +59,10 @@ public abstract class BaseEntity<TKey> : BaseEntity, IBaseEntity<TKey>
         base.SoftDelete();
     }
 
-    public override void InitModify()
+    public override void Update()
     {
         LastModificationTime = GetNow();
-        base.InitModify();
+        base.Update();
     }
 
     public override Type? KeyType()
@@ -94,11 +94,6 @@ public abstract class AutoIncrementBaseEntity<TKey> : BaseEntity, IBaseEntity<TK
     {
         IsDeleted = true;
         base.SoftDelete();
-    }
-    public override void InitModify()
-    {
-        LastModificationTime = GetNow();
-        base.InitModify();
     }
     public override Type? KeyType()
     {

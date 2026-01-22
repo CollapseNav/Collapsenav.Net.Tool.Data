@@ -7,10 +7,6 @@ public interface IEntity
     /// </summary>
     void Init();
     /// <summary>
-    /// 修改人(并不一定会有)初始化
-    /// </summary>
-    void InitModify();
-    /// <summary>
     /// 软删除/逻辑删除
     /// </summary>
     void SoftDelete();
