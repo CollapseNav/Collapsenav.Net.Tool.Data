@@ -13,13 +13,13 @@ namespace Collapsenav.Net.Tool.Data.Test;
 public class ModifyRepositoryTest
 {
     protected readonly IServiceProvider Provider;
-    protected readonly IModifyRepository<TestModifyEntity> Repository;
-    protected readonly IQueryRepository<TestModifyEntity> Read;
+    protected readonly IModifyRepository<NoConstraintsTestModifyEntity> Repository;
+    protected readonly IQueryRepository<NoConstraintsTestModifyEntity> Read;
     public ModifyRepositoryTest()
     {
         Provider = DIConfig.GetProvider();
-        Repository = GetService<IModifyRepository<TestModifyEntity>>();
-        Read = GetService<IQueryRepository<TestModifyEntity>>();
+        Repository = GetService<IModifyRepository<NoConstraintsTestModifyEntity>>();
+        Read = GetService<IQueryRepository<NoConstraintsTestModifyEntity>>();
     }
     protected T GetService<T>()
     {
@@ -27,9 +27,9 @@ public class ModifyRepositoryTest
     }
 
     [Fact, Order(21)]
-    public async Task ModifyRepositoryAddTest()
+    public async Task NoConstraintsModifyRepositoryAddTest()
     {
-        var entitys = new List<TestModifyEntity>{
+        var entitys = new List<NoConstraintsTestModifyEntity>{
                 new (11,"23333",2333,true),
                 new (12,"23333",2333,true),
                 new (13,"23333",2333,true),
@@ -42,10 +42,10 @@ public class ModifyRepositoryTest
                 new (20,"23333",2333,true),
             };
         await Repository.AddAsync(entitys.First());
-        TestModifyEntity a = null;
+        NoConstraintsTestModifyEntity a = null;
         await Assert.ThrowsAsync<ArgumentNullException>(async () => await Repository.AddAsync(a));
         await Repository.AddAsync(entitys.Skip(1));
-        IEnumerable<TestModifyEntity> nullValue = null;
+        IEnumerable<NoConstraintsTestModifyEntity> nullValue = null;
         await Assert.ThrowsAsync<ArgumentNullException>(async () => await Repository.AddAsync(nullValue));
         await Repository.SaveAsync();
         var data = await Read.QueryAsync(item => true);
@@ -53,53 +53,32 @@ public class ModifyRepositoryTest
     }
 
     // [Fact, Order(22)]
-    // public async Task ModifyRepositoryUpdateTest()
+    // public async Task NoConstraintsModifyRepositoryUpdateTest()
     // {
-    //     var updateCount = await Repository.UpdateAsync(item => item.Id > 18, entity => new TestModifyEntity { Number = 123 });
+    //     var updateCount = await Repository.UpdateAsync(item => item.Id > 18, entity => new NoConstraintsTestModifyEntity { Number = 123 });
     //     await Repository.SaveAsync();
     //     var numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
     //     Assert.True(updateCount == 2);
     //     Assert.True(numberEqual123.Count() == 2);
-    //     updateCount = await Repository.UpdateWithoutTransactionAsync(item => item.Id > 18, entity => new TestModifyEntity { Number = 123 });
+    //     updateCount = await Repository.UpdateWithoutTransactionAsync(item => item.Id > 18, entity => new NoConstraintsTestModifyEntity { Number = 123 });
     //     await Repository.SaveAsync();
     //     numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
     //     Assert.True(updateCount == 2);
     //     Assert.True(numberEqual123.Count() == 2);
 
-    //     updateCount = await Repository.UpdateWithoutTransactionAsync(null, entity => new TestModifyEntity { Number = 123 });
+    //     updateCount = await Repository.UpdateWithoutTransactionAsync(null, entity => new NoConstraintsTestModifyEntity { Number = 123 });
     //     await Repository.SaveAsync();
     //     numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
     //     Assert.True(updateCount == 0);
 
-    //     updateCount = await Repository.UpdateAsync(null, entity => new TestModifyEntity { Number = 123 });
+    //     updateCount = await Repository.UpdateAsync(null, entity => new NoConstraintsTestModifyEntity { Number = 123 });
     //     await Repository.SaveAsync();
     //     numberEqual123 = await Read.QueryAsync(item => item.Number == 123);
     //     Assert.True(updateCount == 0);
     // }
 
-    [Fact, Order(23)]
-    public async Task ModifyRepositorySoftDeleteTest()
-    {
-        var delCount = await Repository.DeleteAsync(item => item.Id < 11, false);
-        await Assert.ThrowsAsync<ArgumentNullException>(async () => await Repository.DeleteAsync(null, false));
-        await Repository.SaveAsync();
-        Assert.True(delCount == 10);
-        await Repository.DeleteAsync(11, false);
-        int? value = null;
-        await Assert.ThrowsAsync<ArgumentNullException>(async () => await Repository.DeleteAsync(value, false));
-        await Repository.DeleteAsync(10000, false);
-        Repository.Save();
-        await Repository.DeleteByIdsAsync(new[] { 12 }, false);
-        IEnumerable<int> nullList = null;
-        await Assert.ThrowsAsync<ArgumentNullException>(async () => await Repository.DeleteByIdsAsync(nullList, false));
-        Repository.Save();
-        var leftData = await Read.QueryAsync(item => item.IsDeleted != true);
-        Assert.True(leftData.Count() == 8);
-        leftData = await Read.QueryAsync(item => true);
-        Assert.True(leftData.Count() == 20);
-    }
     [Fact, Order(24)]
-    public async Task ModifyRepositoryDeleteTest()
+    public async Task NoConstraintsModifyRepositoryDeleteTest()
     {
         var delCount = await Repository.DeleteAsync(item => item.Id < 11, true);
         await Repository.SaveAsync();
@@ -114,7 +93,7 @@ public class ModifyRepositoryTest
 
 
     [Fact, Order(25)]
-    public async Task ModifyRepositoryDeleteAllTest()
+    public async Task NoConstraintsModifyRepositoryDeleteAllTest()
     {
         var delCount = await Repository.DeleteAsync(item => true, true);
         await Repository.SaveAsync();
@@ -124,42 +103,27 @@ public class ModifyRepositoryTest
     }
 
     [Fact, Order(26)]
-    public async Task ModifyRepositoryAutoSaveRollBackTestAsync()
+    public async Task NoConstraintsModifyRepositoryAutoSaveRollBackTestAsync()
     {
-        var repo = GetService<IModifyRepository<TestModifyEntity>>();
-        await repo.AddAsync(new TestModifyEntity());
+        var repo = GetService<IModifyRepository<NoConstraintsTestModifyEntity>>();
+        await repo.AddAsync(new NoConstraintsTestModifyEntity());
         repo.Dispose();
-        repo = GetService<IModifyRepository<TestModifyEntity>>();
+        repo = GetService<IModifyRepository<NoConstraintsTestModifyEntity>>();
         var query = await repo.Query().ToListAsync();
         Assert.Empty(query);
     }
     // [Fact, Order(26)]
-    // public async Task ModifyRepositoryAutoSaveTestAsync()
+    // public async Task NoConstraintsModifyRepositoryAutoSaveTestAsync()
     // {
     //     TransManager.UseAutoCommit();
-    //     IModifyRepository<TestModifyEntity> repo = new ModifyRepository<TestModifyEntity>(GetService<IDB<TestDbContext>>());
-    //     await repo.AddAsync(new TestModifyEntity());
+    //     IModifyRepository<NoConstraintsTestModifyEntity> repo = new NoConstraintsModifyRepository<NoConstraintsTestModifyEntity>(GetService<IDB<TestDbContext>>());
+    //     await repo.AddAsync(new NoConstraintsTestModifyEntity());
     //     repo.Dispose();
-    //     repo = new ModifyRepository<TestModifyEntity>(GetService<IDB<TestDbContext>>());
+    //     repo = new NoConstraintsModifyRepository<NoConstraintsTestModifyEntity>(GetService<IDB<TestDbContext>>());
     //     var query = await repo.Query().ToListAsync();
     //     await repo.DeleteAsync(item => true, true);
     //     repo.Dispose();
     //     Assert.NotEmpty(query);
     //     TransManager.UseAutoCommit(false);
-    // }
-
-    // [Fact, Order(27)]
-    // public async Task AddOrUpdateTest()
-    // {
-    //     var newEntity = new TestModifyEntity(111, "23333", 2333, true);
-    //     await Repository.AddOrUpdateAsync(newEntity);
-    //     await Repository.SaveAsync();
-    //     var existedValue = await Repository.Query(i => i.Id == 111).FirstOrDefaultAsync();
-    //     Assert.Equal("23333", existedValue.Code);
-    //     existedValue.Code = "33333";
-    //     await Repository.AddOrUpdateAsync(existedValue);
-    //     await Repository.SaveAsync();
-    //     var updatedValue = await Repository.Query(i => i.Id == 111).FirstOrDefaultAsync();
-    //     Assert.Equal("33333", updatedValue.Code);
     // }
 }

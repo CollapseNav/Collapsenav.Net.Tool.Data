@@ -25,14 +25,14 @@ public interface IDB
     /// <typeparam name="T"></typeparam>
     /// <param name="data"></param>
     /// <returns></returns>
-    T AddOrUpdate<T>(T? data) where T : class;
+    (T entity, bool isNew) AddOrUpdate<T>(T? data) where T : class;
     /// <summary>
     /// 添加或更新
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="data"></param>
     /// <returns></returns>
-    Task<T> AddOrUpdateAsync<T>(T? data) where T : class;
+    Task<(T entity, bool isNew)> AddOrUpdateAsync<T>(T? data) where T : class;
     /// <summary>
     /// 批量添加
     /// </summary>

@@ -25,8 +25,6 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
     {
         if (data == null)
             throw new ArgumentNullException(nameof(data));
-        if (data is IEntity entity)
-            entity.Init();
         await db.AddAsync(data);
         return data;
     }
@@ -35,10 +33,6 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
     {
         if (datas == null)
             throw new ArgumentNullException(nameof(datas));
-        if (datas.First() is IEntity)
-        {
-            (datas as IEnumerable<IEntity>).ForEach(item => item.Init());
-        }
         await db.AddRangeAsync(datas);
         return datas;
     }
@@ -51,7 +45,7 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
     public virtual Task CommitAsync()
     {
         db.Database.CommitTransaction();
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 
     public virtual int Delete<T>(Expression<Func<T, bool>>? exp, bool isTrue = false) where T : class
@@ -63,20 +57,7 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
     {
         if (exp == null)
             throw new ArgumentNullException(nameof(exp));
-        if (isTrue)
-        {
-            return db.Set<T>().Where(exp).DeleteFromQueryAsync();
-        }
-        else
-        {
-            var list = db.Set<T>().Where(exp).ToList();
-            if (list.First() is IEntity entity)
-            {
-                (list as IEnumerable<IEntity>).ForEach(item => item.SoftDelete());
-            }
-            db.UpdateRange(list);
-            return Task.FromResult(list.Count);
-        }
+        return db.Set<T>().Where(exp).DeleteFromQueryAsync();
     }
 
     public virtual int DeleteById<T, ID>(ID? id, bool isTrue = false) where T : class
@@ -96,16 +77,7 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
         var data = await db.Set<T>().FindAsync(id);
         if (data == null)
             return 0;
-        if (isTrue)
-        {
-            db.Remove(data);
-        }
-        else
-        {
-            if (data is IEntity entity)
-                entity.SoftDelete();
-            db.Update(data);
-        }
+        db.Remove(data);
         return 1;
     }
 
@@ -120,16 +92,7 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
             if (data == null)
                 continue;
             sum++;
-            if (isTrue)
-            {
-                db.Remove(data);
-            }
-            else
-            {
-                if (data is IEntity entity)
-                    entity.SoftDelete();
-                db.Update(data);
-            }
+            db.Remove(data);
         }
         return sum;
     }
@@ -172,7 +135,7 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
 
     public virtual void Rollback()
     {
-        throw new NotImplementedException();
+        db.Database.RollbackTransaction();
     }
 
     public virtual int SaveChanges()
@@ -194,8 +157,6 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
     {
         if (data == null)
             throw new ArgumentNullException(nameof(data));
-        if (data is IEntity entity)
-            entity.Update();
         db.Update(data);
         return data;
     }
@@ -204,10 +165,6 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
     {
         if (data == null)
             throw new ArgumentNullException(nameof(data));
-        if (data.First() is IEntity)
-        {
-            (data as IEnumerable<IEntity>).ForEach(item => item.Update());
-        }
         db.BulkUpdate(data);
         return data;
     }
@@ -216,8 +173,6 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
     {
         if (data == null)
             throw new ArgumentNullException(nameof(data));
-        if (data is IEntity entity)
-            entity.Update();
         db.Update(data);
         return Task.FromResult(data);
     }
@@ -226,22 +181,35 @@ public class EFDB<Context> : IDB<Context> where Context : DbContext
     {
         if (data == null)
             throw new ArgumentNullException(nameof(data));
-        if (data.First() is IEntity)
-        {
-            (data as IEnumerable<IEntity>).ForEach(item => item.Update());
-        }
         db.BulkUpdate(data);
         return Task.FromResult(data);
     }
 
-    public T AddOrUpdate<T>(T? data) where T : class
+    public (T entity, bool isNew) AddOrUpdate<T>(T? data) where T : class
     {
-        throw new NotImplementedException();
+        return AddOrUpdateAsync(data).Result;
     }
 
-    public Task<T> AddOrUpdateAsync<T>(T? data) where T : class
+    public virtual async Task<(T entity, bool isNew)> AddOrUpdateAsync<T>(T? data) where T : class
     {
-        throw new NotImplementedException();
+        if (data == null)
+            throw new ArgumentNullException(nameof(data));
+        var key = db.Model.FindEntityType(typeof(T))?.FindPrimaryKey()?.Properties.FirstOrDefault();
+        if (key?.PropertyInfo != null)
+        {
+            var keyValue = key.PropertyInfo.GetValue(data);
+            if (keyValue != null)
+            {
+                var existing = await db.FindAsync(typeof(T), keyValue);
+                if (existing != null)
+                {
+                    db.Entry(existing).CurrentValues.SetValues(data);
+                    return ((T)existing, false);
+                }
+            }
+        }
+        await db.AddAsync(data);
+        return (data, true);
     }
 
     public Task<int> UpdateAsync<T>(Expression<Func<T, bool>>? where, Expression<Func<T, T>>? entity) where T : class

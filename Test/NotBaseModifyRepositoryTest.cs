@@ -11,13 +11,13 @@ namespace Collapsenav.Net.Tool.Data.Test;
 public class NotBaseModifyRepositoryTest
 {
     protected readonly IServiceProvider Provider;
-    protected readonly IModifyRepository<TestNotBaseModifyEntity> Repository;
-    protected readonly IQueryRepository<TestNotBaseModifyEntity> Read;
+    protected readonly IEntityModifyRepository<TestNotBaseModifyEntity> Repository;
+    protected readonly IEntityQueryRepository<TestNotBaseModifyEntity> Read;
     public NotBaseModifyRepositoryTest()
     {
         Provider = DIConfig.GetNotBaseProvider();
-        Repository = GetService<IModifyRepository<TestNotBaseModifyEntity>>();
-        Read = GetService<IQueryRepository<TestNotBaseModifyEntity>>();
+        Repository = GetService<IEntityModifyRepository<TestNotBaseModifyEntity>>();
+        Read = GetService<IEntityQueryRepository<TestNotBaseModifyEntity>>();
     }
     protected T GetService<T>()
     {

@@ -17,8 +17,8 @@ public class SecondInput
 [Route("[controller]")]
 public class SecondController : ControllerBase
 {
-    private readonly ICrudRepository<SecondEntity> _repository;
-    public SecondController(ICrudRepository<SecondEntity> repository)
+    private readonly IEntityCrudRepository<SecondEntity> _repository;
+    public SecondController(IEntityCrudRepository<SecondEntity> repository)
     {
         _repository = repository;
     }

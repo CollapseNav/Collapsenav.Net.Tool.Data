@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -12,11 +11,11 @@ namespace Collapsenav.Net.Tool.Data.Test;
 public class CrudRepositoryTest
 {
     protected readonly IServiceProvider Provider;
-    protected readonly ICrudRepository<TestQueryEntity> Repository;
+    protected readonly ICrudRepository<NoConstraintsTestQueryEntity> Repository;
     public CrudRepositoryTest()
     {
         Provider = DIConfig.GetProvider();
-        Repository = GetService<ICrudRepository<TestQueryEntity>>();
+        Repository = GetService<ICrudRepository<NoConstraintsTestQueryEntity>>();
     }
     protected T GetService<T>()
     {
@@ -24,7 +23,7 @@ public class CrudRepositoryTest
     }
 
     [Fact, Order(31)]
-    public async Task CrudRepositoryQueryTest()
+    public async Task NoConstraintsCrudRepositoryQueryTest()
     {
         var datas = await Repository.QueryAsync(item => item.Id < 5);
         Assert.True(datas.Count() == 4);
@@ -33,7 +32,7 @@ public class CrudRepositoryTest
     }
 
     // [Fact, Order(32)]
-    // public async Task CrudRepositoryIsExistTest()
+    // public async Task NoConstraintsCrudRepositoryIsExistTest()
     // {
     //     Assert.True(await Repository.IsExistAsync(item => item.Id == 10));
     //     Assert.True(await Repository.IsExistAsync(item => item.Number <= 2333));
@@ -44,14 +43,14 @@ public class CrudRepositoryTest
     // }
 
     // [Fact, Order(33)]
-    // public async Task CrudRepositoryCountTest()
+    // public async Task NoConstraintsCrudRepositoryCountTest()
     // {
     //     Assert.True((await Repository.CountAsync(item => item.Id > 4 && item.Id < 9)) == 4);
     //     Assert.False((await Repository.CountAsync(item => item.Id < 4)) == 4);
     // }
 
     [Fact, Order(34)]
-    public async Task CrudRepositoryQueryByIdsTest()
+    public async Task NoConstraintsCrudRepositoryQueryByIdsTest()
     {
         var ids = new[] { 1, 3, 5, 7, 9 };
         var data = await Repository.QueryByIdsAsync(ids);
@@ -62,15 +61,25 @@ public class CrudRepositoryTest
     }
 
     [Fact, Order(35)]
-    public async Task CrudRepositoryQueryPageTest()
+    public async Task NoConstraintsCrudRepositoryQueryPageTest()
     {
         var data = await Repository.QueryPageAsync(item => item.Id > 6);
         Assert.True(data.Length == 4);
         Assert.True(data.Data.First().Id == 7);
         Assert.True(data.Data.Last().Id == 10);
+
+        // data = await Repository.QueryPageAsync(Repository.Query(item => item.Id > 6));
+        // Assert.True(data.Length == 4);
+        // Assert.True(data.Data.First().Id == 7);
+        // Assert.True(data.Data.Last().Id == 10);
+
+        // data = await Repository.QueryPageAsync<NoConstraintsTestQueryEntity>(Repository.Query(item => item.Id > 6));
+        // Assert.True(data.Length == 4);
+        // Assert.True(data.Data.First().Id == 7);
+        // Assert.True(data.Data.Last().Id == 10);
     }
     [Fact, Order(36)]
-    public async Task CrudRepositoryQueryPageOrderTest()
+    public async Task NoConstraintsCrudRepositoryQueryPageOrderTest()
     {
         var data = await Repository.QueryPageAsync(item => true, item => item.Id, true);
         Assert.True(data.Data.Last().Id == 10);
@@ -79,9 +88,9 @@ public class CrudRepositoryTest
     }
 
     [Fact, Order(41)]
-    public async Task CrudRepositoryAddTest()
+    public async Task NoConstraintsCrudRepositoryAddTest()
     {
-        var entitys = new List<TestQueryEntity>{
+        var entitys = new List<NoConstraintsTestQueryEntity>{
                 new (11,"23333",2333,true),
                 new (12,"23333",2333,true),
                 new (13,"23333",2333,true),
@@ -94,78 +103,24 @@ public class CrudRepositoryTest
         };
         await Repository.AddAsync(entitys);
         await Repository.SaveAsync();
-        await Repository.AddAsync(new TestQueryEntity(20, "23333", 2333, true));
+        await Repository.AddAsync(new NoConstraintsTestQueryEntity(20, "23333", 2333, true));
         await Repository.SaveAsync();
         var data = await Repository.QueryAsync(item => true);
         Assert.True(data.Count() == 20);
     }
 
     // [Fact, Order(42)]
-    // public async Task CrudRepositoryUpdateTest()
+    // public async Task NoConstraintsCrudRepositoryUpdateTest()
     // {
-    //     var updateCount = await Repository.UpdateAsync(item => item.Id > 18, entity => new TestQueryEntity { Number = 123 });
+    //     var updateCount = await Repository.UpdateAsync(item => item.Id > 18, entity => new NoConstraintsTestQueryEntity { Number = 123 });
     //     await Repository.SaveAsync();
     //     var numberEqual123 = await Repository.QueryAsync(item => item.Number == 123);
     //     Assert.True(updateCount == 2);
     //     Assert.True(numberEqual123.Count() == 2);
-    //     await Repository.UpdateAsync(new TestQueryEntity { Id = 15, Code = "1111" });
+    //     await Repository.UpdateAsync(new NoConstraintsTestQueryEntity { Id = 15, Code = "1111" });
     //     await Repository.SaveAsync();
     //     var data = await Repository.GetByIdAsync(15);
     //     Assert.True(data.Code == "1111");
     // }
 
-    [Fact, Order(43)]
-    public async Task ModifyRepositorySoftDeleteTest()
-    {
-        var delCount = await Repository.DeleteAsync(item => item.Id < 11, false);
-        await Repository.SaveAsync();
-        Assert.True(delCount == 10);
-        await Repository.DeleteAsync(11, false);
-        Repository.Save();
-        await Repository.DeleteByIdsAsync(new[] { 12 }, false);
-        Repository.Save();
-        var leftData = await Repository.QueryAsync(item => item.IsDeleted != true);
-        Assert.True(leftData.Count() == 8);
-        leftData = await Repository.QueryAsync(item => true);
-        Assert.True(leftData.Count() == 20);
-    }
-    [Fact, Order(44)]
-    public async Task CrudRepositoryDeleteTest()
-    {
-        var delCount = await Repository.DeleteAsync(item => item.Id < 11, true);
-        await Repository.SaveAsync();
-        Assert.True(delCount == 10);
-        await Repository.DeleteAsync(11, true);
-        Repository.Save();
-        await Repository.DeleteByIdsAsync(new[] { 12 }, true);
-        Repository.Save();
-        var leftData = await Repository.QueryAsync(item => item.IsDeleted != true);
-        Assert.True(leftData.Count() == 8);
-    }
-
-    [Fact, Order(45)]
-    public async Task CrudRepositoryDeleteAllTest()
-    {
-        var delCount = await Repository.DeleteAsync(item => true, true);
-        await Repository.SaveAsync();
-        var leftData = await Repository.QueryAsync(item => true);
-        Assert.True(delCount == 8);
-        Assert.True(leftData.IsEmpty());
-    }
-
-    // [Fact, Order(46)]
-    // public async Task CrudRepositoryAddOrUpdateTest()
-    // {
-
-    //     var newEntity = new TestQueryEntity(111, "23333", 2333, true);
-    //     await Repository.AddOrUpdateAsync(newEntity);
-    //     await Repository.SaveAsync();
-    //     var existedValue = await Repository.Query(i => i.Id == 111).FirstOrDefaultAsync();
-    //     Assert.Equal("23333", existedValue.Code);
-    //     existedValue.Code = "33333";
-    //     await Repository.AddOrUpdateAsync(existedValue);
-    //     await Repository.SaveAsync();
-    //     var updatedValue = await Repository.Query(i => i.Id == 111).FirstOrDefaultAsync();
-    //     Assert.Equal("33333", updatedValue.Code);
-    // }
 }

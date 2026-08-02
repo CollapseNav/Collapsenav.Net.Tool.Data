@@ -11,11 +11,11 @@ namespace Collapsenav.Net.Tool.Data.Test;
 public class NotBaseCrudRepositoryTest
 {
     protected readonly IServiceProvider Provider;
-    protected readonly ICrudRepository<TestNotBaseQueryEntity> Repository;
+    protected readonly IEntityCrudRepository<TestNotBaseQueryEntity> Repository;
     public NotBaseCrudRepositoryTest()
     {
         Provider = DIConfig.GetNotBaseProvider();
-        Repository = GetService<ICrudRepository<TestNotBaseQueryEntity>>();
+        Repository = GetService<IEntityCrudRepository<TestNotBaseQueryEntity>>();
     }
     protected T GetService<T>()
     {

@@ -11,7 +11,6 @@ public class DIConfig
         .AddSqlite<TestDbContext>(new SqliteConn("Test.db"), Assembly.GetExecutingAssembly())
         .AddDefaultDbContext<TestDbContext>()
         .AddRepository()
-        .AddRepository(typeof(ModifyRepository<TestEntity>))
         .AddScoped<IDB, EFDB<TestDbContext>>()
         .BuildServiceProvider();
     }
@@ -21,7 +20,6 @@ public class DIConfig
         .AddSqlitePool<TestNotBaseDbContext>(new SqliteConn("Test.db"))
         .AddDefaultDbContext<TestNotBaseDbContext>()
         .AddRepository()
-        .AddRepository(typeof(ModifyRepository<TestEntity>))
         .AddScoped<IDB, EFDB<TestNotBaseDbContext>>()
         .BuildServiceProvider();
     }

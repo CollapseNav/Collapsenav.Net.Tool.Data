@@ -16,9 +16,9 @@ public class FirstInput
 [Route("[controller]")]
 public class FirstController : ControllerBase
 {
-    private readonly ICrudRepository<FirstEntity> _repository;
+    private readonly IEntityCrudRepository<FirstEntity> _repository;
 
-    public FirstController(ICrudRepository<FirstEntity> repository)
+    public FirstController(IEntityCrudRepository<FirstEntity> repository)
     {
         _repository = repository;
     }
@@ -41,12 +41,12 @@ public class FirstController : ControllerBase
         // await _repository.AddAsync(new FirstEntity());
         // throw new Exception();
         // await threpo.AddAsync(new ThirdEntity());
-        // return await _repository.Query(item => true)
-        // .WhereIf(input.Id.HasValue, item => item.Id == input.Id)
-        // .WhereIf(input.Name.NotEmpty(), item => item.Name == input.Name)
-        // .WhereIf(input.Description.NotEmpty(), item => item.Description == input.Description)
-        // .ToListAsync();
-        return await _repository.QueryAsync(i => true);
+        return await _repository.Query(item => true)
+        .WhereIf(input.Id.HasValue, item => item.Id == input.Id)
+        .WhereIf(input.Name.NotEmpty(), item => item.Name == input.Name)
+        .WhereIf(input.Description.NotEmpty(), item => item.Description == input.Description)
+        .ToListAsync();
+        // return await _repository.QueryAsync(i => true);
     }
 
     [HttpPut]

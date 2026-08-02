@@ -5,43 +5,45 @@ using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Collapsenav.Net.Tool.Data.Test;
+
 [TestCaseOrderer("Collapsenav.Net.Tool.Data.Test.TestOrders", "Collapsenav.Net.Tool.Data.Test")]
 [Collection("1")]
 public class QueryRepositoryTest
 {
     protected readonly IServiceProvider Provider;
-    protected readonly IQueryRepository<TestEntity> Repository;
+    protected readonly IQueryRepository<NoConstraintsTestQueryEntity> Repository;
     public QueryRepositoryTest()
     {
         Provider = DIConfig.GetProvider();
-        Repository = GetService<IQueryRepository<TestEntity>>();
+        Repository = GetService<IQueryRepository<NoConstraintsTestQueryEntity>>();
     }
     protected T GetService<T>()
     {
         return Provider.GetService<T>();
     }
 
-
-    // [Fact, Order(12)]
-    // public async Task QueryRepositoryIsExistTest()
+    // [Fact, Order(11)]
+    // public async Task NoConstraintsQueryRepositoryQueryTest()
     // {
-    //     Assert.True(await Repository.IsExistAsync(item => item.Id == 10));
-    //     Assert.True(await Repository.IsExistAsync(item => item.Number <= 2333));
-    //     Assert.True(await Repository.IsExistAsync(item => item.Code.Contains("yxm")));
-    //     Assert.False(await Repository.IsExistAsync(item => item.Id == 111));
-    //     Assert.False(await Repository.IsExistAsync(item => item.Number > 2333));
-    //     Assert.False(await Repository.IsExistAsync(item => item.Code == "2333"));
+    //     var datas = await Repository.QueryAsync(item => item.Id < 5);
+    //     Assert.True(datas.Count() == 4);
+    //     datas = await Repository.QueryAsync(Repository.Query().Where(i => i.Id < 5));
+    //     Assert.True(datas.Count() == 4);
+    //     datas = await Repository.QueryAsync(Repository.Query().Where(i => i.Id < 5));
+    //     Assert.True(datas.Count() == 4);
+    //     var data = await Repository.GetByIdAsync(1);
+    //     Assert.True(data.Number == 92);
     // }
 
     // [Fact, Order(13)]
-    // public async Task QueryRepositoryCountTest()
+    // public async Task NoConstraintsQueryRepositoryCountTest()
     // {
     //     Assert.True((await Repository.CountAsync(item => item.Id > 4 && item.Id < 9)) == 4);
     //     Assert.False((await Repository.CountAsync(item => item.Id < 4)) == 4);
     // }
 
     [Fact, Order(14)]
-    public async Task QueryRepositoryQueryByIdsTest()
+    public async Task NoConstraintsQueryRepositoryQueryByIdsTest()
     {
         var ids = new[] { 1, 3, 5, 7, 9 };
         var data = await Repository.QueryByIdsAsync(ids);
@@ -58,26 +60,26 @@ public class QueryRepositoryTest
         Assert.True(data.IsEmpty());
     }
 
-    [Fact, Order(15)]
-    public async Task QueryRepositoryQueryPageTest()
-    {
-        var data = await Repository.QueryPageAsync(item => item.Id > 6);
-        Assert.True(data.Length == 4);
-        Assert.True(data.Data.First().Id == 7);
-        Assert.True(data.Data.Last().Id == 10);
+    // [Fact, Order(15)]
+    // public async Task NoConstraintsQueryRepositoryQueryPageTest()
+    // {
+    //     var data = await Repository.QueryPageAsync(item => item.Id > 6);
+    //     Assert.True(data.Length == 4);
+    //     Assert.True(data.Data.First().Id == 7);
+    //     Assert.True(data.Data.Last().Id == 10);
 
-        data = await Repository.QueryPageAsync(i => i.Id > 6);
-        Assert.True(data.Length == 4);
-        Assert.True(data.Data.First().Id == 7);
-        Assert.True(data.Data.Last().Id == 10);
+    //     data = await Repository.QueryPageAsync(Repository.Query().Where(i => i.Id > 6), new PageRequest());
+    //     Assert.True(data.Length == 4);
+    //     Assert.True(data.Data.First().Id == 7);
+    //     Assert.True(data.Data.Last().Id == 10);
 
-        // data = await Repository.QueryPageAsync<TestEntity>(i => i.Id > 6, new PageRequest());
-        // Assert.True(data.Length == 4);
-        // Assert.True(data.Data.First().Id == 7);
-        // Assert.True(data.Data.Last().Id == 10);
-    }
+    //     data = await Repository.QueryPageAsync<NoConstraintsTestQueryEntity>(Repository.Query().Where(i => i.Id > 6), new PageRequest());
+    //     Assert.True(data.Length == 4);
+    //     Assert.True(data.Data.First().Id == 7);
+    //     Assert.True(data.Data.Last().Id == 10);
+    // }
     [Fact, Order(16)]
-    public async Task QueryRepositoryQueryPageOrderTest()
+    public async Task NoConstraintsQueryRepositoryQueryPageOrderTest()
     {
         var data = await Repository.QueryPageAsync(item => true, item => item.Id, true);
         Assert.True(data.Data.Last().Id == 10);

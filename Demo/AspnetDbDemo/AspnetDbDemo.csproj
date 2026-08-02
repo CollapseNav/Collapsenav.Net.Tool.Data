@@ -5,10 +5,12 @@
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
-    <PackageReference Include="Collapsenav.Net.Tool.Swagger" Version="1.3.0"/>
-    <ProjectReference Include="../EntityLib/EntityLib.csproj"/>
-    <!-- <ProjectReference Include="../../Collapsenav.Net.Tool.Data.Mysql/Collapsenav.Net.Tool.Data.Mysql.csproj"/> -->
-    <ProjectReference Include="../../Collapsenav.Data.Module/Collapsenav.Data.Module.csproj" />
+    <!-- <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" /> -->
+    <!-- <PackageReference Include="Collapsenav.Net.Tool.Swagger" Version="1.3.0" /> -->
+    <ProjectReference
+      Include="../../../Collapsenav.Net.Tool.WebApi/Collapsenav.Net.Tool.Swagger/Collapsenav.Net.Tool.Swagger.csproj" />
+    <ProjectReference Include="../EntityLib/EntityLib.csproj" />
+    <!-- <ProjectReference
+    Include="../../Collapsenav.Net.Tool.Data.Mysql/Collapsenav.Net.Tool.Data.Mysql.csproj"/> -->
   </ItemGroup>
 </Project>

@@ -12,8 +12,8 @@
 // public class JoinTest
 // {
 //     protected readonly IServiceProvider Provider;
-//     protected readonly IModifyRepository<TestModifyEntity> Repository;
-//     protected readonly IQueryRepository<TestModifyEntity> Read;
+//     protected readonly IEntityModifyRepository<TestModifyEntity> Repository;
+//     protected readonly IEntityQueryRepository<TestModifyEntity> Read;
 //     public JoinTest()
 //     {
 //         Provider = DIConfig.GetProvider();
